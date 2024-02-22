@@ -1,10 +1,22 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import ReactDOM from 'react-dom';
+import App from './App.tsx';
+import './index.css';
+import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+const client = new ApolloClient({
+  link: new HttpLink({
+    uri: 'http://studieforeningskalenderbackend-dev.eba-id4fqmps.eu-north-1.elasticbeanstalk.com/graphql',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }),
+  cache: new InMemoryCache(),
+});
+
+const rootElement = document.getElementById('root');
+ReactDOM.render(
+  <ApolloProvider client={client}>
     <App />
-  </React.StrictMode>,
-)
+  </ApolloProvider>,
+  rootElement
+);
