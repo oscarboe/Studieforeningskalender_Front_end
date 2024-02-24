@@ -1,11 +1,12 @@
-import ReactDOM from 'react-dom';
+import React from 'react';
+import * as ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: 'http://studieforeningskalenderbackend-dev.eba-id4fqmps.eu-north-1.elasticbeanstalk.com/graphql',
+    uri: 'https://backend.studieforeningskalender.com/graphql/',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -13,10 +14,10 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const rootElement = document.getElementById('root');
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(
   <ApolloProvider client={client}>
     <App />
-  </ApolloProvider>,
-  rootElement
+  </ApolloProvider>
 );
