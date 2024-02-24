@@ -1,5 +1,4 @@
-import React from 'react';
-import * as ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import App from './App.tsx';
 import './index.css';
 import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
@@ -14,10 +13,10 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-
-root.render(
+const rootElement = document.getElementById('root');
+ReactDOM.render(
   <ApolloProvider client={client}>
     <App />
-  </ApolloProvider>
+  </ApolloProvider>,
+  rootElement
 );
