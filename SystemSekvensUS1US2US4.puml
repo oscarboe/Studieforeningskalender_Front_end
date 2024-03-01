@@ -9,9 +9,9 @@ note left
   User Story 1.
 end note
 
-FrontEnd -> BackEnd: Get Important events
+FrontEnd -> BackEnd: Get most popular events
 activate BackEnd
-BackEnd -> Database: Get Important Events
+BackEnd -> Database: Get most popular Events
 activate Database
 Database --> BackEnd: Event data
 deactivate Database
@@ -19,7 +19,7 @@ deactivate Database
 BackEnd --> FrontEnd: Event data
 
 deactivate BackEnd
-FrontEnd -> FrontEnd: Cache Important events
+FrontEnd -> FrontEnd: Cache most popular events
 FrontEnd --> User: Page visible
 
 
@@ -27,7 +27,7 @@ User -> FrontEnd: Scroll down
 note left
   User Story 2.
 end note
-FrontEnd -> BackEnd: Get All events
+FrontEnd -> BackEnd: Get next events
 activate BackEnd
 BackEnd --> Database: Get Events
 activate Database
