@@ -4,12 +4,12 @@
 Person(stud, "Student", "Student of the university viewing the calendar")
 Person(asso, "Student Association", "Student Association creating events")
 
-Container(sys, "Student Calendar","React", "The system developed for this project")
-Container(ria, "RIA's Webpage","Wordpress", "The webpage of the RIA where the calendar will be embedded. This webpage is hosted on the servers of a firm called Aveo")
-ContainerDb(aveoDB,"Aveo's Database","MsSQL", "The database of Aveo where RIA stores their users. And where events are stored")
+Container(sys, "Student Calendar","React, ASP.NET Core", "The system developed for this project")
+Container(ria, "RIA's Webpage","Wordpress", "Ria's webpage where the calendar will be embedded")
+ContainerDb(AWSDB,"AWS database","PostgreSQL", "The database of AWS where the events and users are stored")
 Rel(stud, sys, "Views")
 Rel(asso, sys, "Creates events")
 Rel(ria,sys, "Hosts")
-Rel(sys, aveoDB, "Stores events")
+Rel(sys, AWSDB, "Stores events")
 
 @enduml

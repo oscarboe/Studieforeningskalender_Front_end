@@ -1,0 +1,31 @@
+@startuml "US5 and US6 System"
+title System Sequence Diagram for US5 and US6
+actor Student as User
+participant "Front-End" as FrontEnd 
+participant "Back-End"  as BackEnd
+database Database
+User -> FrontEnd: Opens the page
+note left
+  User Story 5 and 6.
+prerequisite: User has logged in previously
+end note
+activate FrontEnd
+
+FrontEnd -> BackEnd: Request Important Events 
+activate BackEnd
+FrontEnd -> BackEnd: User ID
+BackEnd -> Database: Get User Information
+activate Database
+Database -> BackEnd: User Information
+BackEnd -> FrontEnd: User Information
+deactivate Database
+BackEnd -> Database: Get Important Events Based off User Information
+activate Database
+Database -> BackEnd: Important Events
+BackEnd -> FrontEnd: Important Events
+deactivate Database
+deactivate BackEnd
+FrontEnd -> User: Start page View with Important Events
+deactivate FrontEnd
+
+@enduml

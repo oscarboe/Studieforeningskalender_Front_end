@@ -1,0 +1,34 @@
+@startuml "US8 US9 US10 System"
+title System Sequence Diagram for US11 US12 US13 and US14
+
+actor Actor as User
+participant "Front-End" as FrontEnd 
+participant "Back-End"  as BackEnd
+database Database
+
+note right of User: Prerequisite: Actor logged in 
+User -> FrontEnd: Click on add event view
+User -> FrontEnd: Fill in event details
+User -> FrontEnd: Add Event Tags
+User -> FrontEnd: Submit Event
+activate FrontEnd
+FrontEnd -> BackEnd: Send Event Details
+activate BackEnd
+opt Actor is A student organisation
+BackEnd -> BackEnd: check For conflicting events
+BackEnd -> FrontEnd: Conflicting events found
+FrontEnd -> User: Display Conflicting events
+User -> FrontEnd: Verify Event Date
+FrontEnd -> BackEnd: Add Event
+end
+BackEnd -> Database: Save Event
+activate Database
+Database -> BackEnd: Event Saved
+deactivate Database
+BackEnd -> FrontEnd: Event Added
+deactivate BackEnd
+FrontEnd -> User: Event Added
+deactivate FrontEnd
+
+
+@enduml

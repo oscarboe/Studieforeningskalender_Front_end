@@ -1,0 +1,55 @@
+@startuml "US3 and US7 System"
+title System Sequence Diagram for US3 and US7
+actor Student as User
+participant "Front-End" as FrontEnd 
+participant "Back-End"  as BackEnd
+database Database
+User -> FrontEnd: Clicks on Calendar view
+note left
+  User Story 3.
+prerequisite: page Open
+end note
+activate FrontEnd
+FrontEnd -> BackEnd: Get Events for the current month and next month
+activate BackEnd
+BackEnd -> Database: Get Events for the current month and next month
+activate Database
+Database --> BackEnd: Events for the current month and next month
+deactivate Database
+BackEnd --> FrontEnd: Events for the current month and next month
+deactivate BackEnd
+FrontEnd --> User: Calendar view with events for the current month
+deactivate FrontEnd
+User -> FrontEnd: Clicks on next month
+activate FrontEnd
+FrontEnd -> FrontEnd: Show calendar view for the next month
+FrontEnd -> BackEnd: Get Events for the following month
+activate BackEnd
+BackEnd -> Database: Get Events for the following month
+activate Database
+Database --> BackEnd: Events for the following month
+deactivate Database
+BackEnd --> FrontEnd: Events for the following month
+deactivate BackEnd
+deactivate FrontEnd
+User -> FrontEnd: Clicks on my events
+note left
+  User Story 7.
+end note
+activate FrontEnd
+FrontEnd -> BackEnd: Get Events filtered by User
+activate BackEnd
+BackEnd -> Database: Get Events filtered by User
+activate Database
+Database --> BackEnd: Events filtered by User
+deactivate Database
+BackEnd --> FrontEnd: Events filtered by User
+deactivate BackEnd
+FrontEnd --> User: Calender View with Users Events this month
+deactivate FrontEnd
+
+
+
+
+
+@enduml

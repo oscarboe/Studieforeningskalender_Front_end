@@ -1,0 +1,54 @@
+@startuml "US8 US9 US10 System"
+title System Sequence Diagram for US8 US9 and US10
+
+actor StudentAssociation as User
+participant "Front-End" as FrontEnd 
+participant "Back-End"  as BackEnd
+participant FacebookAPI
+database Database
+
+note right of User: Prerequisite: Actor logged in 
+User -> FrontEnd: Click on add event view
+
+activate FrontEnd
+FrontEnd -> User : Display add event view
+
+deactivate FrontEnd
+alt US8 Facebook Event
+    User -> FrontEnd: Import Facebook Event
+    activate FrontEnd
+    FrontEnd -> BackEnd: import Facebook Event
+    activate BackEnd
+    BackEnd -> FacebookAPI: import Facebook Event
+    activate FacebookAPI
+    FacebookAPI -> BackEnd: Facebook Event data
+    deactivate FacebookAPI
+    BackEnd -> FrontEnd: Facebook Event data
+    deactivate BackEnd
+    FrontEnd -> User: Form with Event data
+    deactivate FrontEnd
+else US9 Other Event
+
+    User -> FrontEnd: Import Event
+    activate FrontEnd
+    FrontEnd -> BackEnd: import Event
+    activate BackEnd
+    BackEnd -> BackEnd : Handle import Event
+    BackEnd -> FrontEnd: Event data
+    deactivate BackEnd
+    FrontEnd -> User: Form with Event data
+    deactivate FrontEnd    
+end
+User -> FrontEnd: Fill in and update Event data
+User -> FrontEnd: Save Event
+activate FrontEnd
+FrontEnd -> BackEnd: Save Event
+activate BackEnd
+BackEnd -> Database: Add Event
+activate Database
+Database -> BackEnd: Event added
+deactivate Database
+BackEnd -> FrontEnd: Event added
+deactivate BackEnd
+FrontEnd -> User: Event added
+@enduml

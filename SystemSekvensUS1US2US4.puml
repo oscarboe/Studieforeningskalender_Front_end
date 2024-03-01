@@ -1,0 +1,57 @@
+@startuml "System sequence diagram for US1 and US2"
+title System Sequence Diagram for US1, US2 and US4
+actor Student as User
+participant "Front-End" as FrontEnd 
+participant "Back-End"  as BackEnd
+database Database
+User -> FrontEnd: Open page
+note left
+  User Story 1.
+end note
+
+FrontEnd -> BackEnd: Get Important events
+activate BackEnd
+BackEnd -> Database: Get Important Events
+activate Database
+Database --> BackEnd: Event data
+deactivate Database
+
+BackEnd --> FrontEnd: Event data
+
+deactivate BackEnd
+FrontEnd -> FrontEnd: Cache Important events
+FrontEnd --> User: Page visible
+
+
+User -> FrontEnd: Scroll down
+note left
+  User Story 2.
+end note
+FrontEnd -> BackEnd: Get All events
+activate BackEnd
+BackEnd --> Database: Get Events
+activate Database
+
+Database --> BackEnd: Event data
+
+deactivate Database
+
+BackEnd --> FrontEnd: Event data
+deactivate BackEnd
+FrontEnd --> User: Events visible
+
+User -> FrontEnd: Click on event
+note left
+  User Story 4.
+end note
+FrontEnd -> BackEnd: Get Event details
+activate BackEnd
+BackEnd -> Database: Get Event details
+activate Database
+Database --> BackEnd: Event details
+deactivate Database
+BackEnd --> FrontEnd: Event details
+deactivate BackEnd
+FrontEnd --> User: Event details page
+
+@enduml
