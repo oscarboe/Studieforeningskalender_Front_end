@@ -11,21 +11,20 @@ prerequisite: User has logged in previously
 end note
 activate FrontEnd
 
-FrontEnd -> BackEnd: Request Important Events 
+FrontEnd -> BackEnd: Request relevant Events 
 activate BackEnd
 FrontEnd -> BackEnd: User ID
 BackEnd -> Database: Get User Information
 activate Database
 Database -> BackEnd: User Information
-BackEnd -> FrontEnd: User Information
 deactivate Database
-BackEnd -> Database: Get Important Events Based off User Information
+BackEnd -> Database: Get relevant Events Based off User Information
 activate Database
-Database -> BackEnd: Important Events
-BackEnd -> FrontEnd: Important Events
+Database -> BackEnd: Relevant Events
 deactivate Database
+BackEnd -> FrontEnd: Relevant Events
 deactivate BackEnd
-FrontEnd -> User: Start page View with Important Events
+FrontEnd -> User: Start page View with relevant Events
 deactivate FrontEnd
 
 @enduml
