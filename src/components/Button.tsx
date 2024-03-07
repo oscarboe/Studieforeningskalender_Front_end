@@ -6,12 +6,12 @@ interface ButtonProps {
   className?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, className = 'button-28' }) => {
-  return (
-    <button className={className} role='button'>
-      {label}
-    </button>
-  );
+const Button = ({ label, className = 'button-28' }: ButtonProps) => {
+    return (
+        <button className={className} role='button'>
+            {label}
+        </button>
+    );
 };
 
 export default Button;
