@@ -5,6 +5,7 @@ Navbar.css .header {
   left: 0;
   background-color: transparent;
   z-index: var(--z-fixed);
+  border-bottom: 1px solid #999; /* Add this line */
 }
 
 .nav {
@@ -49,7 +50,7 @@ Navbar.css .header {
   color: var(--title-color);
   font-weight: var(--font-semi-bold);
   transition: color 0.4s;
-  margin-right: 1rem; /* Adjust this value to increase/decrease the space */
+  margin-right: rem; /* Adjust this value to increase/decrease the space */
 }
 
 .nav__link:hover {
