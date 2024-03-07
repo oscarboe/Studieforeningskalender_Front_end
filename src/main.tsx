@@ -1,9 +1,12 @@
 import ReactDOM from 'react-dom';
 import App from './App.tsx';
 import './index.css';
-import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/client';
-import Login from './Login.tsx';
-import SignOut from './SignOut.tsx';
+import {
+  ApolloClient,
+  ApolloProvider,
+  HttpLink,
+  InMemoryCache,
+} from '@apollo/client';
 
 const client = new ApolloClient({
   link: new HttpLink({
@@ -20,8 +23,6 @@ const client = new ApolloClient({
 const rootElement = document.getElementById('root');
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <Login />
-    <SignOut />
     <App />
   </ApolloProvider>,
   rootElement
