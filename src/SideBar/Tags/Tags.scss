@@ -26,7 +26,7 @@
 
 #tagName::before {
   content: '#';
-  color: #2056a8;
+  color: var(--ria-light-blue);
   margin-right: 5px;
   font-weight: bold;
 }

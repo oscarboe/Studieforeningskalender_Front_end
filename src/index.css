@@ -1,75 +1,114 @@
-* {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-}
-  
 :root {
---header-height: 3.5rem;
---first-color: hsl(28, 88%, 62%);
---title-color: hsl(0, 0%, 95%);
---text-color: hsl(0, 0%, 75%);
---body-color: hsl(0, 0%, 6%);
---body-font: 'Montserrat', sans-serif;
---second-font: 'Dancing Script', cursive;
---h2-font-size: 1.25rem;
---small-font-size: 0.813rem;
---font-semi-bold: 600;
---z-tooltip: 10;
---z-fixed: 100;
---ria-light-blue: #2056a8:
---ria-dark-blue: #0f2e5e;
-}
+  --first-color: hsl(28, 88%, 62%);
+  --title-color: hsl(0, 0%, 95%);
+  --text-color: hsl(0, 0%, 75%);
+  --body-color: hsl(0, 0%, 6%);
+  --ria-light-blue: #2056a8;
+  --ria-dark-blue: #0f2e5e;
+  --background-color: #242424;
+  --light-gray: #858585;
+  --body-font: 'Montserrat', sans-serif;
+  --second-font: 'Dancing Script', cursive;
+  --header-height: 3.5rem;
+  --h2-font-size: 1.25rem;
+  --small-font-size: 0.813rem;
+  --font-semi-bold: 600;
+  --z-tooltip: 10;
+  --z-fixed: 100;
 
-body {
-background-color: var(--body-color);
-color: var(--text-color);
-font-family: var(--body-font);
-}
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
 
-ul {
-list-style: none;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: var(--background-color);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
-text-decoration: none;
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+ul {
+  list-style: none;
 }
 
 div {
-    display: flex;
+  display: flex;
 }
-  
+
 ::-webkit-scrollbar {
-width: 30px;
-height: 20px;
+  width: 30px;
+  height: 20px;
 }
 
 ::-webkit-scrollbar-thumb {
-background: #ababab;
-border-radius: 20px;
-border: 13px solid transparent;
-background-clip: padding-box;
+  background: #ababab;
+  border-radius: 20px;
+  border: 13px solid transparent;
+  background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-background: #cccccc;
-border: 13px solid transparent;
-background-clip: padding-box;
+  background: #cccccc;
+  border: 13px solid transparent;
+  background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:active {
-background: #e3e3e3;
-border: 13px solid transparent;
-background-clip: padding-box;
+  background: #e3e3e3;
+  border: 13px solid transparent;
+  background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-track {
-background: #666666;
-border-radius: 20px;
-border: 10px solid transparent;
-background-clip: padding-box;
+  background: #666666;
+  border-radius: 20px;
+  border: 10px solid transparent;
+  background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-corner {
-background: transparent;
+  background: transparent;
 }

@@ -20,11 +20,11 @@
   appearance: none;
   font-size: large;
   border-style: solid;
-  border-color: rgb(133, 133, 133);
+  border-color: var(--light-gray);
 }
 
 #search:focus {
-  outline: rgb(133, 133, 133);
+  outline: var(--light-gray);
 }
 
 #search::-webkit-search-cancel-button {

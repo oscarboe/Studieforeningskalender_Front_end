@@ -7,11 +7,11 @@ interface ButtonProps {
 }
 
 const Button = ({ label, className = 'button-28' }: ButtonProps) => {
-    return (
-        <button className={className} role='button'>
-            {label}
-        </button>
-    );
+  return (
+    <button className={className} role="button">
+      {label}
+    </button>
+  );
 };
 
 export default Button;
