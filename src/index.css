@@ -17,7 +17,7 @@
   --font-semi-bold: 600;
   --z-tooltip: 10;
   --z-fixed: 100;
-  --ria-light-blue: #2056a8:
+  --ria-light-blue: hsl(213, 72%, 41%);
   --ria-dark-blue: #0f2e5e;
 }
 
