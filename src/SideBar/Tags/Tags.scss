@@ -1,0 +1,32 @@
+#tags {
+  padding-top: 5px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 95%;
+  align-self: flex-end;
+  overflow-y: auto;
+}
+
+#tag {
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  outline: none;
+  width: 95%;
+  display: flex;
+  justify-content: center;
+}
+
+#tagName {
+  margin: 12px 12px;
+  border: none;
+  width: fit-content;
+}
+
+#tagName::before {
+  content: '#';
+  color: var(--ria-light-blue);
+  margin-right: 5px;
+  font-weight: bold;
+}
