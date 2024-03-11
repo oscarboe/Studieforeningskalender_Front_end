@@ -5,7 +5,7 @@ Navbar.css .header {
   left: 0;
   background-color: transparent;
   z-index: var(--z-fixed);
-  border-bottom: 1px solid #999;
+  border-bottom: 0.1px solid #999;
 }
 
 .nav {
@@ -35,7 +35,7 @@ Navbar.css .header {
   background-color: var(--first-color);
   color: var(--title-color);
   border: none;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
   padding: 0.75rem 1.5rem;
