@@ -9,10 +9,10 @@
   min-height: 20px;
   padding: 10px 24px;
   text-align: center;
-  width: auto;
   margin-left: 10px;
 }
 
 .button-28:hover {
   background-color: transparent; /* Transparent background on hover */
 }
+
