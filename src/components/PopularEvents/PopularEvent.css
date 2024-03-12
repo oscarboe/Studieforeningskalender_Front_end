@@ -1,0 +1,26 @@
+.PopularEvent {
+  display: flex;
+  align-items: center;
+  margin-top: var(--header-height);
+}
+.PopularEvent .img {
+  width: 60%;
+  object-fit: cover;
+  aspect-ratio: 16/9;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  border-radius: 20px;
+}
+.PopularEvent .header {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--title-color);
+  width: 90%;
+}
+.PopularEvent .h1 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-direction: column;
+  gap: 1rem;
+}

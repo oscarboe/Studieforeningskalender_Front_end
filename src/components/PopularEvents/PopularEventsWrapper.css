@@ -1,0 +1,33 @@
+.popular-events-wrapper {
+  margin-top: var(--header-height);
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-direction: column;
+  width: 80%;
+  height: 100%;
+}
+
+@keyframes fadeIn {
+  from {
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.popular-events-wrapper > *:nth-child(1) {
+  opacity: 0;
+  animation: fadeIn 2s 1s forwards;
+}
+
+.popular-events-wrapper > *:nth-child(2) {
+  opacity: 0;
+  animation: fadeIn 2s 2s forwards;
+}
+
+.popular-events-wrapper > *:nth-child(3) {
+  opacity: 0;
+  animation: fadeIn 2s 3s forwards;
+}
