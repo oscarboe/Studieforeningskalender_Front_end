@@ -2,11 +2,6 @@
   background-color: #2056a8; /* Filled background color by default */
   border: 2px solid #2056a8;
   border-radius: 15px;
-  box-sizing: border-box;
-  color: #fff; /* Text color on filled background */
-  cursor: pointer;
-  display: inline-block;
-  min-height: 20px;
   padding: 10px 24px;
   text-align: center;
   margin-left: 10px;

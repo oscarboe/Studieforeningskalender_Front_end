@@ -6,13 +6,12 @@
 .PopularEvent .img {
   width: 60%;
   object-fit: cover;
-  flex-shrink: 0;
   aspect-ratio: 16/9;
   margin-left: 1rem;
   margin-right: 1rem;
   border-radius: 20px;
 }
-.PopularEvent .text {
+.PopularEvent .header {
   font-size: 3rem;
   font-weight: bold;
   color: var(--title-color);
