@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './SideBar.scss';
-import Tags from './Tags/Tags';
-import SelectedTags from './SelectedTags/SelectedTags';
+import Tags from '../../components/Tags/Tags';
+import SelectedTags from '../../components/SelectedTags/SelectedTags';
 
 export default function SideBar() {
   const [searchText, setSearchText] = useState('');
@@ -32,7 +32,7 @@ export default function SideBar() {
     <div id="SideBar">
       <input id="search" type="search" placeholder="Search..." onChange={updateSearchText} onKeyDown={handleKeyPress} />
       <SelectedTags tagClicked={tagClicked} searchTags={searchTags} />
-      <Tags tagClicked={tagClicked} />
+      <Tags tagClicked={tagClicked} searchTags={searchTags} />
     </div>
   );
 }

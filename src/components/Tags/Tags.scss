@@ -19,9 +19,15 @@
 }
 
 #tagName {
-  margin: 12px 12px;
-  border: none;
+  margin: 6px;
+  padding: 6px;
+  border: solid transparent;
   width: fit-content;
+}
+
+#tagName.isClicked {
+  border-color: var(--ria-light-blue);
+  border-radius: 15px;
 }
 
 #tagName::before {
