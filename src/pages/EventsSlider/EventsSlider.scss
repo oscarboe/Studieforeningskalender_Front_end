@@ -26,7 +26,6 @@
   height: 3rem;
   width: 3rem;
   border: solid transparent;
-  border-width: 0.2rem;
   border-radius: 50px;
   background-color: transparent;
   padding: 0;
@@ -35,15 +34,21 @@
   align-items: center;
   box-sizing: border-box;
   outline: none;
+  transition: all 0.2s;
 
-  // &:hover {
-  //   border-color: var(--ria-light-blue);
-  // }
+  &:hover {
+    background-color: var(--ria-light-blue);
+  }
 
   svg {
     font-size: 1.5rem;
     color: var(--ria-light-blue);
     stroke-width: 5rem;
+    transition: all 0.2s;
+  }
+
+  &:hover svg {
+    color: white;
   }
 }
 
