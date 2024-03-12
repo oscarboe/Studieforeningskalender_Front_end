@@ -1,0 +1,84 @@
+#eventsSlider {
+  height: 60%;
+  width: 100%;
+  margin: 20px 40px;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+#slider {
+  height: 92%;
+  width: 90%;
+  overflow: hidden;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#currentEvents {
+  width: 85%;
+  height: 100%;
+  justify-content: space-between;
+}
+
+#backButton,
+#nextButton {
+  height: 3rem;
+  width: 3rem;
+  border: solid transparent;
+  border-radius: 50px;
+  background-color: transparent;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  outline: none;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: var(--ria-light-blue);
+  }
+
+  svg {
+    font-size: 1.5rem;
+    color: var(--ria-light-blue);
+    stroke-width: 5rem;
+    transition: all 0.2s;
+  }
+
+  &:hover svg {
+    color: white;
+  }
+}
+
+#dots {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  max-width: 70%;
+  flex-wrap: wrap;
+}
+
+#dotBox {
+  width: 0.8rem;
+  height: 0.8rem;
+  margin: 0 0.3rem;
+  justify-content: center;
+  align-items: center;
+}
+
+#dot {
+  background-color: #243b5e;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 1rem;
+  transition: all 0.3s;
+  cursor: pointer;
+
+  &.onPageDot {
+    background-color: var(--ria-light-blue);
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+}
