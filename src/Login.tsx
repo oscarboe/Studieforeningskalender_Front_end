@@ -1,15 +1,17 @@
 import './App.css';
 import { useMutation } from '@apollo/client';
 import { ChangeEvent, useState } from 'react';
-import { LOGIN_QUERY } from '../public/UserQueries';
 import { UserTokenPayload } from '../public/Models/UserPayload';
+import { LOGIN_QUERY } from './Queries/UserQueries';
 
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => setUsername(event.target.value);
-  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => setPassword(event.target.value);
+  const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) =>
+    setUsername(event.target.value);
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) =>
+    setPassword(event.target.value);
 
   const [login, { data, loading, error }] = useMutation(LOGIN_QUERY, {
     variables: { username: username, password: password },
@@ -26,8 +28,17 @@ export default function Login() {
 
   return (
     <div style={{ border: '0.1rem solid red' }}>
-      <input id="username" value={username} onChange={handleUsernameChange}></input>
-      <input id="password" type="password" value={password} onChange={handlePasswordChange}></input>
+      <input
+        id='username'
+        value={username}
+        onChange={handleUsernameChange}
+      ></input>
+      <input
+        id='password'
+        type='password'
+        value={password}
+        onChange={handlePasswordChange}
+      ></input>
       <button
         onClick={(e) => {
           e.preventDefault;
