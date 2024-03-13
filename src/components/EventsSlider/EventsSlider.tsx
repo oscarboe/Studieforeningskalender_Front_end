@@ -1,6 +1,6 @@
 import './EventsSlider.scss';
 import { ExampleEvents, cardInfo } from '../../../public/ExampleData';
-import EventCard from '../../components/EventCard/EventCard';
+import EventCard from '../EventCard/EventCard';
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 import { useEffect, useState } from 'react';
 
@@ -13,15 +13,20 @@ const EventsSlider = () => {
   const fetchEvents = async (pageNumber: number) => {
     // const response = await fetch data
     // Set events data
-    const fetchedEvents = ExampleEvents.slice((pageNumber - 1) * 3, (pageNumber - 1) * 3 + 3);
+    const fetchedEvents = ExampleEvents.slice(
+      (pageNumber - 1) * 3,
+      (pageNumber - 1) * 3 + 3
+    );
 
-    if (events.length <= pageNumber * 3) setEvents([...events, ...fetchedEvents]);
+    if (events.length <= pageNumber * 3)
+      setEvents([...events, ...fetchedEvents]);
 
     setCurrentEvents(fetchedEvents);
   };
 
   function changePage(pageNumber: number) {
-    if (pageNumber > 0 && pageNumber <= pages.length && pageNumber != page) setPage(pageNumber);
+    if (pageNumber > 0 && pageNumber <= pages.length && pageNumber != page)
+      setPage(pageNumber);
   }
 
   useEffect(() => {
@@ -36,24 +41,28 @@ const EventsSlider = () => {
   }, [page]);
 
   return (
-    <div id="eventsSlider">
-      <div id="slider">
-        <button id="backButton" onClick={() => changePage(page - 1)}>
+    <div id='eventsSlider'>
+      <div id='slider'>
+        <button id='backButton' onClick={() => changePage(page - 1)}>
           <SlArrowLeft />
         </button>
-        <div id="currentEvents">
+        <div id='currentEvents'>
           {currentEvents.map((event, key) => (
             <EventCard event={event} key={key} />
           ))}
         </div>
-        <button id="nextButton" onClick={() => changePage(page + 1)}>
+        <button id='nextButton' onClick={() => changePage(page + 1)}>
           <SlArrowRight />
         </button>
       </div>
-      <div id="dots">
+      <div id='dots'>
         {pages.map((num, key) => (
-          <div id="dotBox" key={key}>
-            <span id="dot" className={page == key + 1 ? 'onPageDot' : ''} onClick={() => changePage(key + 1)} />
+          <div id='dotBox' key={key}>
+            <span
+              id='dot'
+              className={page == key + 1 ? 'onPageDot' : ''}
+              onClick={() => changePage(key + 1)}
+            />
           </div>
         ))}
       </div>
