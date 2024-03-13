@@ -1,16 +1,14 @@
 .popular-events-wrapper {
-  margin-top: var(--header-height);
   display: flex;
   justify-content: center;
   align-items: stretch;
   flex-direction: column;
-  width: 80%;
-  height: 100%;
+  width: 90%;
 }
 
 @keyframes fadeIn {
   from {
-    transform: translateY(20px);
+    transform: translateY(1.25rem);
   }
   to {
     opacity: 1;
