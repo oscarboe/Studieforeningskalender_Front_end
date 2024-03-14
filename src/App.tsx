@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage/HomePage';
 export default function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/kalender" element={<KalenderPage />}></Route>

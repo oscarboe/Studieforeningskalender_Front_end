@@ -28,6 +28,8 @@
     font-size: 1.1rem;
     width: 90%;
     color: #29b1e0;
+    margin-top: 1rem;
+    margin-bottom: -0.8rem;
   }
 
   p {
@@ -36,7 +38,7 @@
     -webkit-line-clamp: 4;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-top: 0;
+    margin: 0;
     width: 95%;
     font-size: 0.9rem;
   }

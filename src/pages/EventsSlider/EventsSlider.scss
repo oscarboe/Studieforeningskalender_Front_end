@@ -1,14 +1,15 @@
 #eventsSlider {
-  height: 60%;
+  height: 30rem;
   width: 100%;
-  margin: 20px 40px;
+  margin-top: 6rem;
+  margin-bottom: 3rem;
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
 }
 
 #slider {
-  height: 92%;
+  height: 90%;
   width: 90%;
   overflow: hidden;
   justify-content: space-between;
@@ -26,7 +27,7 @@
   height: 3rem;
   width: 3rem;
   border: solid transparent;
-  border-radius: 50px;
+  border-radius: 10rem;
   background-color: transparent;
   padding: 0;
   display: flex;
