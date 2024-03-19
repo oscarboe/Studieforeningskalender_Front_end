@@ -5,8 +5,7 @@ import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from '@apollo/c
 
 const client = new ApolloClient({
 	link: new HttpLink({
-		uri: 'http://studieforeningskalender-backend-dev.eba-kjvansm7.eu-north-1.elasticbeanstalk.com/graphql/',
-		// uri: 'https://backend.studieforeningskalender.com/graphql/',
+		uri: 'https://backend.studieforeningskalender.com',
 		// uri: 'http://localhost:5022/graphql',
 		headers: {
 			'Content-Type': 'application/json',

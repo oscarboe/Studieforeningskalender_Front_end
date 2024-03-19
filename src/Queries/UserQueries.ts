@@ -9,25 +9,19 @@ export const LOGIN_QUERY = gql`
 	}
 `;
 
-// export const SIGN_OUT_QUERY = gql`
-// 	mutation SignOut {
-// 		signOut
-// 	}
-// `;
+export const SIGN_OUT_QUERY = gql`
+	mutation SignOut {
+		signOut
+	}
+`;
 
-// export const ALL_USERS_QUERY = gql`
-// 	query Users {
-// 		users {
-// 			id
-// 			userName
-// 			firstName
-// 			lastName
-// 		}
-// 	}
-// `;
-
-export const TEST_QUERY = gql`
-	{
-		test
+export const ALL_USERS_QUERY = gql`
+	query Users {
+		users {
+			id
+			userName
+			firstName
+			lastName
+		}
 	}
 `;
