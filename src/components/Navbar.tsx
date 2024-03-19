@@ -5,7 +5,7 @@ import ToggleSlider from './ToggleSlider';
 import { useState } from 'react';
 
 const Navbar = () => {
-	const [loggedIn, setLoggedIn] = useState(false); // Add this line
+	const [loggedIn] = useState(false); // Add this line
 	const isHome = window.location.pathname + window.location.search == '/';
 
 	return (

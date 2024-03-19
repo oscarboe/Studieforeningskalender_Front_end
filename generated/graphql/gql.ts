@@ -13,8 +13,7 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n  mutation Login($username: String!, $password: String!) {\n    login(loginInput: { userName: $username, password: $password }) {\n      accessToken\n      refreshToken\n    }\n  }\n": types.LoginDocument,
-    "\n  query GetAllUsers {\n    allUsers {\n      id\n      userName\n      firstName\n      lastName\n    }\n  }\n": types.GetAllUsersDocument,
+    "\n\tmutation Login($username: String!, $password: String!) {\n\t\tlogin(loginInput: { userName: $username, password: $password }) {\n\t\t\taccessToken\n\t\t\trefreshToken\n\t\t}\n\t}\n": types.LoginDocument,
 };
 
 /**
@@ -34,11 +33,7 @@ export function gql(source: string): unknown;
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  mutation Login($username: String!, $password: String!) {\n    login(loginInput: { userName: $username, password: $password }) {\n      accessToken\n      refreshToken\n    }\n  }\n"): (typeof documents)["\n  mutation Login($username: String!, $password: String!) {\n    login(loginInput: { userName: $username, password: $password }) {\n      accessToken\n      refreshToken\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  query GetAllUsers {\n    allUsers {\n      id\n      userName\n      firstName\n      lastName\n    }\n  }\n"): (typeof documents)["\n  query GetAllUsers {\n    allUsers {\n      id\n      userName\n      firstName\n      lastName\n    }\n  }\n"];
+export function gql(source: "\n\tmutation Login($username: String!, $password: String!) {\n\t\tlogin(loginInput: { userName: $username, password: $password }) {\n\t\t\taccessToken\n\t\t\trefreshToken\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation Login($username: String!, $password: String!) {\n\t\tlogin(loginInput: { userName: $username, password: $password }) {\n\t\t\taccessToken\n\t\t\trefreshToken\n\t\t}\n\t}\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

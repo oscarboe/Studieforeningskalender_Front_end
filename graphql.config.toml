@@ -1,1 +1,1 @@
-schema = "http://localhost:5022/graphql"
+schema = "http://studieforeningskalender-backend-dev.eba-kjvansm7.eu-north-1.elasticbeanstalk.com/graphql/"
