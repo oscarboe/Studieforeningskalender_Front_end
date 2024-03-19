@@ -1,6 +1,6 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
-const url = 'http://studieforeningskalender-backend-dev.eba-kjvansm7.eu-north-1.elasticbeanstalk.com/graphql/';
+const url = 'http://localhost:5022/graphql/';
 
 const config: CodegenConfig = {
 	generates: {
