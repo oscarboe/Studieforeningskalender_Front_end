@@ -1,19 +1,16 @@
 import './KalenderPage.css';
 import PopularEventsWrapper from '../components/PopularEvents/PopularEventsWrapper';
+import { TEST_QUERY } from '../Queries/UserQueries';
+import { useQuery } from '@apollo/client';
 
 export default function KalenderPage() {
-	// const [login, { loading, error }] = useMutation(LOGIN_QUERY, {
-	// 	variables: { username: username, password: password },
-	// 	onCompleted: (data: UserTokenPayload) => {
-	// 		console.log(data.login);
-	// 	},
-	// });
+	const { loading, error } = useQuery(TEST_QUERY);
 
-	// if (loading) return 'Loading...';
-	// if (error) {
-	// 	console.log(error);
-	// 	return <pre>{error.message}</pre>;
-	// }
+	if (loading) return 'Loading...';
+	if (error) {
+		console.log(error);
+		return <pre>{error.message}</pre>;
+	}
 
 	return (
 		<div className='kalender-page'>
