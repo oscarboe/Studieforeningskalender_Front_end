@@ -1,10 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import { IoCalendarOutline } from 'react-icons/io5';
 import './Navbar.css';
-import ToggleSlider from './ToggleSlider';
+import ToggleSlider from '../ToggleSlider/ToggleSlider';
 import { useState } from 'react';
 
-const Navbar = () => {
+const Navbar = ({ setSortPopular }: { setSortPopular: React.Dispatch<React.SetStateAction<boolean>> }) => {
 	const [loggedIn] = useState(false); // Add this line
 	const isHome = window.location.pathname + window.location.search == '/';
 
@@ -17,7 +17,7 @@ const Navbar = () => {
 			<ul className='nav__list'>
 				<li className='nav__item'>
 					<NavLink to='/' className='nav__link'>
-						<ToggleSlider toggle={false} text={['Populære events', 'Det sker snart']} />
+						<ToggleSlider setSortPopular={setSortPopular} text={['Populære events', 'Det sker snart']} />
 					</NavLink>
 				</li>
 				<li className='nav__item'>

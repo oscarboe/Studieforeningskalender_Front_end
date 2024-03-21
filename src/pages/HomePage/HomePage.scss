@@ -1,16 +1,16 @@
-.Home-Page {
-  width: 100%;
-  flex-direction: row;
+.home-page {
+	width: 100%;
+	flex-direction: row;
 }
 
 #HomePageMainContent {
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 80%;
-  overflow-y: auto;
-  margin-top: calc(var(--header-height) + 3rem);
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 80%;
+	overflow-y: auto;
+	margin-top: calc(var(--header-height) + 3rem);
 }

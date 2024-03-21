@@ -2,16 +2,18 @@ import { useState } from 'react';
 import './ToggleSlider.css';
 
 interface ToggleProps {
-	toggle: boolean;
-	handleToggleChange?: () => void;
+	setSortPopular: React.Dispatch<React.SetStateAction<boolean>>;
 	text: [string, string];
 }
 
-const ToggleSlider = ({ toggle, handleToggleChange, text }: ToggleProps) => {
+const ToggleSlider = ({ setSortPopular, text }: ToggleProps) => {
 	const [localToggle, setLocalToggle] = useState(false);
 
-	const handleToggle = handleToggleChange ? handleToggleChange : () => setLocalToggle(!localToggle);
-	const displayToggle = handleToggleChange ? toggle : localToggle;
+	const handleToggle = () => {
+		setLocalToggle(!localToggle);
+		setSortPopular(localToggle);
+	};
+	const displayToggle = localToggle;
 
 	return (
 		<div className='toggle-container' onClick={handleToggle}>

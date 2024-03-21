@@ -1,0 +1,81 @@
+.nav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	position: relative;
+	height: var(--header-height);
+	margin: 1rem;
+}
+
+.isHome {
+	margin-left: 20%;
+	margin-right: 0;
+}
+
+.nav__logo {
+	color: var(--first-color);
+	transition: color 0.4s;
+	font-size: var(--h2-font-size);
+	font-family: var(--second-font);
+}
+
+.nav__toggle,
+.nav__close {
+	font-size: 1.5rem;
+	color: var(--title-color);
+	cursor: pointer;
+}
+
+.nav__cta {
+	background-color: var(--first-color);
+	color: var(--title-color);
+	border: none;
+	border-radius: 0.25rem;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+	padding: 0.75rem 1.5rem;
+}
+.nav__list {
+	display: flex;
+	flex-direction: row;
+	row-gap: 2.5rem;
+	align-items: center;
+}
+
+.nav__link {
+	color: var(--title-color);
+	font-weight: var(--font-semi-bold);
+	transition: color 0.4s;
+	margin-right: 1rem;
+}
+
+.nav__link:hover {
+	color: var(--first-color);
+}
+
+.nav__close {
+	position: absolute;
+	top: 1rem;
+	right: 1.5rem;
+}
+
+.show-menu {
+	right: 0;
+}
+
+#loginButton,
+#profileButton {
+	background-color: #2056a8; /* Filled background color by default */
+	border: 0.125rem solid #2056a8;
+	border-radius: 0.9375rem;
+	padding: 0.625rem 1.5rem;
+	text-align: center;
+	margin-left: 0.625rem;
+	outline: none;
+	transition: all 0.4s;
+}
+
+#loginButton:hover,
+#profileButton:hover {
+	background-color: transparent; /* Transparent background on hover */
+}

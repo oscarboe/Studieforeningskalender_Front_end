@@ -1,8 +1,7 @@
-import './App.css';
 import { useMutation } from '@apollo/client';
 import { ChangeEvent, useState } from 'react';
-import { UserTokenPayload } from '../public/Models/UserPayload';
-import { LOGIN_QUERY } from './Queries/UserQueries';
+import { UserTokenPayload } from '../../../public/Models/UserPayload';
+import { LOGIN_QUERY } from '../../Queries/UserQueries';
 
 export default function Login() {
 	const [username, setUsername] = useState('');
