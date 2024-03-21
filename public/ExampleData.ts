@@ -1,4 +1,4 @@
-const baseUrl = window.location.origin;
+// const baseUrl = window.location.origin;
 // export const ExampleEvents: cardInfo[] = [
 // 	{
 // 		eventName: 'Tech Innovators Conference',
