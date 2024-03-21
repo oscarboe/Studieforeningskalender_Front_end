@@ -1,6 +1,4 @@
-import React from 'react';
 import './PopularEvent.css';
-import { cardInfo } from '../../../public/ExampleData';
 
 type PopularEventProps = {
 	eventData: {
