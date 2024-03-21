@@ -1,4 +1,4 @@
-import { EventDto } from '../../../public/ExampleData';
+import { EventDto } from '../../Types/EventTypes';
 import './EventCard.scss';
 
 type eventCardProps = {
