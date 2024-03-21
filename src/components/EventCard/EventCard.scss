@@ -1,60 +1,60 @@
 #eventCard {
-  height: 100%;
-  width: 31%;
-  flex-direction: column;
+	height: 100%;
+	width: 31%;
+	flex-direction: column;
 }
 
 #eventImage {
-  width: 100%;
-  height: 50%;
-  object-fit: cover;
-  border-radius: 1rem 1rem 0 0;
-  margin-bottom: -0.5rem;
+	width: 100%;
+	height: 50%;
+	object-fit: cover;
+	border-radius: 1rem 1rem 0 0;
+	margin-bottom: -0.5rem;
 }
 
 #cardBottom {
-  width: 100%;
-  height: 50%;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 0.5rem;
-  background-color: #1e3148;
+	width: 100%;
+	height: 50%;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	border-radius: 0.5rem;
+	background-color: #1e3148;
 
-  h3 {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    font-size: 1.1rem;
-    width: 90%;
-    color: #29b1e0;
-    margin-top: 1rem;
-    margin-bottom: -0.8rem;
-  }
+	h3 {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		font-size: 1.1rem;
+		width: 90%;
+		color: #29b1e0;
+		margin-top: 1rem;
+		margin-bottom: -0.8rem;
+	}
 
-  p {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 0;
-    width: 95%;
-    font-size: 0.9rem;
-  }
+	p {
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 4;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		margin: 0;
+		width: 95%;
+		font-size: 0.9rem;
+	}
 
-  button {
-    width: 8rem;
-    background-color: #f6af31;
-    border: 0.125rem solid #f6af31;
-    outline: none;
-    margin-bottom: 1rem;
-    transition: all 0.35s;
-    color: #1e3148;
+	button {
+		width: 8rem;
+		background-color: #f6af31;
+		border: 0.125rem solid #f6af31;
+		outline: none;
+		margin-bottom: 1rem;
+		transition: all 0.4s;
+		color: #1e3148;
 
-    &:hover {
-      background-color: transparent;
-      color: white;
-    }
-  }
+		&:hover {
+			background-color: transparent;
+			color: white;
+		}
+	}
 }

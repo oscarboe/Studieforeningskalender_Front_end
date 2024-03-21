@@ -3,25 +3,27 @@ import './PopularEvent.css';
 import { cardInfo } from '../../../public/ExampleData';
 
 type PopularEventProps = {
-	eventData: cardInfo;
+	eventData: {
+		__typename?: 'EventDto' | undefined;
+		id: string;
+		title: string;
+		description: string;
+		image: string;
+	};
 	swap?: boolean;
 };
 
-class PopularEvent extends React.Component<PopularEventProps> {
-	render() {
-		return (
-			<div className='PopularEvent' style={{ flexDirection: this.props.swap ? 'row' : 'row-reverse' }}>
-				<img className='img' src={this.props.eventData.image} alt='Event' />
-				<div className='h1'>
-					<div id='textPart'>
-						<div className='title'>{this.props.eventData.eventName}</div>
-						<div className='description'>{this.props.eventData.description}</div>
-					</div>
-					<button id='eventButton'>Se Mere</button>
+export default function PopularEvent({ eventData, swap }: PopularEventProps) {
+	return (
+		<div className='PopularEvent' style={{ flexDirection: swap ? 'row' : 'row-reverse' }}>
+			<img className='img' src={`data:image/png;base64,${eventData.image}`} alt='Event' />
+			<div className='h1'>
+				<div id='textPart'>
+					<div className='title'>{eventData.title}</div>
+					<div className='description'>{eventData.description}</div>
 				</div>
+				<button id='eventButton'>Se Mere</button>
 			</div>
-		);
-	}
+		</div>
+	);
 }
-
-export default PopularEvent;

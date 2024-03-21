@@ -1,39 +1,62 @@
 import './EventsSlider.scss';
-import { ExampleEvents, cardInfo } from '../../../public/ExampleData';
 import EventCard from '../EventCard/EventCard';
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 import { useEffect, useState } from 'react';
+import { HOME_SLIDER_EVENT_QUERY } from '../../Queries/EventQueries';
+import { SliderEventsForHomeQuery, SliderEventsForHomeQueryVariables } from '../../../generated/graphql/graphql';
+import { useLazyQuery } from '@apollo/client';
+import { EventDto } from '../../Types/EventTypes';
 
-const EventsSlider = () => {
-	const [events, setEvents] = useState<cardInfo[]>([]);
-	const [currentEvents, setCurrentEvents] = useState<cardInfo[]>([]);
+interface props {
+	sortPopular: boolean;
+	eventCount: number;
+	searchTags: string[];
+	searchText: string;
+}
+
+const EventsSlider = ({ sortPopular, eventCount, searchTags, searchText }: props) => {
+	const [currentEvents, setCurrentEvents] = useState<EventDto[]>([]);
 	const [page, setPage] = useState(1);
 	const [pages, setPages] = useState<number[]>([]);
 
-	const fetchEvents = async (pageNumber: number) => {
-		// const response = await fetch data
-		// Set events data
-		const fetchedEvents = ExampleEvents.slice((pageNumber - 1) * 3, (pageNumber - 1) * 3 + 3);
-
-		if (events.length <= pageNumber * 3) setEvents([...events, ...fetchedEvents]);
-
-		setCurrentEvents(fetchedEvents);
-	};
+	const [getEvents] = useLazyQuery<SliderEventsForHomeQuery, SliderEventsForHomeQueryVariables>(
+		HOME_SLIDER_EVENT_QUERY,
+		{
+			onCompleted: (data) => {
+				if (data?.events?.items != null) {
+					setCurrentEvents(data.events.items);
+				} else {
+					console.log('null was returned, data: ');
+					console.log(data);
+				}
+			},
+		}
+	);
 
 	function changePage(pageNumber: number) {
 		if (pageNumber > 0 && pageNumber <= pages.length && pageNumber != page) setPage(pageNumber);
 	}
 
 	useEffect(() => {
-		var dots = Math.ceil(ExampleEvents.length / 3);
+		var dots = Math.ceil((eventCount - 3) / 3);
+		var arr: number[] = [];
 		for (var i = 0; i < dots; i++) {
-			setPages((pages) => [...pages, i]);
+			arr.push(i);
 		}
-	}, []);
+		setPages(arr);
+	}, [eventCount]);
 
 	useEffect(() => {
-		fetchEvents(page);
-	}, [page]);
+		getEvents({
+			variables: {
+				sorting: sortPopular ? 'popular' : 'soon',
+				tags: searchTags,
+				searchText: searchText,
+				take: 3,
+				skip: page * 3,
+			},
+		});
+	}, [page, sortPopular, searchTags]);
 
 	return (
 		<div id='eventsSlider'>
@@ -53,7 +76,7 @@ const EventsSlider = () => {
 			<div id='dots'>
 				{pages.map((key) => (
 					<div id='dotBox' key={key}>
-						<span id='dot' className={page == key + 1 ? 'onPageDot' : ''} onClick={() => changePage(key + 1)} />
+						<span id='dot' className={page == key + 1 ? 'onPageDot' : ''} /*onClick={() => changePage(key + 1)}*/ />
 					</div>
 				))}
 			</div>
