@@ -1,5 +1,4 @@
 import './KalenderPage.css';
-import PopularEventsWrapper from '../../components/PopularEvents/PopularEventsWrapper';
 
 export default function KalenderPage() {
 	return (
