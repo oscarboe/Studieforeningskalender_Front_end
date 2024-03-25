@@ -1,15 +1,9 @@
 import { CreateUserInput, LoginMutationVariables } from '../../generated/graphql/graphql';
+import { alert } from '../Redux/Slices/alertsSlice';
 
-export interface validationError {
-	field?: string;
-	message: string;
-	severity: 'error' | 'info' | 'warning' | 'success';
-	component?: string;
-}
-
-export function ValidateCreateUserInput(input: CreateUserInput, confirmPassword: string): validationError[] {
+export function ValidateCreateUserInput(input: CreateUserInput, confirmPassword: string): alert[] {
 	const { firstName, lastName, userName, password, emailAddress } = input;
-	var errors: validationError[] = [];
+	var errors: alert[] = [];
 
 	errors = errors.concat(validateUsername(userName, 'register', createUserFields.userName));
 	errors = errors.concat(validatePassword(password, 'register', createUserFields.password));
@@ -41,9 +35,9 @@ export function ValidateCreateUserInput(input: CreateUserInput, confirmPassword:
 	return errors;
 }
 
-export function ValidateLoginInput(input: LoginMutationVariables): validationError[] {
+export function ValidateLoginInput(input: LoginMutationVariables): alert[] {
 	const { username, password } = input;
-	var errors: validationError[] = [];
+	var errors: alert[] = [];
 
 	errors = errors.concat(validateUsername(username, 'login', loginFields.username));
 	errors = errors.concat(validatePassword(password, 'login', loginFields.password));
@@ -52,9 +46,9 @@ export function ValidateLoginInput(input: LoginMutationVariables): validationErr
 }
 
 // Change verification code validations when we know what they are
-export function ValidatePasswordReset(verificationCode: string, password: string, email: string): validationError[] {
+export function ValidatePasswordReset(verificationCode: string, password: string, email: string): alert[] {
 	const component = 'passwordReset';
-	var errors: validationError[] = [];
+	var errors: alert[] = [];
 
 	if (verificationCode.length < 1 || verificationCode.length > 64)
 		errors.push({
@@ -78,12 +72,12 @@ export function ValidatePasswordReset(verificationCode: string, password: string
 	return errors;
 }
 
-function firstEntry(errors: validationError[], field: string): boolean {
+function firstEntry(errors: alert[], field: string): boolean {
 	return errors.find((x) => x.field == field) === undefined;
 }
 
-function validateUsername(username: string, component: string, field: string): validationError[] {
-	var errors: validationError[] = [];
+function validateUsername(username: string, component: string, field: string): alert[] {
+	var errors: alert[] = [];
 
 	if (username.length < 1 || username.length > 64)
 		errors.push({
@@ -104,8 +98,8 @@ function validateUsername(username: string, component: string, field: string): v
 	return errors;
 }
 
-function validatePassword(password: string, component: string, field: string): validationError[] {
-	var errors: validationError[] = [];
+function validatePassword(password: string, component: string, field: string): alert[] {
+	var errors: alert[] = [];
 
 	if (password.length < 8 || password.length > 255)
 		errors.push({
@@ -134,8 +128,8 @@ function validatePassword(password: string, component: string, field: string): v
 	return errors;
 }
 
-export function ValidateEmailAddress(emailAddress: string, component: string, field: string): validationError[] {
-	var errors: validationError[] = [];
+export function ValidateEmailAddress(emailAddress: string, component: string, field: string): alert[] {
+	var errors: alert[] = [];
 
 	if (emailAddress.length < 11 || emailAddress.length > 100)
 		errors.push({

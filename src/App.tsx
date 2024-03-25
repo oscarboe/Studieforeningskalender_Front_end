@@ -5,18 +5,17 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/LoginPage/LoginPage';
 import KalenderPage from './pages/KalenderPage/KalenderPage';
 import HomePage from './pages/HomePage/HomePage';
-import { useState } from 'react';
+import Alerts from './components/Alerts/Alerts';
 
 export default function App() {
-	const [sortPopular, setSortPopular] = useState(true);
-
 	return (
 		<BrowserRouter>
-			<Navbar setSortPopular={setSortPopular} />
+			<Alerts />
+			<Navbar />
 			<Routes>
 				<Route path='/login' element={<LoginPage />} />
 				<Route path='/kalender' element={<KalenderPage />}></Route>
-				<Route path='/' element={<HomePage sortPopular={sortPopular} />}></Route>
+				<Route path='/' element={<HomePage />}></Route>
 			</Routes>
 		</BrowserRouter>
 	);

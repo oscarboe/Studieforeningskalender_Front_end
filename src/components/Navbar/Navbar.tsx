@@ -3,10 +3,14 @@ import { IoCalendarOutline } from 'react-icons/io5';
 import './Navbar.css';
 import ToggleSlider from '../ToggleSlider/ToggleSlider';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { changeSorting } from '../../Redux/Slices/sortPopularSlice';
 
-const Navbar = ({ setSortPopular }: { setSortPopular: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const Navbar = () => {
 	const [loggedIn] = useState(false);
 	const location = useLocation();
+
+	const dispatch = useDispatch();
 
 	return (
 		<nav className={(location.pathname === '/' ? 'isHome ' : '') + 'nav container'}>
@@ -17,7 +21,10 @@ const Navbar = ({ setSortPopular }: { setSortPopular: React.Dispatch<React.SetSt
 			<ul className='nav__list'>
 				<li className='nav__item'>
 					<NavLink to='/' className='nav__link'>
-						<ToggleSlider setSortPopular={setSortPopular} text={['Populære events', 'Det sker snart']} />
+						<ToggleSlider
+							setSortPopular={() => dispatch(changeSorting())}
+							text={['Populære events', 'Det sker snart']}
+						/>
 					</NavLink>
 				</li>
 				<li className='nav__item'>

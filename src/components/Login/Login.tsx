@@ -7,27 +7,32 @@ import Password from '../Password/Password';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ValidateLoginInput } from '../../Validators/UserValidators';
 import GetErrorMessage from '../../Helpers/ErrorMessages';
-import { alertProps } from '../../pages/LoginPage/LoginPage';
 import { useState } from 'react';
 import PasswordReset from '../PasswordReset/PasswordReset';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../Redux/store';
+import { addAlert, emptyAlerts, setAlerts } from '../../Redux/Slices/alertsSlice';
 
-export default function Login({ alerts, setAlerts }: alertProps) {
+export default function Login() {
 	const { register, handleSubmit } = useForm<LoginMutationVariables>();
 	const [open, setOpen] = useState(false);
+
+	const alerts = useSelector((state: RootState) => state.alerts);
+	const dispatch = useDispatch();
 
 	const navigate = useNavigate();
 
 	const [login] = useMutation<LoginMutation, LoginMutationVariables>(LOGIN_QUERY, {
 		onCompleted: (data) => {
 			if (!data.login.isSuccessful) {
-				setAlerts((e) => [...e, { message: data.login.message, severity: 'error' }]);
+				dispatch(addAlert({ message: data.login.message, severity: 'error' }));
 			} else {
-				setAlerts([{ message: 'User successfully logged in', severity: 'success' }]);
+				dispatch(addAlert({ message: 'User successfully logged in', severity: 'success' }));
 				navigate('/');
 			}
 		},
 		onError: (error) => {
-			setAlerts((e) => [...e, { message: GetErrorMessage(error), severity: 'error' }]);
+			dispatch(addAlert({ message: GetErrorMessage(error), severity: 'error' }));
 			console.log(error.message);
 		},
 	});
@@ -37,11 +42,11 @@ export default function Login({ alerts, setAlerts }: alertProps) {
 	}
 
 	const onSubmit: SubmitHandler<LoginMutationVariables> = (data) => {
-		setAlerts([]);
+		dispatch(emptyAlerts());
 		const errorArr = ValidateLoginInput(data);
 
 		if (errorArr.length === 0) login({ variables: data });
-		else setAlerts(errorArr);
+		else dispatch(setAlerts(errorArr));
 	};
 
 	return (
@@ -55,7 +60,7 @@ export default function Login({ alerts, setAlerts }: alertProps) {
 					<p>Remember Me</p>
 				</div>
 				<a onClick={() => setOpen(true)}>Forgot Password?</a>
-				<PasswordReset alerts={alerts} setAlerts={setAlerts} open={open} setOpen={setOpen} />
+				<PasswordReset open={open} setOpen={setOpen} />
 			</div>
 			<button id='login-button' type='submit'>
 				Login

@@ -28,41 +28,6 @@
 	}
 }
 
-#alert-box {
-	position: fixed;
-	flex-direction: column;
-	align-items: center;
-	gap: 1rem;
-	top: 2rem;
-	left: 50%;
-	z-index: 10;
-	transform: translateX(-50%);
-}
-
-.alert {
-	animation: slideInDown 0.5s both, disappear 0.5s 2s forwards;
-}
-
-@keyframes slideInDown {
-	from {
-		opacity: 0;
-		margin-top: -20px;
-	}
-	to {
-		opacity: 1;
-		margin-top: 0;
-	}
-}
-
-@keyframes disappear {
-	from {
-		opacity: 1;
-	}
-	to {
-		opacity: 0;
-	}
-}
-
 #vertical-line {
 	background: rgb(36, 36, 36);
 	background: linear-gradient(180deg, transparent 0%, rgba(60, 60, 60, 1) 50%, transparent 100%);

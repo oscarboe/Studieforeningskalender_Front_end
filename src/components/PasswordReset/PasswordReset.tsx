@@ -1,19 +1,14 @@
 import './PasswordReset.scss';
 import Password from '../Password/Password';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import {
-	ValidateEmailAddress,
-	ValidateLoginInput,
-	ValidatePasswordReset,
-	validationError,
-} from '../../Validators/UserValidators';
+import { ValidateEmailAddress, ValidatePasswordReset } from '../../Validators/UserValidators';
 import Modal from '@mui/material/Modal';
 import { Fade } from '@mui/material';
-import { useState } from 'react';
+import { emptyAlerts, setAlerts } from '../../Redux/Slices/alertsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../Redux/store';
 
 interface props {
-	alerts: validationError[];
-	setAlerts: React.Dispatch<React.SetStateAction<validationError[]>>;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	open: boolean;
 }
@@ -24,27 +19,30 @@ interface formProps {
 	password: string;
 }
 
-export default function PasswordReset({ alerts, setAlerts, setOpen, open }: props) {
+export default function PasswordReset({ setOpen, open }: props) {
 	const { register, handleSubmit } = useForm<formProps>();
+
+	const alerts = useSelector((state: RootState) => state.alerts);
+	const dispatch = useDispatch();
 
 	function GetError(field: string): string {
 		return alerts.find((x) => x.field === field && x.component === 'passwordReset') ? 'error' : '';
 	}
 
 	const onSubmit: SubmitHandler<formProps> = (data) => {
-		setAlerts([]);
-		const errorArr = ValidatePasswordReset(data.verificationCode, data.password, data.emailAddress);
+		dispatch(emptyAlerts());
+		const errors = ValidatePasswordReset(data.verificationCode, data.password, data.emailAddress);
 
-		if (errorArr.length === 0) console.log('No errors with form data');
-		else setAlerts(errorArr);
+		if (errors.length === 0) console.log('No errors with form data');
+		else dispatch(setAlerts(errors));
 	};
 
 	const onSubmitEmail: SubmitHandler<formProps> = (data) => {
-		setAlerts([]);
+		dispatch(emptyAlerts());
 		var errors = ValidateEmailAddress(data.emailAddress, 'passwordReset', 'emailAddress');
 
 		if (errors.length === 0) console.log('No errors with email');
-		else setAlerts(errors);
+		else dispatch(setAlerts(errors));
 	};
 
 	return (
