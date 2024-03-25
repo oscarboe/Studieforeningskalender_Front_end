@@ -6,18 +6,18 @@ import { HOME_SLIDER_EVENT_QUERY } from '../../Queries/EventQueries';
 import { SliderEventsForHomeQuery, SliderEventsForHomeQueryVariables } from '../../../generated/graphql/graphql';
 import { useLazyQuery } from '@apollo/client';
 import { EventDto } from '../../Types/EventTypes';
+import { RootState } from '../../Redux/store';
+import { useSelector } from 'react-redux';
 
-interface props {
-	sortPopular: boolean;
-	eventCount: number;
-	searchTags: string[];
-	searchText: string;
-}
-
-const EventsSlider = ({ sortPopular, eventCount, searchTags, searchText }: props) => {
+const EventsSlider = ({ eventCount }: { eventCount: number }) => {
 	const [currentEvents, setCurrentEvents] = useState<EventDto[]>([]);
 	const [page, setPage] = useState(1);
 	const [pages, setPages] = useState<number[]>([]);
+
+	const tags = useSelector((state: RootState) => state.tags);
+	const update = useSelector((state: RootState) => state.update);
+	const searchText = useSelector((state: RootState) => state.searchText);
+	const sortPopular = useSelector((state: RootState) => state.sortPopular);
 
 	const [getEvents] = useLazyQuery<SliderEventsForHomeQuery, SliderEventsForHomeQueryVariables>(
 		HOME_SLIDER_EVENT_QUERY,
@@ -50,13 +50,13 @@ const EventsSlider = ({ sortPopular, eventCount, searchTags, searchText }: props
 		getEvents({
 			variables: {
 				sorting: sortPopular ? 'popular' : 'soon',
-				tags: searchTags,
+				tags: tags.map((x) => x.name),
 				searchText: searchText,
 				take: 3,
 				skip: page * 3,
 			},
 		});
-	}, [page, sortPopular, searchTags]);
+	}, [page, sortPopular, update]);
 
 	return (
 		<div id='eventsSlider'>

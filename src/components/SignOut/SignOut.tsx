@@ -1,6 +1,6 @@
 import './App.css';
 import { useApolloClient, useMutation } from '@apollo/client';
-import { SIGN_OUT_QUERY } from './Queries/UserQueries';
+import { SIGN_OUT_QUERY } from '../../Queries/UserQueries';
 
 export default function SignOut() {
 	const client = useApolloClient();

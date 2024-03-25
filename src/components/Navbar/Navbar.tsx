@@ -1,15 +1,19 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { IoCalendarOutline } from 'react-icons/io5';
 import './Navbar.css';
 import ToggleSlider from '../ToggleSlider/ToggleSlider';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { changeSorting } from '../../Redux/Slices/sortPopularSlice';
 
-const Navbar = ({ setSortPopular }: { setSortPopular: React.Dispatch<React.SetStateAction<boolean>> }) => {
-	const [loggedIn] = useState(false); // Add this line
-	const isHome = window.location.pathname + window.location.search == '/';
+const Navbar = () => {
+	const [loggedIn] = useState(false);
+	const location = useLocation();
+
+	const dispatch = useDispatch();
 
 	return (
-		<nav className={(isHome ? 'isHome ' : '') + 'nav container'}>
+		<nav className={(location.pathname === '/' ? 'isHome ' : '') + 'nav container'}>
 			<NavLink to='/' className='nav__logo'>
 				StudieforeningsKalenderen
 			</NavLink>
@@ -17,7 +21,10 @@ const Navbar = ({ setSortPopular }: { setSortPopular: React.Dispatch<React.SetSt
 			<ul className='nav__list'>
 				<li className='nav__item'>
 					<NavLink to='/' className='nav__link'>
-						<ToggleSlider setSortPopular={setSortPopular} text={['Populære events', 'Det sker snart']} />
+						<ToggleSlider
+							setSortPopular={() => dispatch(changeSorting())}
+							text={['Populære events', 'Det sker snart']}
+						/>
 					</NavLink>
 				</li>
 				<li className='nav__item'>
