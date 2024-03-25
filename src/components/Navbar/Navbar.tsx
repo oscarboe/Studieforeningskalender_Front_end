@@ -1,15 +1,15 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { IoCalendarOutline } from 'react-icons/io5';
 import './Navbar.css';
 import ToggleSlider from '../ToggleSlider/ToggleSlider';
 import { useState } from 'react';
 
 const Navbar = ({ setSortPopular }: { setSortPopular: React.Dispatch<React.SetStateAction<boolean>> }) => {
-	const [loggedIn] = useState(false); // Add this line
-	const isHome = window.location.pathname + window.location.search == '/';
+	const [loggedIn] = useState(false);
+	const location = useLocation();
 
 	return (
-		<nav className={(isHome ? 'isHome ' : '') + 'nav container'}>
+		<nav className={(location.pathname === '/' ? 'isHome ' : '') + 'nav container'}>
 			<NavLink to='/' className='nav__logo'>
 				StudieforeningsKalenderen
 			</NavLink>

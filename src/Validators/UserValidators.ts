@@ -1,0 +1,192 @@
+import { CreateUserInput, LoginMutationVariables } from '../../generated/graphql/graphql';
+
+export interface validationError {
+	field?: string;
+	message: string;
+	severity: 'error' | 'info' | 'warning' | 'success';
+	component?: string;
+}
+
+export function ValidateCreateUserInput(input: CreateUserInput, confirmPassword: string): validationError[] {
+	const { firstName, lastName, userName, password, emailAddress } = input;
+	var errors: validationError[] = [];
+
+	errors = errors.concat(validateUsername(userName, 'register', createUserFields.userName));
+	errors = errors.concat(validatePassword(password, 'register', createUserFields.password));
+	errors = errors.concat(ValidateEmailAddress(emailAddress, 'register', createUserFields.emailAddress));
+
+	if (firstName.length < 1 || firstName.length > 50)
+		errors.push({
+			field: createUserFields.firstName,
+			message: 'First name must be between 1 and 50 characters',
+			severity: 'error',
+			component: 'register',
+		});
+	if (lastName.length < 1 || lastName.length > 50)
+		errors.push({
+			field: createUserFields.lastName,
+			message: 'Last name must be between 1 and 50 characters',
+			severity: 'error',
+			component: 'register',
+		});
+
+	if (password !== confirmPassword && firstEntry(errors, createUserFields.confirmPassword))
+		errors.push({
+			field: createUserFields.confirmPassword,
+			message: 'Password confirmation does not match the original password',
+			severity: 'error',
+			component: 'register',
+		});
+
+	return errors;
+}
+
+export function ValidateLoginInput(input: LoginMutationVariables): validationError[] {
+	const { username, password } = input;
+	var errors: validationError[] = [];
+
+	errors = errors.concat(validateUsername(username, 'login', loginFields.username));
+	errors = errors.concat(validatePassword(password, 'login', loginFields.password));
+
+	return errors;
+}
+
+// Change verification code validations when we know what they are
+export function ValidatePasswordReset(verificationCode: string, password: string, email: string): validationError[] {
+	const component = 'passwordReset';
+	var errors: validationError[] = [];
+
+	if (verificationCode.length < 1 || verificationCode.length > 64)
+		errors.push({
+			field: passwordResetFields.verificationCode,
+			message: 'Verification code must be between 1 and 64 characters',
+			severity: 'error',
+			component: component,
+		});
+
+	if (verificationCode.includes(' ') && firstEntry(errors, passwordResetFields.verificationCode))
+		errors.push({
+			field: passwordResetFields.verificationCode,
+			message: 'Verification code cannot contain spaces',
+			severity: 'error',
+			component: component,
+		});
+
+	errors = errors.concat(ValidateEmailAddress(email, component, passwordResetFields.email));
+	errors = errors.concat(validatePassword(password, component, passwordResetFields.password));
+
+	return errors;
+}
+
+function firstEntry(errors: validationError[], field: string): boolean {
+	return errors.find((x) => x.field == field) === undefined;
+}
+
+function validateUsername(username: string, component: string, field: string): validationError[] {
+	var errors: validationError[] = [];
+
+	if (username.length < 1 || username.length > 64)
+		errors.push({
+			field: field,
+			message: 'Username must be between 1 and 64 characters',
+			severity: 'error',
+			component: component,
+		});
+
+	if (username.includes(' ') && firstEntry(errors, field))
+		errors.push({
+			field: field,
+			message: 'Username cannot contain spaces',
+			severity: 'error',
+			component: component,
+		});
+
+	return errors;
+}
+
+function validatePassword(password: string, component: string, field: string): validationError[] {
+	var errors: validationError[] = [];
+
+	if (password.length < 8 || password.length > 255)
+		errors.push({
+			field: field,
+			message: 'Password must be between 8 and 255 characters',
+			severity: 'error',
+			component: component,
+		});
+
+	if (password === password.toLocaleLowerCase() && firstEntry(errors, field))
+		errors.push({
+			field: field,
+			message: 'Password must contain an uppercase character',
+			severity: 'error',
+			component: component,
+		});
+
+	if (password.includes(' ') && firstEntry(errors, field))
+		errors.push({
+			field: field,
+			message: 'Password cannot contain spaces',
+			severity: 'error',
+			component: component,
+		});
+
+	return errors;
+}
+
+export function ValidateEmailAddress(emailAddress: string, component: string, field: string): validationError[] {
+	var errors: validationError[] = [];
+
+	if (emailAddress.length < 11 || emailAddress.length > 100)
+		errors.push({
+			field: field,
+			message: 'Email address must be between 11 and 100 characters',
+			severity: 'error',
+			component: component,
+		});
+
+	if (!emailAddress.includes('@uni.au.dk') && !emailAddress.includes('@post.au.dk') && firstEntry(errors, field))
+		errors.push({
+			field: field,
+			message: 'Email address must be an au email',
+			severity: 'error',
+			component: component,
+		});
+	if (emailAddress.slice(0, emailAddress.indexOf('@')) === '' && firstEntry(errors, field))
+		errors.push({
+			field: field,
+			message: 'Email address must have address before @',
+			severity: 'error',
+			component: component,
+		});
+
+	if (emailAddress.includes(' ') && firstEntry(errors, field))
+		errors.push({
+			field: field,
+			message: 'Email address cannot contain spaces',
+			severity: 'error',
+			component: component,
+		});
+
+	return errors;
+}
+
+enum createUserFields {
+	firstName = 'firstName',
+	lastName = 'lastName',
+	userName = 'userName',
+	password = 'password',
+	confirmPassword = 'confirmPassword',
+	emailAddress = 'emailAddress',
+}
+
+enum loginFields {
+	username = 'username',
+	password = 'password',
+}
+
+enum passwordResetFields {
+	email = 'emailAddress',
+	verificationCode = 'verificationCode',
+	password = 'password',
+}
