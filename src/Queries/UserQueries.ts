@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const LOGIN_QUERY = gql`
-	mutation Login($username: String!, $password: String!) {
-		login(loginInput: { userName: $username, password: $password }) {
+	mutation Login($username: String!, $password: String!, $rememberMe: Boolean!) {
+		login(loginInput: { userName: $username, password: $password, rememberMe: $rememberMe }) {
 			isSuccessful
 			message
 		}

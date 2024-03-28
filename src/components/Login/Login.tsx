@@ -56,7 +56,7 @@ export default function Login() {
 			<Password error={GetError('password')} {...register('password')} />
 			<div id='remeber-me-forgot-password'>
 				<div>
-					<input type='checkbox' />
+					<input type='checkbox' {...register('rememberMe')} />
 					<p>Remember Me</p>
 				</div>
 				<a onClick={() => setOpen(true)}>Forgot Password?</a>
