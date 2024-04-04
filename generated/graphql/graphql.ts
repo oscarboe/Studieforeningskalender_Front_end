@@ -36,7 +36,7 @@ export type AddUserToEventInput = {
 
 export type AddUserToEventPayload = {
   __typename?: 'AddUserToEventPayload';
-  isSuccessfull: Scalars['Boolean']['output'];
+  isSuccessful: Scalars['Boolean']['output'];
   message: Scalars['String']['output'];
 };
 
@@ -48,13 +48,13 @@ export enum ApplyPolicy {
 
 export type AttachTagToEventPayload = {
   __typename?: 'AttachTagToEventPayload';
-  isSuccessfull: Scalars['Boolean']['output'];
+  isSuccessful: Scalars['Boolean']['output'];
   message: Scalars['String']['output'];
 };
 
 export type AttachTagsToEventPayload = {
   __typename?: 'AttachTagsToEventPayload';
-  isSuccessfull: Scalars['Boolean']['output'];
+  isSuccessful: Scalars['Boolean']['output'];
   message: Scalars['String']['output'];
 };
 
@@ -78,6 +78,18 @@ export type ByteOperationFilterInput = {
   nlte?: InputMaybe<Scalars['Byte']['input']>;
 };
 
+export type ChangePasswordInput = {
+  emailAddress: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  verificationCode: Scalars['String']['input'];
+};
+
+export type ChangePasswordPayload = {
+  __typename?: 'ChangePasswordPayload';
+  isSuccessful: Scalars['Boolean']['output'];
+  message: Scalars['String']['output'];
+};
+
 /** Information about the offset pagination. */
 export type CollectionSegmentInfo = {
   __typename?: 'CollectionSegmentInfo';
@@ -99,13 +111,13 @@ export type CreateEventInput = {
 
 export type CreateEventPayload = {
   __typename?: 'CreateEventPayload';
-  isSuccessfull: Scalars['Boolean']['output'];
+  isSuccessful: Scalars['Boolean']['output'];
   message: Scalars['String']['output'];
 };
 
 export type CreateRolePayload = {
   __typename?: 'CreateRolePayload';
-  isSuccessfull: Scalars['Boolean']['output'];
+  isSuccessful: Scalars['Boolean']['output'];
   message: Scalars['String']['output'];
 };
 
@@ -115,7 +127,7 @@ export type CreateTagInput = {
 
 export type CreateTagPayload = {
   __typename?: 'CreateTagPayload';
-  isSuccessfull: Scalars['Boolean']['output'];
+  isSuccessful: Scalars['Boolean']['output'];
   message: Scalars['String']['output'];
 };
 
@@ -133,7 +145,7 @@ export type CreateUserInput = {
 
 export type CreateUserPayload = {
   __typename?: 'CreateUserPayload';
-  isSuccessfull: Scalars['Boolean']['output'];
+  isSuccessful: Scalars['Boolean']['output'];
   message: Scalars['String']['output'];
 };
 
@@ -154,13 +166,13 @@ export type DateTimeOperationFilterInput = {
 
 export type DeleteEventPayload = {
   __typename?: 'DeleteEventPayload';
-  isSuccessfull: Scalars['Boolean']['output'];
+  isSuccessful: Scalars['Boolean']['output'];
   message: Scalars['String']['output'];
 };
 
 export type DeleteRolePayload = {
   __typename?: 'DeleteRolePayload';
-  isSuccessfull: Scalars['Boolean']['output'];
+  isSuccessful: Scalars['Boolean']['output'];
   message: Scalars['String']['output'];
 };
 
@@ -170,13 +182,13 @@ export type DeleteTagInput = {
 
 export type DeleteTagPayload = {
   __typename?: 'DeleteTagPayload';
-  isSuccessfull: Scalars['Boolean']['output'];
+  isSuccessful: Scalars['Boolean']['output'];
   message: Scalars['String']['output'];
 };
 
 export type DeleteUserPayload = {
   __typename?: 'DeleteUserPayload';
-  isSuccessfull: Scalars['Boolean']['output'];
+  isSuccessful: Scalars['Boolean']['output'];
   message: Scalars['String']['output'];
 };
 
@@ -312,6 +324,10 @@ export type EventsCollectionSegment = {
   totalCount: Scalars['Int']['output'];
 };
 
+export type ForgotPasswordVerificationEmailInput = {
+  email: Scalars['String']['input'];
+};
+
 export type IdOperationFilterInput = {
   eq?: InputMaybe<Scalars['ID']['input']>;
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
@@ -365,6 +381,7 @@ export type Mutation = {
   addUserToEvent: AddUserToEventPayload;
   attachTagToEvent: AttachTagToEventPayload;
   attachTagsToEvent: AttachTagsToEventPayload;
+  changePassword: ChangePasswordPayload;
   createEvent: CreateEventPayload;
   createRole: CreateRolePayload;
   createTag: CreateTagPayload;
@@ -379,8 +396,12 @@ export type Mutation = {
   removeRoleFromUser: UserRolesPayload;
   removeTagFromEvent: RemoveTagFromEventPayload;
   removeUserFromEvent: RemoveUserFromEventPayload;
+  resendRegistrationVerificationEmail: VerificationEmailPayload;
+  sendForgotPasswordVerificationEmail: VerificationEmailPayload;
+  sendRegistrationVerificationEmail: VerificationEmailPayload;
   signOut?: Maybe<Scalars['String']['output']>;
   updateUser: UpdateUserPayload;
+  verifyUser: VerifyUserPayload;
 };
 
 
@@ -401,6 +422,11 @@ export type MutationAttachTagToEventArgs = {
 
 export type MutationAttachTagsToEventArgs = {
   input: EventAndTagsInput;
+};
+
+
+export type MutationChangePasswordArgs = {
+  input: ChangePasswordInput;
 };
 
 
@@ -474,9 +500,23 @@ export type MutationRemoveUserFromEventArgs = {
 };
 
 
+export type MutationSendForgotPasswordVerificationEmailArgs = {
+  input: ForgotPasswordVerificationEmailInput;
+};
+
+
+export type MutationSendRegistrationVerificationEmailArgs = {
+  input: RegisterVerificationEmailInput;
+};
+
+
 export type MutationUpdateUserArgs = {
-  id: Scalars['ID']['input'];
   updateUserInput: UpdateUserInput;
+};
+
+
+export type MutationVerifyUserArgs = {
+  input: VerifyUserInput;
 };
 
 /** The node interface is implemented by entities that have a global unique identifier. */
@@ -536,9 +576,15 @@ export type QueryTagsArgs = {
   where?: InputMaybe<TagFilterInput>;
 };
 
+export type RegisterVerificationEmailInput = {
+  email: Scalars['String']['input'];
+  firstName: Scalars['String']['input'];
+  userId: Scalars['UUID']['input'];
+};
+
 export type RemoveTagFromEventPayload = {
   __typename?: 'RemoveTagFromEventPayload';
-  isSuccessfull: Scalars['Boolean']['output'];
+  isSuccessful: Scalars['Boolean']['output'];
   message: Scalars['String']['output'];
 };
 
@@ -550,7 +596,7 @@ export type RemoveUserFromEventInput = {
 
 export type RemoveUserFromEventPayload = {
   __typename?: 'RemoveUserFromEventPayload';
-  isSuccessfull: Scalars['Boolean']['output'];
+  isSuccessful: Scalars['Boolean']['output'];
   message: Scalars['String']['output'];
 };
 
@@ -633,7 +679,7 @@ export type UpdateUserInput = {
 
 export type UpdateUserPayload = {
   __typename?: 'UpdateUserPayload';
-  isSuccessfull: Scalars['Boolean']['output'];
+  isSuccessful: Scalars['Boolean']['output'];
   message: Scalars['String']['output'];
 };
 
@@ -686,9 +732,38 @@ export type UserRoleFilterInput = {
 
 export type UserRolesPayload = {
   __typename?: 'UserRolesPayload';
-  isSuccessfull: Scalars['Boolean']['output'];
+  isSuccessful: Scalars['Boolean']['output'];
   message: Scalars['String']['output'];
 };
+
+export type VerificationEmailPayload = {
+  __typename?: 'VerificationEmailPayload';
+  isSuccessful: Scalars['Boolean']['output'];
+  message: Scalars['String']['output'];
+};
+
+export type VerifyUserInput = {
+  emailAddress: Scalars['String']['input'];
+  token: Scalars['String']['input'];
+};
+
+export type VerifyUserPayload = {
+  __typename?: 'VerifyUserPayload';
+  isSuccessful: Scalars['Boolean']['output'];
+  message: Scalars['String']['output'];
+};
+
+export type SendForgotPasswordVerificationEmailMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type SendForgotPasswordVerificationEmailMutation = { __typename?: 'Mutation', sendForgotPasswordVerificationEmail: { __typename?: 'VerificationEmailPayload', isSuccessful: boolean, message: string } };
+
+export type ResendForgotPasswordVerificationEmailMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ResendForgotPasswordVerificationEmailMutation = { __typename?: 'Mutation', resendRegistrationVerificationEmail: { __typename?: 'VerificationEmailPayload', isSuccessful: boolean, message: string } };
 
 export type BigEventsForHomeQueryVariables = Exact<{
   sorting?: InputMaybe<Scalars['String']['input']>;
@@ -729,17 +804,35 @@ export type CreateUserMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'CreateUserPayload', isSuccessfull: boolean, message: string } };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'CreateUserPayload', isSuccessful: boolean, message: string } };
 
 export type SignOutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type SignOutMutation = { __typename?: 'Mutation', signOut?: string | null };
 
+export type ChangePasswordMutationVariables = Exact<{
+  changePassword: ChangePasswordInput;
+}>;
 
+
+export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'ChangePasswordPayload', isSuccessful: boolean, message: string } };
+
+export type VerifyUserMutationVariables = Exact<{
+  verifyUserInput: VerifyUserInput;
+}>;
+
+
+export type VerifyUserMutation = { __typename?: 'Mutation', verifyUser: { __typename?: 'VerifyUserPayload', isSuccessful: boolean, message: string } };
+
+
+export const SendForgotPasswordVerificationEmailDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SendForgotPasswordVerificationEmail"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"sendForgotPasswordVerificationEmail"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isSuccessful"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<SendForgotPasswordVerificationEmailMutation, SendForgotPasswordVerificationEmailMutationVariables>;
+export const ResendForgotPasswordVerificationEmailDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ResendForgotPasswordVerificationEmail"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"resendRegistrationVerificationEmail"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isSuccessful"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<ResendForgotPasswordVerificationEmailMutation, ResendForgotPasswordVerificationEmailMutationVariables>;
 export const BigEventsForHomeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"BigEventsForHome"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sorting"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tags"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"searchText"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"events"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sorting"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sorting"}}},{"kind":"Argument","name":{"kind":"Name","value":"tags"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tags"}}},{"kind":"Argument","name":{"kind":"Name","value":"searchText"},"value":{"kind":"Variable","name":{"kind":"Name","value":"searchText"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"IntValue","value":"3"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode<BigEventsForHomeQuery, BigEventsForHomeQueryVariables>;
 export const SliderEventsForHomeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"SliderEventsForHome"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"sorting"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tags"}},"type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"searchText"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"events"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"sorting"},"value":{"kind":"Variable","name":{"kind":"Name","value":"sorting"}}},{"kind":"Argument","name":{"kind":"Name","value":"tags"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tags"}}},{"kind":"Argument","name":{"kind":"Name","value":"searchText"},"value":{"kind":"Variable","name":{"kind":"Name","value":"searchText"}}},{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"mediumImage"}}]}}]}}]}}]} as unknown as DocumentNode<SliderEventsForHomeQuery, SliderEventsForHomeQueryVariables>;
 export const TagsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<TagsQuery, TagsQueryVariables>;
 export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"rememberMe"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"loginInput"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"userName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"rememberMe"},"value":{"kind":"Variable","name":{"kind":"Name","value":"rememberMe"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isSuccessful"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
-export const CreateUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createUserInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createUserInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createUserInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isSuccessfull"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<CreateUserMutation, CreateUserMutationVariables>;
+export const CreateUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createUserInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"createUserInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createUserInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isSuccessful"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<CreateUserMutation, CreateUserMutationVariables>;
 export const SignOutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SignOut"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signOut"}}]}}]} as unknown as DocumentNode<SignOutMutation, SignOutMutationVariables>;
+export const ChangePasswordDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ChangePassword"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"changePassword"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ChangePasswordInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"changePassword"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"changePassword"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isSuccessful"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<ChangePasswordMutation, ChangePasswordMutationVariables>;
+export const VerifyUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"VerifyUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"verifyUserInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"VerifyUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verifyUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"verifyUserInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"isSuccessful"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]} as unknown as DocumentNode<VerifyUserMutation, VerifyUserMutationVariables>;

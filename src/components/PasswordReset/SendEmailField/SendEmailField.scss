@@ -1,0 +1,27 @@
+#account-email-div {
+	width: 100%;
+	align-items: center;
+
+	button {
+		background-color: #2056a8;
+		border: 0.125rem solid #2056a8;
+		border-radius: 0.25rem;
+		text-align: center;
+		outline: none;
+		font-size: 0.9rem;
+		transition: all 0.4s;
+		height: 1.85rem;
+		width: 6rem;
+		padding: 0;
+		margin-left: -6.5rem;
+	}
+
+	button:hover {
+		background-color: transparent;
+	}
+
+	#email-checkmark {
+		color: rgb(13, 218, 13);
+		margin: -4rem;
+	}
+}

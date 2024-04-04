@@ -5,10 +5,11 @@ import { CreateUserInput, CreateUserMutation, CreateUserMutationVariables } from
 import Password from '../Password/Password';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ValidateCreateUserInput } from '../../Validators/UserValidators';
-import GetErrorMessage from '../../Helpers/ErrorMessages';
 import { useSelector, useDispatch } from 'react-redux';
-import { addAlert, emptyAlerts, setAlerts } from '../../Redux/Slices/alertsSlice';
+import { emptyAlerts, setAlerts } from '../../Redux/Slices/alertsSlice';
 import { RootState } from '../../Redux/store';
+import { HandleGraphQLError, HandleGraphQLSuccess } from '../../Helpers/ResponseHelper';
+import Spinner from '../Spinner/Spinner';
 
 export interface registerInput {
 	createUserInput: CreateUserInput;
@@ -21,15 +22,9 @@ export default function Register() {
 	const alerts = useSelector((state: RootState) => state.alerts);
 	const dispatch = useDispatch();
 
-	const [registerUser] = useMutation<CreateUserMutation, CreateUserMutationVariables>(REGISTER_QUERY, {
-		onCompleted: (data) => {
-			if (!data.createUser.isSuccessfull) dispatch(addAlert({ message: data.createUser.message, severity: 'error' }));
-			else dispatch(addAlert({ message: 'User successfully registered', severity: 'success' }));
-		},
-		onError: (error) => {
-			dispatch(addAlert({ message: GetErrorMessage(error), severity: 'error' }));
-			console.log('An error occurred when registering. Error Message: ' + error);
-		},
+	const [registerUser, { loading }] = useMutation<CreateUserMutation, CreateUserMutationVariables>(REGISTER_QUERY, {
+		onCompleted: (data) => HandleGraphQLSuccess(data.createUser, dispatch, 'createUser'),
+		onError: (error) => HandleGraphQLError(error, dispatch),
 	});
 
 	const onSubmit: SubmitHandler<registerInput> = (data) => {
@@ -55,9 +50,19 @@ export default function Register() {
 			<Password error={GetError('password')} {...register('createUserInput.password')} />
 			<Password error={GetError('confirmPassword')} {...register('confirmPassword')} placeholder='Confirm Password' />
 			<input className={GetError('emailAddress')} placeholder='E-Mail' {...register('createUserInput.emailAddress')} />
-			<button id='register-button' type='submit'>
-				Register
-			</button>
+			<div id='submit-box'>
+				{loading ? (
+					<Spinner style={{ justifyContent: 'center' }} />
+				) : (
+					<button id='register-button' type='submit'>
+						Register
+					</button>
+				)}
+				<p>
+					Upon registering, a verification email will be sent to the specified email address, your registration will not
+					be complete until the verification is done.
+				</p>
+			</div>
 		</form>
 	);
 }

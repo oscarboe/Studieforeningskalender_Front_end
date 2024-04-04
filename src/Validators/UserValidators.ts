@@ -50,21 +50,8 @@ export function ValidatePasswordReset(verificationCode: string, password: string
 	const component = 'passwordReset';
 	var errors: alert[] = [];
 
-	if (verificationCode.length < 1 || verificationCode.length > 64)
-		errors.push({
-			field: passwordResetFields.verificationCode,
-			message: 'Verification code must be between 1 and 64 characters',
-			severity: 'error',
-			component: component,
-		});
-
-	if (verificationCode.includes(' ') && firstEntry(errors, passwordResetFields.verificationCode))
-		errors.push({
-			field: passwordResetFields.verificationCode,
-			message: 'Verification code cannot contain spaces',
-			severity: 'error',
-			component: component,
-		});
+	var tokenError = ValidateToken(verificationCode, component, passwordResetFields.verificationCode);
+	if (tokenError.length > 0) return tokenError;
 
 	errors = errors.concat(ValidateEmailAddress(email, component, passwordResetFields.email));
 	errors = errors.concat(validatePassword(password, component, passwordResetFields.password));
@@ -139,10 +126,10 @@ export function ValidateEmailAddress(emailAddress: string, component: string, fi
 			component: component,
 		});
 
-	if (!emailAddress.includes('@uni.au.dk') && !emailAddress.includes('@post.au.dk') && firstEntry(errors, field))
+	if (!emailAddress.includes('@post.au.dk') && firstEntry(errors, field))
 		errors.push({
 			field: field,
-			message: 'Email address must be an au email',
+			message: 'Email address must be an au email and end with @post.au.dk',
 			severity: 'error',
 			component: component,
 		});
@@ -163,6 +150,20 @@ export function ValidateEmailAddress(emailAddress: string, component: string, fi
 		});
 
 	return errors;
+}
+
+export function ValidateToken(token: string, component: string, field: string): alert[] {
+	if (token.length < 1 || token.length > 255 || token.includes(' '))
+		return [
+			{
+				field: field,
+				message: 'You must be using a valid verification code to change password',
+				severity: 'error',
+				component: component,
+			},
+		];
+
+	return [];
 }
 
 enum createUserFields {
