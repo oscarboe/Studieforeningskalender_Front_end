@@ -129,7 +129,7 @@ export function ValidateEmailAddress(emailAddress: string, component: string, fi
 	if (!emailAddress.includes('@post.au.dk') && firstEntry(errors, field))
 		errors.push({
 			field: field,
-			message: 'Email address must be an au email and end with @post.au.dk',
+			message: 'Email address must be a @post.au.dk email',
 			severity: 'error',
 			component: component,
 		});
