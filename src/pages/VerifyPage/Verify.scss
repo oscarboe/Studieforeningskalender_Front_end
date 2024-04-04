@@ -1,0 +1,30 @@
+#verify-error-page {
+	position: fixed;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	width: 50rem;
+	height: 30rem;
+	margin-top: calc(var(--header-height) + 6rem);
+	gap: 2rem;
+
+	p {
+		font-size: x-large;
+		color: #666666;
+	}
+}
+
+#resend-verification-button {
+	background-color: #2056a8;
+	border: 0.125rem solid #2056a8;
+	border-radius: 0.5rem;
+	text-align: center;
+	outline: none;
+	font-size: large;
+	transition: all 0.4s;
+	width: 100%;
+}
+
+#resend-verification-button:hover {
+	background-color: transparent;
+}

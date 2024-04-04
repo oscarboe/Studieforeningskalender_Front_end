@@ -2,39 +2,37 @@ import './Login.scss';
 import { useMutation } from '@apollo/client';
 import { LOGIN_QUERY } from '../../Queries/UserQueries';
 import { LoginMutation, LoginMutationVariables } from '../../../generated/graphql/graphql';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Password from '../Password/Password';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ValidateLoginInput } from '../../Validators/UserValidators';
-import GetErrorMessage from '../../Helpers/ErrorMessages';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PasswordReset from '../PasswordReset/PasswordReset';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../Redux/store';
-import { addAlert, emptyAlerts, setAlerts } from '../../Redux/Slices/alertsSlice';
+import { emptyAlerts, setAlerts } from '../../Redux/Slices/alertsSlice';
+import { HandleGraphQLError, HandleGraphQLSuccess } from '../../Helpers/ResponseHelper';
+import Spinner from '../Spinner/Spinner';
 
 export default function Login() {
 	const { register, handleSubmit } = useForm<LoginMutationVariables>();
 	const [open, setOpen] = useState(false);
+
+	const query = new URLSearchParams(useLocation().search);
+	const email = query.get('email');
+	const token = query.get('token');
 
 	const alerts = useSelector((state: RootState) => state.alerts);
 	const dispatch = useDispatch();
 
 	const navigate = useNavigate();
 
-	const [login] = useMutation<LoginMutation, LoginMutationVariables>(LOGIN_QUERY, {
+	const [login, { loading }] = useMutation<LoginMutation, LoginMutationVariables>(LOGIN_QUERY, {
 		onCompleted: (data) => {
-			if (!data.login.isSuccessful) {
-				dispatch(addAlert({ message: data.login.message, severity: 'error' }));
-			} else {
-				dispatch(addAlert({ message: 'User successfully logged in', severity: 'success' }));
-				navigate('/');
-			}
+			HandleGraphQLSuccess(data.login, dispatch, 'login');
+			if (data.login.isSuccessful) navigate('/');
 		},
-		onError: (error) => {
-			dispatch(addAlert({ message: GetErrorMessage(error), severity: 'error' }));
-			console.log(error.message);
-		},
+		onError: (error) => HandleGraphQLError(error, dispatch),
 	});
 
 	function GetError(field: string): string {
@@ -49,6 +47,13 @@ export default function Login() {
 		else dispatch(setAlerts(errorArr));
 	};
 
+	useEffect(() => {
+		if (email && token) {
+			window.history.replaceState(null, 'Verification', '/Verify');
+			setOpen(true);
+		}
+	}, [email, token]);
+
 	return (
 		<form id='login-box' onSubmit={handleSubmit(onSubmit)}>
 			<h2 id='login-header'>Login</h2>
@@ -60,11 +65,15 @@ export default function Login() {
 					<p>Remember Me</p>
 				</div>
 				<a onClick={() => setOpen(true)}>Forgot Password?</a>
-				<PasswordReset open={open} setOpen={setOpen} />
+				<PasswordReset open={open} setOpen={setOpen} emailAddress={email ?? ''} verificationToken={token ?? ''} />
 			</div>
-			<button id='login-button' type='submit'>
-				Login
-			</button>
+			{loading ? (
+				<Spinner />
+			) : (
+				<button id='login-button' type='submit'>
+					Login
+				</button>
+			)}
 		</form>
 	);
 }
