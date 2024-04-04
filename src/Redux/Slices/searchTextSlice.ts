@@ -4,7 +4,7 @@ const searchTextSlice = createSlice({
 	name: 'tags',
 	initialState: '',
 	reducers: {
-		setSearchText: (state, action: PayloadAction<string>) => {
+		setSearchText: (_, action: PayloadAction<string>) => {
 			return action.payload;
 		},
 	},

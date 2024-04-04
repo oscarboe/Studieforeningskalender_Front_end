@@ -13,7 +13,7 @@ const alertSlice = createSlice({
 	name: 'alerts',
 	initialState,
 	reducers: {
-		setAlerts: (state, action: PayloadAction<alert[]>) => {
+		setAlerts: (_, action: PayloadAction<alert[]>) => {
 			return action.payload;
 		},
 		addAlert: (state, action: PayloadAction<alert>) => {
@@ -22,7 +22,7 @@ const alertSlice = createSlice({
 		removeAlert: (state, action: PayloadAction<alert>) => {
 			return state.filter((alert) => alert.message !== action.payload.message);
 		},
-		emptyAlerts: (state) => {
+		emptyAlerts: (_) => {
 			return [];
 		},
 	},
