@@ -24,7 +24,7 @@
 }
 
 #searchButton {
-	background-color: #2056a8; /* Filled background color by default */
+	background-color: #2056a8;
 	border: 0.125rem solid #2056a8;
 	border-radius: 0.9375rem;
 	padding: 0.625rem 3rem;
@@ -37,7 +37,7 @@
 }
 
 #searchButton:hover {
-	background-color: transparent; /* Transparent background on hover */
+	background-color: transparent;
 }
 
 #search:focus {
