@@ -8,26 +8,26 @@ import { emptyAlerts, setAlerts } from '../../Redux/Slices/alertsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../Redux/store';
 import { useMutation } from '@apollo/client';
-import { ChangePasswordMutation, ChangePasswordMutationVariables } from '../../../generated/graphql/graphql';
+import {
+	ChangePasswordInput,
+	ChangePasswordMutation,
+	ChangePasswordMutationVariables,
+} from '../../../generated/graphql/graphql';
 import { CHANGE_PASSWORD_QUERY } from '../../Queries/UserQueries';
 import { HandleGraphQLError, HandleGraphQLSuccess } from '../../Helpers/ResponseHelper';
 import SendEmailField from './SendEmailField/SendEmailField';
 import Spinner from '../Spinner/Spinner';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 interface props {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	open: boolean;
 	emailAddress?: string;
 	verificationToken?: string;
+	reCaptchaRef: React.RefObject<ReCAPTCHA>;
 }
 
-export interface formProps {
-	emailAddress: string;
-	verificationCode: string;
-	password: string;
-}
-
-export default function PasswordReset({ setOpen, open, emailAddress, verificationToken }: props) {
+export default function PasswordReset({ setOpen, open, emailAddress, verificationToken, reCaptchaRef }: props) {
 	const [changePassword, { loading }] = useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(
 		CHANGE_PASSWORD_QUERY,
 		{
@@ -39,11 +39,10 @@ export default function PasswordReset({ setOpen, open, emailAddress, verificatio
 		}
 	);
 
-	const { register, handleSubmit } = useForm<formProps>({
+	const { register, handleSubmit } = useForm<ChangePasswordInput>({
 		defaultValues: {
 			emailAddress: emailAddress,
 			verificationCode: verificationToken,
-			password: '',
 		},
 	});
 
@@ -54,12 +53,15 @@ export default function PasswordReset({ setOpen, open, emailAddress, verificatio
 		return alerts.find((x) => x.field === field && x.component === 'passwordReset') ? 'error' : '';
 	}
 
-	const onSubmit: SubmitHandler<formProps> = (data) => {
+	const onSubmit: SubmitHandler<ChangePasswordInput> = async (data) => {
 		dispatch(emptyAlerts());
-		const errors = ValidatePasswordReset(data.verificationCode, data.password, data.emailAddress);
+		const errors = ValidatePasswordReset(data);
 
-		if (errors.length === 0) changePassword({ variables: { changePassword: data } });
-		else dispatch(setAlerts(errors));
+		if (errors.length === 0) {
+			data.recaptchaToken = (await reCaptchaRef.current?.executeAsync()) ?? '';
+			changePassword({ variables: { changePassword: data } });
+			reCaptchaRef.current?.reset();
+		} else dispatch(setAlerts(errors));
 	};
 
 	return (
@@ -83,6 +85,7 @@ export default function PasswordReset({ setOpen, open, emailAddress, verificatio
 						token={verificationToken ?? ''}
 						error={GetError('emailAddress')}
 						handleSubmit={handleSubmit}
+						reCaptchaRef={reCaptchaRef}
 						{...register('emailAddress')}
 					/>
 					<Password error={GetError('password')} placeholder='New Password' {...register('password')} />

@@ -13,12 +13,12 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n\tmutation SendForgotPasswordVerificationEmail($email: String!) {\n\t\tsendForgotPasswordVerificationEmail(input: { email: $email }) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.SendForgotPasswordVerificationEmailDocument,
+    "\n\tmutation SendForgotPasswordVerificationEmail($email: String!, $reCaptchaToken: String!) {\n\t\tsendForgotPasswordVerificationEmail(input: { email: $email, reCaptchaToken: $reCaptchaToken }) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.SendForgotPasswordVerificationEmailDocument,
     "\n\tmutation ResendForgotPasswordVerificationEmail {\n\t\tresendRegistrationVerificationEmail {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.ResendForgotPasswordVerificationEmailDocument,
     "\n\tquery BigEventsForHome($sorting: String, $tags: [String!], $searchText: String) {\n\t\tevents(sorting: $sorting, tags: $tags, searchText: $searchText, take: 3) {\n\t\t\titems {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\timage\n\t\t\t}\n\t\t\ttotalCount\n\t\t}\n\t}\n": types.BigEventsForHomeDocument,
     "\n\tquery SliderEventsForHome($sorting: String, $tags: [String!], $searchText: String, $take: Int, $skip: Int) {\n\t\tevents(sorting: $sorting, tags: $tags, searchText: $searchText, take: $take, skip: $skip) {\n\t\t\titems {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\tmediumImage\n\t\t\t}\n\t\t}\n\t}\n": types.SliderEventsForHomeDocument,
     "\n\tquery Tags {\n\t\ttags {\n\t\t\tid\n\t\t\tname\n\t\t}\n\t}\n": types.TagsDocument,
-    "\n\tmutation Login($username: String!, $password: String!, $rememberMe: Boolean!) {\n\t\tlogin(loginInput: { userName: $username, password: $password, rememberMe: $rememberMe }) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.LoginDocument,
+    "\n\tmutation Login($username: String!, $password: String!, $rememberMe: Boolean!, $recaptchaToken: String!) {\n\t\tlogin(loginInput: { userName: $username, password: $password, rememberMe: $rememberMe, recaptchaToken: $recaptchaToken }) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.LoginDocument,
     "\n\tmutation CreateUser($createUserInput: CreateUserInput!) {\n\t\tcreateUser(createUserInput: $createUserInput) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.CreateUserDocument,
     "\n\tmutation SignOut {\n\t\tsignOut\n\t}\n": types.SignOutDocument,
     "\n\tmutation ChangePassword($changePassword: ChangePasswordInput!) {\n\t\tchangePassword(input: $changePassword) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.ChangePasswordDocument,
@@ -42,7 +42,7 @@ export function gql(source: string): unknown;
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n\tmutation SendForgotPasswordVerificationEmail($email: String!) {\n\t\tsendForgotPasswordVerificationEmail(input: { email: $email }) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation SendForgotPasswordVerificationEmail($email: String!) {\n\t\tsendForgotPasswordVerificationEmail(input: { email: $email }) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n"];
+export function gql(source: "\n\tmutation SendForgotPasswordVerificationEmail($email: String!, $reCaptchaToken: String!) {\n\t\tsendForgotPasswordVerificationEmail(input: { email: $email, reCaptchaToken: $reCaptchaToken }) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation SendForgotPasswordVerificationEmail($email: String!, $reCaptchaToken: String!) {\n\t\tsendForgotPasswordVerificationEmail(input: { email: $email, reCaptchaToken: $reCaptchaToken }) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -62,7 +62,7 @@ export function gql(source: "\n\tquery Tags {\n\t\ttags {\n\t\t\tid\n\t\t\tname\
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n\tmutation Login($username: String!, $password: String!, $rememberMe: Boolean!) {\n\t\tlogin(loginInput: { userName: $username, password: $password, rememberMe: $rememberMe }) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation Login($username: String!, $password: String!, $rememberMe: Boolean!) {\n\t\tlogin(loginInput: { userName: $username, password: $password, rememberMe: $rememberMe }) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n"];
+export function gql(source: "\n\tmutation Login($username: String!, $password: String!, $rememberMe: Boolean!, $recaptchaToken: String!) {\n\t\tlogin(loginInput: { userName: $username, password: $password, rememberMe: $rememberMe, recaptchaToken: $recaptchaToken }) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation Login($username: String!, $password: String!, $rememberMe: Boolean!, $recaptchaToken: String!) {\n\t\tlogin(loginInput: { userName: $username, password: $password, rememberMe: $rememberMe, recaptchaToken: $recaptchaToken }) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

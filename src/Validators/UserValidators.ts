@@ -1,4 +1,4 @@
-import { CreateUserInput, LoginMutationVariables } from '../../generated/graphql/graphql';
+import { ChangePasswordInput, CreateUserInput, LoginMutationVariables } from '../../generated/graphql/graphql';
 import { alert } from '../Redux/Slices/alertsSlice';
 
 export function ValidateCreateUserInput(input: CreateUserInput, confirmPassword: string): alert[] {
@@ -46,14 +46,15 @@ export function ValidateLoginInput(input: LoginMutationVariables): alert[] {
 }
 
 // Change verification code validations when we know what they are
-export function ValidatePasswordReset(verificationCode: string, password: string, email: string): alert[] {
+export function ValidatePasswordReset(data: ChangePasswordInput): alert[] {
+	const { verificationCode, emailAddress, password } = data;
 	const component = 'passwordReset';
 	var errors: alert[] = [];
 
 	var tokenError = ValidateToken(verificationCode, component, passwordResetFields.verificationCode);
 	if (tokenError.length > 0) return tokenError;
 
-	errors = errors.concat(ValidateEmailAddress(email, component, passwordResetFields.email));
+	errors = errors.concat(ValidateEmailAddress(emailAddress, component, passwordResetFields.email));
 	errors = errors.concat(validatePassword(password, component, passwordResetFields.password));
 
 	return errors;
