@@ -13,8 +13,9 @@ import { RootState } from '../../Redux/store';
 import { emptyAlerts, setAlerts } from '../../Redux/Slices/alertsSlice';
 import { HandleGraphQLError, HandleGraphQLSuccess } from '../../Helpers/ResponseHelper';
 import Spinner from '../Spinner/Spinner';
+import ReCAPTCHA from 'react-google-recaptcha';
 
-export default function Login() {
+export default function Login({ reCaptchaRef }: { reCaptchaRef: React.RefObject<ReCAPTCHA> }) {
 	const { register, handleSubmit } = useForm<LoginMutationVariables>();
 	const [open, setOpen] = useState(false);
 
@@ -24,7 +25,6 @@ export default function Login() {
 
 	const alerts = useSelector((state: RootState) => state.alerts);
 	const dispatch = useDispatch();
-
 	const navigate = useNavigate();
 
 	const [login, { loading }] = useMutation<LoginMutation, LoginMutationVariables>(LOGIN_QUERY, {
@@ -39,12 +39,15 @@ export default function Login() {
 		return alerts.find((x) => x.field === field && x.component === 'login') ? 'error' : '';
 	}
 
-	const onSubmit: SubmitHandler<LoginMutationVariables> = (data) => {
+	const onSubmit: SubmitHandler<LoginMutationVariables> = async (data) => {
 		dispatch(emptyAlerts());
 		const errorArr = ValidateLoginInput(data);
 
-		if (errorArr.length === 0) login({ variables: data });
-		else dispatch(setAlerts(errorArr));
+		if (errorArr.length === 0) {
+			data.recaptchaToken = (await reCaptchaRef.current?.executeAsync()) ?? '';
+			await login({ variables: data });
+			reCaptchaRef.current?.reset();
+		} else dispatch(setAlerts(errorArr));
 	};
 
 	useEffect(() => {
@@ -65,7 +68,13 @@ export default function Login() {
 					<p>Remember Me</p>
 				</div>
 				<a onClick={() => setOpen(true)}>Forgot Password?</a>
-				<PasswordReset open={open} setOpen={setOpen} emailAddress={email ?? ''} verificationToken={token ?? ''} />
+				<PasswordReset
+					open={open}
+					setOpen={setOpen}
+					emailAddress={email ?? ''}
+					verificationToken={token ?? ''}
+					reCaptchaRef={reCaptchaRef}
+				/>
 			</div>
 			{loading ? (
 				<Spinner />

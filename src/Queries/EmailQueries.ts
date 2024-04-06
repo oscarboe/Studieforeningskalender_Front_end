@@ -1,8 +1,8 @@
 import { gql } from '../../generated/graphql';
 
 export const SEND_FORGOT_PASSWORD_VERIFICATION_CODE = gql(`
-	mutation SendForgotPasswordVerificationEmail($email: String!) {
-		sendForgotPasswordVerificationEmail(input: { email: $email }) {
+	mutation SendForgotPasswordVerificationEmail($email: String!, $reCaptchaToken: String!) {
+		sendForgotPasswordVerificationEmail(input: { email: $email, reCaptchaToken: $reCaptchaToken }) {
 			isSuccessful
 			message
 		}

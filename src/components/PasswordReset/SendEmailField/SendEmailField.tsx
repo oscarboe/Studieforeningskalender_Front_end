@@ -1,6 +1,7 @@
 import './SendEmailField.scss';
 import { useMutation } from '@apollo/client';
 import {
+	ChangePasswordInput,
 	SendForgotPasswordVerificationEmailMutation,
 	SendForgotPasswordVerificationEmailMutationVariables,
 } from '../../../../generated/graphql/graphql';
@@ -11,18 +12,19 @@ import { emptyAlerts, setAlerts } from '../../../Redux/Slices/alertsSlice';
 import { ValidateEmailAddress, ValidateToken } from '../../../Validators/UserValidators';
 import { useDispatch } from 'react-redux';
 import { SubmitHandler, UseFormHandleSubmit } from 'react-hook-form';
-import { formProps } from '../PasswordReset';
 import { forwardRef } from 'react';
 import { FiCheckCircle } from 'react-icons/fi';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 interface props {
-	handleSubmit: UseFormHandleSubmit<formProps, undefined>;
+	handleSubmit: UseFormHandleSubmit<ChangePasswordInput, undefined>;
 	error: string;
 	token: string;
+	reCaptchaRef: React.RefObject<ReCAPTCHA>;
 }
 
 const SendEmailField = forwardRef<HTMLInputElement, props & React.InputHTMLAttributes<HTMLInputElement>>(
-	({ handleSubmit, error, token, ...inputProps }, ref) => {
+	({ handleSubmit, error, token, reCaptchaRef, ...inputProps }, ref) => {
 		const dispatch = useDispatch();
 
 		const [sendVerification, { loading }] = useMutation<
@@ -34,12 +36,20 @@ const SendEmailField = forwardRef<HTMLInputElement, props & React.InputHTMLAttri
 			onError: (error) => HandleGraphQLError(error, dispatch),
 		});
 
-		const onSubmitEmail: SubmitHandler<formProps> = (data) => {
+		const onSubmitEmail: SubmitHandler<ChangePasswordInput> = async (data) => {
 			dispatch(emptyAlerts());
 			var errors = ValidateEmailAddress(data.emailAddress, 'passwordReset', 'emailAddress');
 
-			if (errors.length === 0) sendVerification({ variables: { email: data.emailAddress } });
-			else dispatch(setAlerts(errors));
+			if (errors.length === 0) {
+				data.recaptchaToken = (await reCaptchaRef.current?.executeAsync()) ?? '';
+				sendVerification({
+					variables: {
+						email: data.emailAddress,
+						reCaptchaToken: data.recaptchaToken,
+					},
+				});
+				reCaptchaRef.current?.reset();
+			} else dispatch(setAlerts(errors));
 		};
 
 		return (

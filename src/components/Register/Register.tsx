@@ -10,13 +10,14 @@ import { emptyAlerts, setAlerts } from '../../Redux/Slices/alertsSlice';
 import { RootState } from '../../Redux/store';
 import { HandleGraphQLError, HandleGraphQLSuccess } from '../../Helpers/ResponseHelper';
 import Spinner from '../Spinner/Spinner';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 export interface registerInput {
 	createUserInput: CreateUserInput;
 	confirmPassword: string;
 }
 
-export default function Register() {
+export default function Register({ reCaptchaRef }: { reCaptchaRef: React.RefObject<ReCAPTCHA> }) {
 	const { register, handleSubmit } = useForm<registerInput>();
 
 	const alerts = useSelector((state: RootState) => state.alerts);
@@ -27,12 +28,15 @@ export default function Register() {
 		onError: (error) => HandleGraphQLError(error, dispatch),
 	});
 
-	const onSubmit: SubmitHandler<registerInput> = (data) => {
+	const onSubmit: SubmitHandler<registerInput> = async (data) => {
 		dispatch(emptyAlerts());
 		const errors = ValidateCreateUserInput(data.createUserInput, data.confirmPassword);
 
-		if (errors.length === 0) registerUser({ variables: { createUserInput: data.createUserInput } });
-		else dispatch(setAlerts(errors));
+		if (errors.length === 0) {
+			data.createUserInput.recaptchaToken = (await reCaptchaRef.current?.executeAsync()) ?? '';
+			registerUser({ variables: { createUserInput: data.createUserInput } });
+			reCaptchaRef.current?.reset();
+		} else dispatch(setAlerts(errors));
 	};
 
 	function GetError(field: string): string {

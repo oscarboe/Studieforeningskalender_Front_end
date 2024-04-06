@@ -1,8 +1,8 @@
 import { gql } from '../../generated/graphql';
 
 export const LOGIN_QUERY = gql(`
-	mutation Login($username: String!, $password: String!, $rememberMe: Boolean!) {
-		login(loginInput: { userName: $username, password: $password, rememberMe: $rememberMe }) {
+	mutation Login($username: String!, $password: String!, $rememberMe: Boolean!, $recaptchaToken: String!) {
+		login(loginInput: { userName: $username, password: $password, rememberMe: $rememberMe, recaptchaToken: $recaptchaToken }) {
 			isSuccessful
 			message
 		}
