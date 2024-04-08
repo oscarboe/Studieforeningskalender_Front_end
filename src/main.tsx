@@ -5,6 +5,7 @@ import App from './App.tsx';
 
 import { Provider } from 'react-redux';
 import store from './Redux/store';
+import { initFacebookSdk } from './Helpers/facebook.ts';
 
 var uri = 'https://backend.studieforeningskalender.com';
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') uri = 'http://localhost:5022/graphql';
@@ -19,7 +20,7 @@ const client = new ApolloClient({
 	}),
 	cache: new InMemoryCache(),
 });
-
+initFacebookSdk();
 const rootElement = document.getElementById('root');
 ReactDOM.render(
 	<ApolloProvider client={client}>
