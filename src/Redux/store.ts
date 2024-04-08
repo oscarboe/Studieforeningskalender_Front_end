@@ -4,6 +4,7 @@ import tagsSlice from './Slices/tagsSlice';
 import updateSlice from './Slices/updateSlice';
 import searchTextSlice from './Slices/searchTextSlice';
 import sortPopularSlice from './Slices/sortPopularSlice';
+import loggedInSlice from './Slices/loggedInSlice';
 
 const store = configureStore({
 	reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
 		update: updateSlice,
 		searchText: searchTextSlice,
 		sortPopular: sortPopularSlice,
+		loggedIn: loggedInSlice,
 	},
 });
 
