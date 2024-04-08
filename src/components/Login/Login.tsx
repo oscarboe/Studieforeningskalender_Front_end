@@ -14,6 +14,7 @@ import { emptyAlerts, setAlerts } from '../../Redux/Slices/alertsSlice';
 import { HandleGraphQLError, HandleGraphQLSuccess } from '../../Helpers/ResponseHelper';
 import Spinner from '../Spinner/Spinner';
 import ReCAPTCHA from 'react-google-recaptcha';
+import { setLoggedIn } from '../../Redux/Slices/loggedInSlice';
 
 export default function Login({ reCaptchaRef }: { reCaptchaRef: React.RefObject<ReCAPTCHA> }) {
 	const { register, handleSubmit } = useForm<LoginMutationVariables>();
@@ -30,7 +31,10 @@ export default function Login({ reCaptchaRef }: { reCaptchaRef: React.RefObject<
 	const [login, { loading }] = useMutation<LoginMutation, LoginMutationVariables>(LOGIN_QUERY, {
 		onCompleted: (data) => {
 			HandleGraphQLSuccess(data.login, dispatch, 'login');
-			if (data.login.isSuccessful) navigate('/');
+			if (data.login.isSuccessful) {
+				dispatch(setLoggedIn(true));
+				navigate('/');
+			}
 		},
 		onError: (error) => HandleGraphQLError(error, dispatch),
 	});

@@ -23,6 +23,7 @@ const documents = {
     "\n\tmutation SignOut {\n\t\tsignOut\n\t}\n": types.SignOutDocument,
     "\n\tmutation ChangePassword($changePassword: ChangePasswordInput!) {\n\t\tchangePassword(input: $changePassword) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.ChangePasswordDocument,
     "\n\tmutation VerifyUser($verifyUserInput: VerifyUserInput!) {\n\t\tverifyUser(input: $verifyUserInput) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.VerifyUserDocument,
+    "\n\tquery ValidateSession {\n\t\tvalidateSession\n\t}\n": types.ValidateSessionDocument,
 };
 
 /**
@@ -79,6 +80,10 @@ export function gql(source: "\n\tmutation ChangePassword($changePassword: Change
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n\tmutation VerifyUser($verifyUserInput: VerifyUserInput!) {\n\t\tverifyUser(input: $verifyUserInput) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation VerifyUser($verifyUserInput: VerifyUserInput!) {\n\t\tverifyUser(input: $verifyUserInput) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n\tquery ValidateSession {\n\t\tvalidateSession\n\t}\n"): (typeof documents)["\n\tquery ValidateSession {\n\t\tvalidateSession\n\t}\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

@@ -2,15 +2,22 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { IoCalendarOutline } from 'react-icons/io5';
 import './Navbar.css';
 import ToggleSlider from '../ToggleSlider/ToggleSlider';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changeSorting } from '../../Redux/Slices/sortPopularSlice';
+import { useQuery } from '@apollo/client';
+import { VALIDATE_SESSION } from '../../Queries/UserQueries';
+import { RootState } from '../../Redux/store';
+import { setLoggedIn } from '../../Redux/Slices/loggedInSlice';
 
 const Navbar = () => {
-	const [loggedIn] = useState(false);
 	const location = useLocation();
-
+	const loggedIn = useSelector((state: RootState) => state.loggedIn);
 	const dispatch = useDispatch();
+
+	const {} = useQuery(VALIDATE_SESSION, {
+		onCompleted: () => dispatch(setLoggedIn(true)),
+		onError: () => dispatch(setLoggedIn(false)),
+	});
 
 	return (
 		<nav className={(location.pathname === '/' ? 'isHome ' : '') + 'nav container'}>

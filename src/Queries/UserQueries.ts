@@ -41,3 +41,9 @@ export const VERIFY_USER = gql(`
 		}
 	}
 `);
+
+export const VALIDATE_SESSION = gql(`
+	query ValidateSession {
+		validateSession
+	}
+`);
