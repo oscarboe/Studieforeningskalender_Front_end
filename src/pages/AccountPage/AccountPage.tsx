@@ -10,8 +10,11 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { GetUserQuery, UpdateUserInput } from '../../../generated/graphql/graphql';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { ValidateUpdateUser } from '../../Validators/UserValidators';
+import DeleteUserModal from '../../components/DeleteUserModal/DeleteUserModal';
+import { HandleGraphQLError, HandleGraphQLSuccess } from '../../Helpers/ResponseHelper';
 
 export default function AccountPage() {
+	const [open, setOpen] = useState(false);
 	const isLoggedIn = useSelector((state: RootState) => state.loggedIn);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -25,7 +28,10 @@ export default function AccountPage() {
 	const { register, handleSubmit } = useForm<UpdateUserInput>();
 
 	const [getUserInfo] = useLazyQuery(GET_USER_INFO, { onCompleted: (data) => setPlaceholders(data) });
-	const [updateUser] = useMutation(UPDATE_USER);
+	const [updateUser] = useMutation(UPDATE_USER, {
+		onCompleted: (data) => HandleGraphQLSuccess(data.updateUser, dispatch, 'updateUser'),
+		onError: (error) => HandleGraphQLError(error, dispatch),
+	});
 
 	useEffect(() => {
 		if (!isLoggedIn) {
@@ -45,6 +51,11 @@ export default function AccountPage() {
 			await updateUser({ variables: { updateUser: data } });
 			reCaptchaRef.current?.reset();
 		} else dispatch(setAlerts(errorArr));
+	};
+
+	const onDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		e.preventDefault();
+		setOpen(true);
 	};
 
 	return (
@@ -67,9 +78,14 @@ export default function AccountPage() {
 					<h3>Email Address</h3>
 					<input type='text' className='email-input' placeholder={placeholders.userInfo?.emailAddress} readOnly />
 				</div>
-				<button type='submit'>Update Profile</button>
+				<div id='account-buttons'>
+					<button type='submit'>Update Profile</button>
+					<button id='delete-profile-button' onClick={onDelete}>
+						Delete Profile
+					</button>
+				</div>
 			</form>
-			<button id='delete-profile-button'>Delete Profile</button>
+			<DeleteUserModal open={open} setOpen={setOpen} />
 			<ReCAPTCHA sitekey={process.env.REACT_APP_SITE_KEY ?? ''} size='invisible' ref={reCaptchaRef} />
 		</div>
 	);

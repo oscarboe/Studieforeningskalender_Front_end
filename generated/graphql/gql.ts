@@ -26,6 +26,7 @@ const documents = {
     "\n\tquery ValidateSession {\n\t\tvalidateSession\n\t}\n": types.ValidateSessionDocument,
     "\n\tquery GetUser {\n\t\tuserInfo {\n\t\t\tuserName\n\t\t\tfirstName\n\t\t\tlastName\n\t\t\temailAddress\n\t\t}\n\t}\n": types.GetUserDocument,
     "\n\tmutation UpdateUser($updateUser: UpdateUserInput!) {\n\t\tupdateUser(updateUserInput: $updateUser) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.UpdateUserDocument,
+    "\n\tmutation DeleteUser {\n\t\tdeleteUser {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.DeleteUserDocument,
 };
 
 /**
@@ -94,6 +95,10 @@ export function gql(source: "\n\tquery GetUser {\n\t\tuserInfo {\n\t\t\tuserName
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n\tmutation UpdateUser($updateUser: UpdateUserInput!) {\n\t\tupdateUser(updateUserInput: $updateUser) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation UpdateUser($updateUser: UpdateUserInput!) {\n\t\tupdateUser(updateUserInput: $updateUser) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n\tmutation DeleteUser {\n\t\tdeleteUser {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation DeleteUser {\n\t\tdeleteUser {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};
