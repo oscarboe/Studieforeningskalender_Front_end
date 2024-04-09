@@ -1,0 +1,56 @@
+#account-page {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	justify-content: flex-start;
+	align-items: center;
+	margin-top: calc(var(--header-height) + 4rem);
+	flex-direction: column;
+}
+
+#account-form {
+	display: flex;
+	flex-direction: column;
+	height: 70%;
+	width: 30%;
+	min-width: 20rem;
+	justify-content: space-between;
+
+	h1 {
+		font-size: 2.5rem;
+		margin: 0;
+	}
+
+	button {
+		margin-top: 2rem;
+		background-color: #2056a8;
+		border: 0.125rem solid #2056a8;
+		border-radius: 0.25rem;
+		text-align: center;
+		outline: none;
+		font-size: large;
+		transition: all 0.4s;
+		width: 100%;
+	}
+
+	button:hover {
+		background-color: transparent;
+	}
+}
+
+.account-field {
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: flex-start;
+
+	.email-input {
+		cursor: default;
+	}
+
+	h3 {
+		font-size: 0.9rem;
+		margin-top: 0;
+		margin-bottom: 0.5rem;
+		color: rgb(228 228 228);
+	}
+}

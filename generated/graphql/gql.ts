@@ -24,6 +24,8 @@ const documents = {
     "\n\tmutation ChangePassword($changePassword: ChangePasswordInput!) {\n\t\tchangePassword(input: $changePassword) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.ChangePasswordDocument,
     "\n\tmutation VerifyUser($verifyUserInput: VerifyUserInput!) {\n\t\tverifyUser(input: $verifyUserInput) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.VerifyUserDocument,
     "\n\tquery ValidateSession {\n\t\tvalidateSession\n\t}\n": types.ValidateSessionDocument,
+    "\n\tquery GetUser {\n\t\tuserInfo {\n\t\t\tuserName\n\t\t\tfirstName\n\t\t\tlastName\n\t\t\temailAddress\n\t\t}\n\t}\n": types.GetUserDocument,
+    "\n\tmutation UpdateUser($updateUser: UpdateUserInput!) {\n\t\tupdateUser(updateUserInput: $updateUser) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.UpdateUserDocument,
 };
 
 /**
@@ -84,6 +86,14 @@ export function gql(source: "\n\tmutation VerifyUser($verifyUserInput: VerifyUse
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n\tquery ValidateSession {\n\t\tvalidateSession\n\t}\n"): (typeof documents)["\n\tquery ValidateSession {\n\t\tvalidateSession\n\t}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n\tquery GetUser {\n\t\tuserInfo {\n\t\t\tuserName\n\t\t\tfirstName\n\t\t\tlastName\n\t\t\temailAddress\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery GetUser {\n\t\tuserInfo {\n\t\t\tuserName\n\t\t\tfirstName\n\t\t\tlastName\n\t\t\temailAddress\n\t\t}\n\t}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n\tmutation UpdateUser($updateUser: UpdateUserInput!) {\n\t\tupdateUser(updateUserInput: $updateUser) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation UpdateUser($updateUser: UpdateUserInput!) {\n\t\tupdateUser(updateUserInput: $updateUser) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

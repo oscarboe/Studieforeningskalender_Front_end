@@ -40,9 +40,15 @@ const Navbar = () => {
 					</NavLink>
 				</li>
 				<li className='nav__item'>
-					<NavLink to='/login' className='nav__link'>
-						{loggedIn ? <button id='profileButton'>Profil</button> : <button id='loginButton'>Login</button>}
-					</NavLink>
+					{loggedIn ? (
+						<NavLink to='/Account' className='nav__link'>
+							<button id='profileButton'>Profil</button>
+						</NavLink>
+					) : (
+						<NavLink to='/login' className='nav__link'>
+							<button id='loginButton'>Login</button>
+						</NavLink>
+					)}
 				</li>
 			</ul>
 		</nav>

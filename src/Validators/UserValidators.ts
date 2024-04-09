@@ -1,4 +1,9 @@
-import { ChangePasswordInput, CreateUserInput, LoginMutationVariables } from '../../generated/graphql/graphql';
+import {
+	ChangePasswordInput,
+	CreateUserInput,
+	LoginMutationVariables,
+	UpdateUserInput,
+} from '../../generated/graphql/graphql';
 import { alert } from '../Redux/Slices/alertsSlice';
 
 export function ValidateCreateUserInput(input: CreateUserInput, confirmPassword: string): alert[] {
@@ -56,6 +61,30 @@ export function ValidatePasswordReset(data: ChangePasswordInput): alert[] {
 
 	errors = errors.concat(ValidateEmailAddress(emailAddress, component, passwordResetFields.email));
 	errors = errors.concat(validatePassword(password, component, passwordResetFields.password));
+
+	return errors;
+}
+
+export function ValidateUpdateUser({ firstName, lastName, userName }: UpdateUserInput): alert[] {
+	var errors: alert[] = [];
+	const component = 'updateUser';
+
+	if (userName) errors = validateUsername(userName, component, updateUserFieds.username);
+
+	if (firstName && (firstName.length < 1 || firstName.length > 50))
+		errors.push({
+			field: updateUserFieds.firstName,
+			message: 'First name must be between 1 and 50 characters',
+			severity: 'error',
+			component: component,
+		});
+	if (lastName && (lastName.length < 1 || lastName.length > 50))
+		errors.push({
+			field: updateUserFieds.lastName,
+			message: 'Last name must be between 1 and 50 characters',
+			severity: 'error',
+			component: component,
+		});
 
 	return errors;
 }
@@ -185,4 +214,10 @@ enum passwordResetFields {
 	email = 'emailAddress',
 	verificationCode = 'verificationCode',
 	password = 'password',
+}
+
+enum updateUserFieds {
+	firstName = 'firstName',
+	lastName = 'lastName',
+	username = 'username',
 }
