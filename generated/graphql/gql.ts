@@ -17,6 +17,7 @@ const documents = {
     "\n\tmutation ResendForgotPasswordVerificationEmail {\n\t\tresendRegistrationVerificationEmail {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.ResendForgotPasswordVerificationEmailDocument,
     "\n\tquery BigEventsForHome($sorting: String, $tags: [String!], $searchText: String) {\n\t\tevents(sorting: $sorting, tags: $tags, searchText: $searchText, take: 3) {\n\t\t\titems {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\timage\n\t\t\t}\n\t\t\ttotalCount\n\t\t}\n\t}\n": types.BigEventsForHomeDocument,
     "\n\tquery SliderEventsForHome($sorting: String, $tags: [String!], $searchText: String, $take: Int, $skip: Int) {\n\t\tevents(sorting: $sorting, tags: $tags, searchText: $searchText, take: $take, skip: $skip) {\n\t\t\titems {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\tmediumImage\n\t\t\t}\n\t\t}\n\t}\n": types.SliderEventsForHomeDocument,
+    "\n\tquery CalendarEvents($startTime: DateTime!, $endTime: DateTime!) {\n\t\tevents(where: {and: [{startTime: {gte: $startTime}}, {startTime: {lte: $endTime}}]}) {\n\t\t\tevents: items {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\tstart: startTime\n\t\t\t\tend: endTime\n\t\t\t\tsmallImage\n\t\t\t}\n\t\t}\n\t}\n": types.CalendarEventsDocument,
     "\n\tquery Tags {\n\t\ttags {\n\t\t\tid\n\t\t\tname\n\t\t}\n\t}\n": types.TagsDocument,
     "\n\tmutation Login($username: String!, $password: String!, $rememberMe: Boolean!, $recaptchaToken: String!) {\n\t\tlogin(loginInput: { userName: $username, password: $password, rememberMe: $rememberMe, recaptchaToken: $recaptchaToken }) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.LoginDocument,
     "\n\tmutation CreateUser($createUserInput: CreateUserInput!) {\n\t\tcreateUser(createUserInput: $createUserInput) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.CreateUserDocument,
@@ -59,6 +60,10 @@ export function gql(source: "\n\tquery BigEventsForHome($sorting: String, $tags:
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n\tquery SliderEventsForHome($sorting: String, $tags: [String!], $searchText: String, $take: Int, $skip: Int) {\n\t\tevents(sorting: $sorting, tags: $tags, searchText: $searchText, take: $take, skip: $skip) {\n\t\t\titems {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\tmediumImage\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery SliderEventsForHome($sorting: String, $tags: [String!], $searchText: String, $take: Int, $skip: Int) {\n\t\tevents(sorting: $sorting, tags: $tags, searchText: $searchText, take: $take, skip: $skip) {\n\t\t\titems {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\tmediumImage\n\t\t\t}\n\t\t}\n\t}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n\tquery CalendarEvents($startTime: DateTime!, $endTime: DateTime!) {\n\t\tevents(where: {and: [{startTime: {gte: $startTime}}, {startTime: {lte: $endTime}}]}) {\n\t\t\tevents: items {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\tstart: startTime\n\t\t\t\tend: endTime\n\t\t\t\tsmallImage\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery CalendarEvents($startTime: DateTime!, $endTime: DateTime!) {\n\t\tevents(where: {and: [{startTime: {gte: $startTime}}, {startTime: {lte: $endTime}}]}) {\n\t\t\tevents: items {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\tstart: startTime\n\t\t\t\tend: endTime\n\t\t\t\tsmallImage\n\t\t\t}\n\t\t}\n\t}\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
