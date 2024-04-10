@@ -1,0 +1,49 @@
+#calendar {
+	border-radius: 24px;
+	background: #242424;
+	box-shadow: 10px 10px 13px #1e1e1e, -10px -10px 13px #2a2a2a;
+	width: 70%;
+	height: 80%;
+	flex-direction: column;
+	padding: 1.5rem 2rem;
+
+	#selectors {
+		justify-content: space-between;
+		align-items: center;
+
+		#navigate {
+			height: 10%;
+			justify-content: space-between;
+			align-items: center;
+
+			svg {
+				cursor: pointer;
+				width: 1.25rem;
+				height: 1.25rem;
+				color: var(--ria-light-blue);
+			}
+
+			.double-arrow {
+				svg {
+					margin: 0 -0.4rem;
+				}
+			}
+
+			#date {
+				margin: 0 0.4rem;
+				font-size: 1.2rem;
+			}
+		}
+
+		#view {
+			border: none;
+			background-color: transparent;
+			font-size: 1rem;
+			outline: none;
+
+			option {
+				background-color: var(--background-color);
+			}
+		}
+	}
+}

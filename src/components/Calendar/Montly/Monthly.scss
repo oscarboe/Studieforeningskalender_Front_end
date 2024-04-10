@@ -1,0 +1,44 @@
+#calendar-month {
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	margin-top: 1.5rem;
+
+	#month-weekDays {
+		justify-content: space-between;
+		width: 90%;
+		color: var(--ria-light-blue);
+
+		p {
+			width: 2rem;
+		}
+	}
+
+	#weeks {
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+
+		.week {
+			width: 100%;
+			height: 100%;
+			justify-content: space-between;
+			align-items: flex-start;
+
+			p {
+				margin: 0;
+				outline: #666666 solid 0.05rem;
+				height: 100%;
+				width: calc(100% / 7);
+			}
+
+			.outSideMonth {
+				color: #666666;
+			}
+		}
+	}
+}
