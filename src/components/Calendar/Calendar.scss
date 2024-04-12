@@ -4,6 +4,7 @@
 	box-shadow: 10px 10px 13px #1e1e1e, -10px -10px 13px #2a2a2a;
 	width: 70%;
 	height: 80%;
+	min-width: 40rem;
 	flex-direction: column;
 	padding: 1.5rem 2rem;
 
@@ -11,39 +12,19 @@
 		justify-content: space-between;
 		align-items: center;
 
-		#navigate {
-			height: 10%;
-			justify-content: space-between;
-			align-items: center;
-
-			svg {
-				cursor: pointer;
-				width: 1.25rem;
-				height: 1.25rem;
-				color: var(--ria-light-blue);
-			}
-
-			.double-arrow {
-				svg {
-					margin: 0 -0.4rem;
-				}
-			}
-
-			#date {
-				margin: 0 0.4rem;
-				font-size: 1.2rem;
-			}
+		#reset-date-button {
+			background-color: #2056a8;
+			border: 0.125rem solid #2056a8;
+			border-radius: 0.25rem;
+			text-align: center;
+			outline: none;
+			font-size: large;
+			transition: all 0.4s;
+			width: 9rem;
 		}
 
-		#view {
-			border: none;
+		#reset-date-button:hover {
 			background-color: transparent;
-			font-size: 1rem;
-			outline: none;
-
-			option {
-				background-color: var(--background-color);
-			}
 		}
 	}
 }

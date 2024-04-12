@@ -8,11 +8,11 @@
 
 	#month-weekDays {
 		justify-content: space-between;
-		width: 90%;
+		width: 100%;
 		color: var(--ria-light-blue);
 
 		p {
-			width: 2rem;
+			width: calc(100% / 7);
 		}
 	}
 
@@ -29,15 +29,41 @@
 			justify-content: space-between;
 			align-items: flex-start;
 
-			p {
-				margin: 0;
+			.day {
 				outline: #666666 solid 0.05rem;
 				height: 100%;
 				width: calc(100% / 7);
-			}
+				flex-direction: column;
+				align-items: center;
+				position: relative;
 
-			.outSideMonth {
-				color: #666666;
+				p {
+					margin: 0;
+					width: 100%;
+				}
+
+				.outSideMonth {
+					color: #666666;
+				}
+
+				.monthly-day-events {
+					width: 80%;
+					height: 100%;
+					justify-content: center;
+					position: relative;
+					z-index: 10;
+
+					img {
+						width: 70%;
+						height: 80%;
+						aspect-ratio: 16/9;
+						object-fit: cover;
+						border-radius: 0.5rem;
+						position: relative;
+						z-index: 10;
+						margin-top: -1px;
+					}
+				}
 			}
 		}
 	}

@@ -1,0 +1,23 @@
+#navigate {
+	height: 10%;
+	justify-content: space-between;
+	align-items: center;
+
+	svg {
+		cursor: pointer;
+		width: 1.25rem;
+		height: 1.25rem;
+		color: var(--ria-light-blue);
+	}
+
+	.double-arrow {
+		svg {
+			margin: 0 -0.4rem;
+		}
+	}
+
+	#date {
+		margin: 0 0.4rem;
+		font-size: 1.2rem;
+	}
+}

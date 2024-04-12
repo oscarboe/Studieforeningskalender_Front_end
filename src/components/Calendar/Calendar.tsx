@@ -3,62 +3,67 @@ import './Calendar.scss';
 import Monthly from './Montly/Monthly';
 import Weekly from './Weekly/Weekly';
 import Daily from './Daily/Daily';
-import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
 import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 import weekday from 'dayjs/plugin/weekday';
+import Navigate from './Navigate/Navigate';
+import Select from './Select/Select';
+import { CalendarEventsQuery, CalendarEventsQueryVariables } from '../../../generated/graphql/graphql';
+import { useLazyQuery } from '@apollo/client';
+import { CALENDAR_EVENTS } from '../../Queries/EventQueries';
+import { useDispatch } from 'react-redux';
+import { addAlert } from '../../Redux/Slices/alertsSlice';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
 dayjs.extend(localeData);
 dayjs.extend(weekday);
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault('Euriope/Copenhagen');
+
+export type EventDto = {
+	id: string;
+	title: string;
+	description: string;
+	startTime: Date;
+	endTime: Date;
+	smallImage: string;
+};
 
 export default function Calendar() {
 	const [view, setView] = useState<'Monthly' | 'Weekly' | 'Daily'>('Monthly');
 	const [date, setDate] = useState<string>(dayjs.months()[dayjs().month()] + ', ' + dayjs().year());
 	const [startDate, setStartDate] = useState<Date>(dayjs().startOf('month').toDate());
 	const [endDate, setEndDate] = useState<Date>(dayjs().endOf('month').toDate());
+	const [events, setEvents] = useState<EventDto[]>([]);
+	const dispatch = useDispatch();
+
+	const [getEvents] = useLazyQuery<CalendarEventsQuery, CalendarEventsQueryVariables>(CALENDAR_EVENTS, {
+		onCompleted: (data) => {
+			if (data.events?.items != null) setEvents(data.events.items);
+			else
+				dispatch(
+					addAlert({
+						message: `An error occurred while fetching the event for the specified ${view.toLowerCase()}`,
+						severity: 'error',
+					})
+				);
+		},
+	});
 
 	const renderSwitch = useCallback((): JSX.Element => {
 		switch (view) {
 			case 'Monthly':
-				return <Monthly startDate={startDate} endDate={endDate} />;
+				return <Monthly startDate={startDate} endDate={endDate} events={events} />;
 			case 'Weekly':
-				return <Weekly />;
+				return <Weekly startDate={startDate} endDate={endDate} />;
 			case 'Daily':
 				return <Daily />;
 			default:
 				return <h1>An error occurred, try again later</h1>;
 		}
-	}, [view]);
-
-	const changeDate = (dir: 'next' | 'prev') => {
-		const unit: dayjs.ManipulateType = view == 'Monthly' ? 'month' : view == 'Weekly' ? 'week' : 'day';
-
-		var newStartDate = dayjs(startDate)
-			.add(dir === 'next' ? 1 : -1, unit)
-			.toDate();
-		var newEndDate = dayjs(endDate)
-			.add(dir === 'next' ? 1 : -1, unit)
-			.toDate();
-
-		setStartDate(newStartDate);
-		setEndDate(newEndDate);
-
-		setNewDate(view, newStartDate, newEndDate);
-	};
-
-	const changeView = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		setView(e.currentTarget.value);
-		const unit: dayjs.ManipulateType =
-			e.currentTarget.value == 'Monthly' ? 'month' : e.currentTarget.value == 'Weekly' ? 'week' : 'day';
-
-		const newStartDate = dayjs(startDate).startOf(unit).toDate();
-		const newEndDate = dayjs(startDate).endOf(unit).toDate();
-
-		setStartDate(newStartDate);
-		setEndDate(newEndDate);
-
-		setNewDate(e.currentTarget.value, newStartDate, newEndDate);
-	};
+	}, [view, startDate, events]);
 
 	const setNewDate = (control: string, newStartDate: Date, newEndDate: Date) => {
 		switch (control) {
@@ -83,27 +88,49 @@ export default function Calendar() {
 		}
 	};
 
+	const resetDate = () => {
+		const newStartDate = dayjs().startOf('month').toDate();
+		const newEndDate = dayjs().endOf('month').toDate();
+
+		setStartDate(newStartDate);
+		setEndDate(newEndDate);
+		setNewDate(view, newStartDate, newEndDate);
+	};
+
+	useEffect(() => {
+		if (view === 'Monthly') {
+			const newStartDate = dayjs(startDate).startOf('month').startOf('week').add(1, 'day');
+			const lastDayIsSunday = dayjs(endDate).endOf('month').weekday() === 0;
+			const newEndDate = !lastDayIsSunday
+				? dayjs(endDate).endOf('month').endOf('week').add(1, 'day')
+				: dayjs(endDate).endOf('month').endOf('week').subtract(1, 'week').add(1, 'day');
+
+			getEvents({ variables: { startTime: newStartDate.toDate(), endTime: newEndDate.toDate() } });
+		} else getEvents({ variables: { startTime: startDate, endTime: endDate } });
+	}, [startDate]);
+
 	return (
 		<div id='calendar'>
 			<div id='selectors'>
-				<div id='navigate'>
-					<div className='double-arrow'>
-						<IoIosArrowBack onClick={() => changeDate('prev')} />
-						<IoIosArrowBack onClick={() => changeDate('prev')} />
-					</div>
-					<IoIosArrowBack onClick={() => changeDate('prev')} />
-					<p id='date'>{date}</p>
-					<IoIosArrowForward onClick={() => changeDate('next')} />
-					<div className='double-arrow'>
-						<IoIosArrowForward onClick={() => changeDate('next')} />
-						<IoIosArrowForward onClick={() => changeDate('next')} />
-					</div>
-				</div>
-				<select id='view' onChange={changeView}>
-					<option value='Monthly'>Monthly</option>
-					<option value='Weekly'>Weekly</option>
-					<option value='Daily'>Daily</option>
-				</select>
+				<Navigate
+					startDate={startDate}
+					endDate={endDate}
+					view={view}
+					setStartDate={setStartDate}
+					setEndDate={setEndDate}
+					date={date}
+					setNewDate={setNewDate}
+				/>
+				<button onClick={resetDate} id='reset-date-button'>
+					Today
+				</button>
+				<Select
+					startDate={startDate}
+					setStartDate={setStartDate}
+					setEndDate={setEndDate}
+					setNewDate={setNewDate}
+					setView={setView}
+				/>
 			</div>
 			{renderSwitch()}
 		</div>
