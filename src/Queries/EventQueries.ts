@@ -29,7 +29,7 @@ export const HOME_SLIDER_EVENT_QUERY = gql(`
 
 export const CALENDAR_EVENTS = gql(`
 	query CalendarEvents($startTime: DateTime!, $endTime: DateTime!) {
-		events(where: {and: [{startTime: {gte: $startTime}}, {startTime: {lte: $endTime}}]}) {
+		events(where: {and: [{startTime: {gte: $startTime}}, {startTime: {lte: $endTime}}]} order: {startTime: ASC} take: 20) {
 			items {
 				id
 				title
