@@ -1,9 +1,14 @@
 import './Day.scss';
 import { memo, useState } from 'react';
 import { day } from '../Monthly';
+import { Fade, Modal } from '@mui/material';
+import EventCard from '../../../EventCard/EventCard';
+import { Event } from '../../../../pages/HomePage/HomePage';
 
 const Day = ({ day, setRef }: { day: day; setRef: (el: HTMLImageElement | null) => void }) => {
 	const [hover, setHover] = useState(false);
+	const [open, setOpen] = useState(false);
+	const [selectedEvent, setSelectedEvent] = useState<Event>({});
 
 	const getXTranslate = (index: number): number => {
 		const length = day.dayEvents.length;
@@ -43,12 +48,15 @@ const Day = ({ day, setRef }: { day: day; setRef: (el: HTMLImageElement | null) 
 					onMouseLeave={() => setHover(false)}
 				>
 					{day.dayEvents.map((e, i) => (
-						<div style={getStyle(i)}>
+						<div style={getStyle(i)} key={e.id}>
 							<img
 								src={`data:image/png;base64,${e.smallImage}`}
-								key={e.id}
 								ref={setRef}
-								className={`${e.id}${day.dayEvents.length > 1 ? ' stacked' : ''}`}
+								className={`${e.id} ${Math.random()}${day.dayEvents.length > 1 ? ' stacked' : ''}`}
+								onClick={() => {
+									setOpen(true);
+									setSelectedEvent(e);
+								}}
 							/>
 						</div>
 					))}
@@ -56,6 +64,13 @@ const Day = ({ day, setRef }: { day: day; setRef: (el: HTMLImageElement | null) 
 			) : (
 				<></>
 			)}
+			<Modal open={open} onClose={() => setOpen(false)} closeAfterTransition className='modal-for-day'>
+				<Fade in={open}>
+					<div className='monthly-day-event'>
+						<EventCard event={{ ...selectedEvent, mediumImage: selectedEvent.smallImage }} />
+					</div>
+				</Fade>
+			</Modal>
 		</div>
 	);
 };

@@ -1,8 +1,8 @@
-import { EventDto } from '../../Types/EventTypes';
+import { Event } from '../../pages/HomePage/HomePage';
 import './EventCard.scss';
 
 type eventCardProps = {
-	event: EventDto;
+	event: Event;
 };
 
 const EventCard = ({ event }: eventCardProps) => {

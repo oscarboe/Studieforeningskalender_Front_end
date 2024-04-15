@@ -5,12 +5,12 @@ import { useEffect, useState } from 'react';
 import { HOME_SLIDER_EVENT_QUERY } from '../../Queries/EventQueries';
 import { SliderEventsForHomeQuery, SliderEventsForHomeQueryVariables } from '../../../generated/graphql/graphql';
 import { useLazyQuery } from '@apollo/client';
-import { EventDto } from '../../Types/EventTypes';
 import { RootState } from '../../Redux/store';
 import { useSelector } from 'react-redux';
+import { Event } from '../../pages/HomePage/HomePage';
 
 const EventsSlider = ({ eventCount }: { eventCount: number }) => {
-	const [currentEvents, setCurrentEvents] = useState<EventDto[]>([]);
+	const [currentEvents, setCurrentEvents] = useState<Event[]>([]);
 	const [page, setPage] = useState(1);
 	const [pages, setPages] = useState<number[]>([]);
 

@@ -36,7 +36,7 @@ const Monthly = ({ startDate, endDate, events }: props) => {
 
 	return (
 		<div id='calendar-month'>
-			<Connectors eventRefs={eventRefs} />
+			<Connectors eventRefs={eventRefs} events={events} />
 			<div id='month-weekDays'>
 				{shortWeekDays.map((dayName) => (
 					<p key={dayName}>{dayName}</p>
