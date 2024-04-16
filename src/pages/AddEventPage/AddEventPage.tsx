@@ -37,7 +37,7 @@ export default function AddEventPage() {
 			image: file,
 			startTime: startTime,
 			endTime: endTime,
-			tags: selectedTags,
+			// tags: selectedTags,
 		};
 		console.log(input);
 		createEvent({
@@ -69,23 +69,23 @@ export default function AddEventPage() {
 		<form onSubmit={handleSubmit}>
 			<label>
 				Event Navn:
-				<input type='text' value={eventName} onChange={(e) => setEventName(e.target.value)} />
+				<input type='text' onChange={(e) => setEventName(e.target.value)} />
 			</label>
 			<label>
 				Starttidspunkt:
-				<input type='datetime-local' value={startTime} onChange={(e) => setStartTime(e.target.value)} />
+				<input type='datetime-local' onChange={(e) => setStartTime(e.target.value)} />
 			</label>
 			<label>
 				Sluttidspunkt:
-				<input type='datetime-local' value={endTime} onChange={(e) => setEndTime(e.target.value)} />
+				<input type='datetime-local' onChange={(e) => setEndTime(e.target.value)} />
 			</label>
 			<label>
 				Beskrivelse:
 				<div></div>
-				<textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+				<textarea onChange={(e) => setDescription(e.target.value)} />
 			</label>
 			<div></div>
-			<label>
+			{/* <label>
 				Tags:
 				<Autocomplete
 					multiple
@@ -100,7 +100,7 @@ export default function AddEventPage() {
 					disableCloseOnSelect={true}
 					filterSelectedOptions={true}
 				/>
-			</label>
+			</label> */}
 			<label>
 				Pictures:
 				<Tooltip title='Her kan du uploade op til 3 billeder der repræsenterer dit event. Billedet med den gyldne kant er hovedbilledet. Hvis du ønsker at et af de andre 2 billeder skal være hovedbillede så klik på det. '>

@@ -26,6 +26,7 @@ export const HOME_SLIDER_EVENT_QUERY = gql(`
 		}
 	}
 `);
+
 export const CREATE_EVENT_QUERY = gql(`
 	mutation CreateEvent($createEventInput: CreateEventInput!) {
 		createEvent(input: $createEventInput) {
