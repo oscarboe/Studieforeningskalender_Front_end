@@ -20,7 +20,7 @@ dayjs.extend(localeData);
 dayjs.extend(weekday);
 dayjs.extend(utc);
 dayjs.extend(timezone);
-dayjs.tz.setDefault('Euriope/Copenhagen');
+dayjs.tz.setDefault('Europe/Copenhagen');
 
 export type EventDto = {
 	id: string;

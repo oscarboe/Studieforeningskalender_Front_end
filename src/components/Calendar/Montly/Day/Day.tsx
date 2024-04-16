@@ -4,8 +4,15 @@ import { day } from '../Monthly';
 import { Fade, Modal } from '@mui/material';
 import EventCard from '../../../EventCard/EventCard';
 import { Event } from '../../../../pages/HomePage/HomePage';
+import dayjs from 'dayjs';
 
-const Day = ({ day, setRef }: { day: day; setRef: (el: HTMLImageElement | null) => void }) => {
+interface props {
+	addSubConnectors: (origin: DOMRect, offsets: number[]) => void;
+	day: day;
+	setRef: (el: HTMLImageElement | null) => void;
+}
+
+const Day = ({ day, setRef, addSubConnectors }: props) => {
 	const [hover, setHover] = useState(false);
 	const [open, setOpen] = useState(false);
 	const [selectedEvent, setSelectedEvent] = useState<Event>({});
@@ -38,13 +45,30 @@ const Day = ({ day, setRef }: { day: day; setRef: (el: HTMLImageElement | null) 
 		}
 	};
 
+	const onHover = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		if (day.dayEvents.length > 1) {
+			setHover(true);
+
+			const xOffsets: number[] = day.dayEvents
+				.map((e, i) => {
+					if (dayjs(e.endTime).isAfter(e.startTime, 'day')) return getXTranslate(i) / 100;
+					else return 0;
+				})
+				.filter((num) => num != 0);
+
+			const origin = e.currentTarget.getBoundingClientRect();
+
+			addSubConnectors(origin, xOffsets);
+		}
+	};
+
 	return (
 		<div className='day'>
 			<p className={!day.inCurrentMonth ? 'outSideMonth' : ''}>{day.date}</p>
 			{day.dayEvents.length > 0 ? (
 				<div
 					className={`monthly-day-events${day.dayEvents.length > 1 ? ' stacked-day' : ''}`}
-					onMouseEnter={() => setHover(true)}
+					onMouseEnter={onHover}
 					onMouseLeave={() => setHover(false)}
 				>
 					{day.dayEvents.map((e, i) => (

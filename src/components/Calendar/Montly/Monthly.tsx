@@ -1,4 +1,4 @@
-import { useEffect, useRef, memo } from 'react';
+import { useEffect, useRef, memo, useState } from 'react';
 import './Monthly.scss';
 import dayjs from 'dayjs';
 import { EventDto } from '../Calendar';
@@ -23,6 +23,7 @@ export interface day {
 
 const Monthly = ({ startDate, endDate, events }: props) => {
 	const eventRefs = useRef<HTMLImageElement[]>([]);
+	const [subConnData, setSubConnData] = useState<{ origin: DOMRect; offsets: number[] } | null>(null);
 
 	const getRef = (el: HTMLImageElement | null) => {
 		if (el) {
@@ -30,19 +31,29 @@ const Monthly = ({ startDate, endDate, events }: props) => {
 		}
 	};
 
+	const addSubConnectors = (origin: DOMRect, offsets: number[]) => {
+		setSubConnData({ origin: origin, offsets: offsets });
+	};
+
 	useEffect(() => {
 		eventRefs.current = [];
-	}, [events]);
+	}, [events, startDate]);
 
 	return (
 		<div id='calendar-month'>
-			<Connectors eventRefs={eventRefs} events={events} />
+			<Connectors eventRefs={eventRefs} events={events} subConnData={subConnData} />
 			<div id='month-weekDays'>
 				{shortWeekDays.map((dayName) => (
 					<p key={dayName}>{dayName}</p>
 				))}
 			</div>
-			<Weeks startDate={startDate} endDate={endDate} events={events} setRef={getRef} />
+			<Weeks
+				startDate={startDate}
+				endDate={endDate}
+				events={events}
+				setRef={getRef}
+				addSubConnectors={addSubConnectors}
+			/>
 		</div>
 	);
 };

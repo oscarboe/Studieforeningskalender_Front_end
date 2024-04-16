@@ -10,11 +10,7 @@ export default function Weekly({ startDate, endDate }: { startDate: Date; endDat
 	const getDays = () => {
 		const tempDays = [];
 
-		for (
-			let currentDate = new Date(startDate);
-			currentDate <= endDate;
-			currentDate.setDate(currentDate.getDate() + 1)
-		) {
+		for (let currentDate = startDate; currentDate <= endDate; currentDate.setDate(currentDate.getDate() + 1)) {
 			tempDays.push({
 				date: currentDate.getDate(), // Get the day number
 				shortDay: shortWeekDays[currentDate.getDay()], // Get the short weekday name
@@ -38,10 +34,13 @@ export default function Weekly({ startDate, endDate }: { startDate: Date; endDat
 			</div>
 			<div id='weekly-days'>
 				{days.map((day) => (
-					<div className={`weekly-day ${day.shortDay === 'Sun' ? 'weekly-sunday' : ''}`}>
-						<p key={day.date + '' + day.shortDay}>{`${day.date} ${day.shortDay}`}</p>
+					<div
+						key={day.date + '' + day.shortDay}
+						className={`weekly-day ${day.shortDay === 'Sun' ? 'weekly-sunday' : ''}`}
+					>
+						<p>{`${day.date} ${day.shortDay}`}</p>
 						{hours.map((hour) => (
-							<div className='weekly-whole-hour'>
+							<div className='weekly-whole-hour' key={hour}>
 								<span className='weekly-top-span' />
 								<span className='weekly-bottom-span' />
 							</div>

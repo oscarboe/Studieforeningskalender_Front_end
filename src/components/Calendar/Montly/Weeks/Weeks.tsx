@@ -10,9 +10,10 @@ interface props {
 	endDate: Date;
 	setRef: (el: HTMLImageElement | null) => void;
 	events: EventDto[];
+	addSubConnectors: (origin: DOMRect, offsets: number[]) => void;
 }
 
-const Weeks = ({ startDate, endDate, setRef, events }: props) => {
+const Weeks = ({ startDate, endDate, setRef, events, addSubConnectors }: props) => {
 	const [weeks, setWeeks] = useState<day[][]>([]);
 
 	const getWeeks = (newStartDate: Date, newEndDate: Date) => {
@@ -59,7 +60,12 @@ const Weeks = ({ startDate, endDate, setRef, events }: props) => {
 			{weeks.map((week, i) => (
 				<div className='week' key={week.toString() + i}>
 					{week.map((day) => (
-						<Day setRef={setRef} day={day} key={day.date + '' + day.inCurrentMonth} />
+						<Day
+							setRef={setRef}
+							day={day}
+							key={day.date + '' + day.inCurrentMonth}
+							addSubConnectors={addSubConnectors}
+						/>
 					))}
 				</div>
 			))}
