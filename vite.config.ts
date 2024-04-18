@@ -9,6 +9,6 @@ export default defineConfig(({ mode }) => {
 		define: {
 			'process.env.REACT_APP_SITE_KEY': JSON.stringify(env.REACT_APP_SITE_KEY),
 		},
-		plugins: [react(), mkcert()],
+		plugins: [react()],
 	};
 });

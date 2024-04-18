@@ -9,7 +9,6 @@ import HomePage from './pages/HomePage/HomePage';
 
 import Verify from './pages/VerifyPage/Verify';
 import AccountPage from './pages/AccountPage/AccountPage';
-=======
 import AddEventPage from './pages/AddEventPage/AddEventPage';
 // import FBInit from './FacebookInit';
 
