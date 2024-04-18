@@ -9,14 +9,14 @@ import AddEventPage from './pages/AddEventPage/AddEventPage';
 
 import Alerts from './components/Alerts/Alerts';
 import Verify from './pages/VerifyPage/Verify';
-import FBInit from './FacebookInit';
+// import FBInit from './FacebookInit';
 
 export default function App() {
 	return (
 		<BrowserRouter>
 			<Alerts />
 			<Navbar />
-			<FBInit />
+			{/* <FBInit /> */}
 			<Routes>
 				<Route path='/Verify' element={<Verify />} />
 				<Route path='/login' element={<LoginPage />} />

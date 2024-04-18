@@ -22,8 +22,8 @@ const client = new ApolloClient({
 	}),
 	cache: new InMemoryCache(),
 });
-initFacebookSdk();
-getFacebookLoginStatus();
+// initFacebookSdk();
+// getFacebookLoginStatus();
 const rootElement = document.getElementById('root');
 ReactDOM.render(
 	<ApolloProvider client={client}>
