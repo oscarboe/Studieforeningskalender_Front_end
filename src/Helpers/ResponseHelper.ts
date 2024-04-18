@@ -28,6 +28,8 @@ export const standardMessages = {
 	createUser: 'Created user successfully',
 	login: 'Logged in successfully',
 	changePassword: 'Password was changed successfully',
+	deleteUser: 'Deleted user successfully',
+	updateUser: 'Updated user successfully',
 };
 
 interface dataType {

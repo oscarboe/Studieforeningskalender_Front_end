@@ -2,15 +2,22 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { IoCalendarOutline } from 'react-icons/io5';
 import './Navbar.css';
 import ToggleSlider from '../ToggleSlider/ToggleSlider';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changeSorting } from '../../Redux/Slices/sortPopularSlice';
+import { useQuery } from '@apollo/client';
+import { VALIDATE_SESSION } from '../../Queries/UserQueries';
+import { RootState } from '../../Redux/store';
+import { setLoggedIn } from '../../Redux/Slices/loggedInSlice';
 
 const Navbar = () => {
-	const [loggedIn] = useState(false);
 	const location = useLocation();
-
+	const loggedIn = useSelector((state: RootState) => state.loggedIn);
 	const dispatch = useDispatch();
+
+	const {} = useQuery(VALIDATE_SESSION, {
+		onCompleted: () => dispatch(setLoggedIn(true)),
+		onError: () => dispatch(setLoggedIn(false)),
+	});
 
 	return (
 		<nav className={(location.pathname === '/' ? 'isHome ' : '') + 'nav container'}>
@@ -33,9 +40,15 @@ const Navbar = () => {
 					</NavLink>
 				</li>
 				<li className='nav__item'>
-					<NavLink to='/login' className='nav__link'>
-						{loggedIn ? <button id='profileButton'>Profil</button> : <button id='loginButton'>Login</button>}
-					</NavLink>
+					{loggedIn ? (
+						<NavLink to='/Account' className='nav__link'>
+							<button id='profileButton'>Profil</button>
+						</NavLink>
+					) : (
+						<NavLink to='/login' className='nav__link'>
+							<button id='loginButton'>Login</button>
+						</NavLink>
+					)}
 				</li>
 			</ul>
 		</nav>
