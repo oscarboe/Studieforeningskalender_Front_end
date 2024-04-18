@@ -47,3 +47,32 @@ export const VALIDATE_SESSION = gql(`
 		validateSession
 	}
 `);
+
+export const GET_USER_INFO = gql(`
+	query GetUser {
+		userInfo {
+			userName
+			firstName
+			lastName
+			emailAddress
+		}
+	}
+`);
+
+export const UPDATE_USER = gql(`
+	mutation UpdateUser($updateUser: UpdateUserInput!) {
+		updateUser(updateUserInput: $updateUser) {
+			isSuccessful
+			message
+		}
+	}
+`);
+
+export const DELETE_USER = gql(`
+	mutation DeleteUser {
+		deleteUser {
+			isSuccessful
+			message
+		}
+	}
+`);
