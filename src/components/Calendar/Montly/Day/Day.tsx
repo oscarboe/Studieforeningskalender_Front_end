@@ -1,10 +1,9 @@
 import './Day.scss';
 import { memo, useState } from 'react';
 import { day } from '../Monthly';
-import { Fade, Modal } from '@mui/material';
-import EventCard from '../../../EventCard/EventCard';
 import { Event } from '../../../../pages/HomePage/HomePage';
 import dayjs from 'dayjs';
+import DayEventModal from '../../DayEvents/DayEventModal/DayEventModal';
 
 interface props {
 	setSubConnectors: (origin: DOMRect, offsets: number[]) => void;
@@ -87,13 +86,7 @@ const Day = ({ day, setRef, setSubConnectors, date }: props) => {
 			) : (
 				<></>
 			)}
-			<Modal open={open} onClose={() => setOpen(false)} closeAfterTransition className='modal-for-day'>
-				<Fade in={open}>
-					<div className='monthly-day-event'>
-						<EventCard event={{ ...selectedEvent, mediumImage: selectedEvent.smallImage }} />
-					</div>
-				</Fade>
-			</Modal>
+			<DayEventModal event={selectedEvent} open={open} setOpen={setOpen} />
 		</div>
 	);
 };

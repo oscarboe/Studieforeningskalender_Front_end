@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { day } from '../Weekly/Weekly';
 import './DayEvents.scss';
 import { EventDto } from '../Calendar';
-import { Fade, Modal } from '@mui/material';
-import EventCard from '../../EventCard/EventCard';
 import { Event } from '../../../pages/HomePage/HomePage';
+import dayjs from 'dayjs';
+import DayEventModal from './DayEventModal/DayEventModal';
 
 interface dayEvent {
 	style: React.CSSProperties;
@@ -42,17 +42,63 @@ const DayEvents = ({ day }: props) => {
 		return (duration / divisor) * 100 + '%';
 	};
 
+	const overlapsOtherEvents = (
+		events: EventDto[],
+		i: number,
+		startTime: Date,
+		endTime: Date
+	): { overlaps: boolean; amount: number } => {
+		if (events.length <= 1) return { overlaps: false, amount: 0 };
+
+		const overlaps = events.map((event, index) => {
+			if (index == i) return false;
+
+			if (events.length > i + 1) {
+				if (dayjs(endTime).isBetween(event.startTime, event.endTime)) return true;
+				if (dayjs(event.startTime).isBefore(endTime)) return true;
+			}
+			if (i > 0) {
+				if (dayjs(startTime).isBetween(event.startTime, event.endTime)) return true;
+			}
+		});
+
+		return { overlaps: overlaps.length > 0, amount: overlaps.length };
+	};
+
 	const drawEvents = () => {
 		let tempStyles: dayEvent[] = [];
 		day.events.forEach((event, i) => {
 			const startTime = new Date(event.startTime);
 			const endTime = new Date(event.endTime);
 
+			let { overlaps, amount } = overlapsOtherEvents(day.events, i, startTime, endTime);
+			console.log(overlaps, amount);
+
+			let left: string | number = 0;
+			let width: string = '100%';
+			if (overlaps) {
+				if (day.shortDay && window.innerWidth > 1300) {
+					const orientRight = tempStyles.length >= 1 && tempStyles[i - 1].style.left === 0;
+
+					left = orientRight ? '50%' : 0;
+					width = '50%';
+				} else {
+					if (amount < 5) {
+						left = i * (100 / amount) + '%';
+						width = 100 / amount + '%';
+					} else {
+						width = '20%';
+						left = (i % 5) * 20 + '%';
+					}
+				}
+			}
+
 			tempStyles.push({
 				style: {
 					top: calculateTop(startTime),
 					height: calculateHeight(startTime, endTime),
-					width: '100%',
+					width: width,
+					left: left,
 				},
 				event: event,
 			});
@@ -100,13 +146,7 @@ const DayEvents = ({ day }: props) => {
 					{useImage(style) ? <img src={`data:image/png;base64,${event.image}`} className='day-event-image' /> : ''}
 				</div>
 			))}
-			<Modal open={open} onClose={() => setOpen(false)} closeAfterTransition className='modal-for-day'>
-				<Fade in={open}>
-					<div className='monthly-day-event'>
-						<EventCard event={{ ...selectedEvent, mediumImage: selectedEvent.image }} />
-					</div>
-				</Fade>
-			</Modal>
+			<DayEventModal event={selectedEvent} open={open} setOpen={setOpen} />
 		</>
 	);
 };

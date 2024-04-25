@@ -44,6 +44,12 @@ export const CALENDAR_EVENTS = gql(`
 					{ endTime: { lte: $endTime } }
 					]
 				}
+				{
+					and: [
+					{ startTime: { lte: $startTime } }
+					{ endTime: { gte: $endTime } }
+					]
+				}
 				]
 			}
 			order: { startTime: ASC }
@@ -76,6 +82,12 @@ export const CALENDAR_EVENTS_BIG_IMAGE = gql(`
 					and: [
 					{ endTime: { gte: $startTime } }
 					{ endTime: { lte: $endTime } }
+					]
+				}
+				{
+					and: [
+					{ startTime: { lte: $startTime } }
+					{ endTime: { gte: $endTime } }
 					]
 				}
 				]

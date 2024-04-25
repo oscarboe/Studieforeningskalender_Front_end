@@ -20,7 +20,7 @@ const Connectors = ({ eventRefs, events, subConnData }: props) => {
 		await new Promise((resolve) => setTimeout(resolve, 10));
 
 		let traversedEvents: HTMLImageElement[] = [];
-		let styles: React.SetStateAction<React.CSSProperties[]> = [];
+		let styles: React.CSSProperties[] = [];
 		eventRefs.current.forEach(async (ref) => {
 			// If no previous instance of the same event exists, there is no reason to draw connector
 			if (!traversedEvents.some((x) => x.classList[0] === ref.classList[0])) {

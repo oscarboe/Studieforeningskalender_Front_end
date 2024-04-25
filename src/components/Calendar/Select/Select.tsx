@@ -11,9 +11,11 @@ interface props {
 
 export default function Select({ startDate, setStartDate, setEndDate, setNewDate, setView }: props) {
 	const changeView = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		setView(e.currentTarget.value);
-		const unit: dayjs.ManipulateType =
-			e.currentTarget.value == 'Monthly' ? 'month' : e.currentTarget.value == 'Weekly' ? 'week' : 'day';
+		const value = e.currentTarget.value;
+		if (value != 'Monthly' && value != 'Weekly' && value != 'Daily') return;
+
+		setView(value);
+		const unit: dayjs.ManipulateType = value == 'Monthly' ? 'month' : value == 'Weekly' ? 'week' : 'day';
 
 		const newStartDate = dayjs(startDate)
 			.startOf(unit)
@@ -27,7 +29,7 @@ export default function Select({ startDate, setStartDate, setEndDate, setNewDate
 		setStartDate(newStartDate);
 		setEndDate(newEndDate);
 
-		setNewDate(e.currentTarget.value, newStartDate, newEndDate);
+		setNewDate(value, newStartDate, newEndDate);
 	};
 
 	return (
