@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import './Calendar.scss';
 import Monthly from './Montly/Monthly';
 import Weekly from './Weekly/Weekly';
@@ -8,11 +8,6 @@ import localeData from 'dayjs/plugin/localeData';
 import weekday from 'dayjs/plugin/weekday';
 import Navigate from './Navigate/Navigate';
 import Select from './Select/Select';
-import { CalendarEventsQuery, CalendarEventsQueryVariables } from '../../../generated/graphql/graphql';
-import { useLazyQuery } from '@apollo/client';
-import { CALENDAR_EVENTS } from '../../Queries/EventQueries';
-import { useDispatch } from 'react-redux';
-import { addAlert } from '../../Redux/Slices/alertsSlice';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 
@@ -28,7 +23,7 @@ export type EventDto = {
 	description: string;
 	startTime: Date;
 	endTime: Date;
-	smallImage: string;
+	image: string;
 };
 
 export default function Calendar() {
@@ -36,34 +31,19 @@ export default function Calendar() {
 	const [date, setDate] = useState<string>(dayjs.months()[dayjs().month()] + ', ' + dayjs().year());
 	const [startDate, setStartDate] = useState<Date>(dayjs().startOf('month').toDate());
 	const [endDate, setEndDate] = useState<Date>(dayjs().endOf('month').toDate());
-	const [events, setEvents] = useState<EventDto[]>([]);
-	const dispatch = useDispatch();
-
-	const [getEvents] = useLazyQuery<CalendarEventsQuery, CalendarEventsQueryVariables>(CALENDAR_EVENTS, {
-		onCompleted: (data) => {
-			if (data.events?.items != null) setEvents(data.events.items);
-			else
-				dispatch(
-					addAlert({
-						message: `An error occurred while fetching the event for the specified ${view.toLowerCase()}`,
-						severity: 'error',
-					})
-				);
-		},
-	});
 
 	const renderSwitch = useCallback((): JSX.Element => {
 		switch (view) {
 			case 'Monthly':
-				return <Monthly startDate={startDate} endDate={endDate} events={events} />;
+				return <Monthly startDate={startDate} endDate={endDate} />;
 			case 'Weekly':
 				return <Weekly startDate={startDate} endDate={endDate} />;
 			case 'Daily':
-				return <Daily />;
+				return <Daily date={startDate} />;
 			default:
 				return <h1>An error occurred, try again later</h1>;
 		}
-	}, [view, startDate, events]);
+	}, [view, startDate]);
 
 	const setNewDate = (control: string, newStartDate: Date, newEndDate: Date) => {
 		switch (control) {
@@ -89,25 +69,27 @@ export default function Calendar() {
 	};
 
 	const resetDate = () => {
-		const newStartDate = dayjs().startOf('month').toDate();
-		const newEndDate = dayjs().endOf('month').toDate();
+		let newStartDate, newEndDate;
+
+		switch (view) {
+			case 'Monthly':
+				newStartDate = dayjs().startOf('month').toDate();
+				newEndDate = dayjs().endOf('month').toDate();
+				break;
+			case 'Weekly':
+				newStartDate = dayjs().startOf('week').toDate();
+				newEndDate = dayjs().endOf('week').toDate();
+				break;
+			case 'Daily':
+				newStartDate = dayjs().startOf('day').toDate();
+				newEndDate = dayjs().endOf('day').toDate();
+				break;
+		}
 
 		setStartDate(newStartDate);
 		setEndDate(newEndDate);
 		setNewDate(view, newStartDate, newEndDate);
 	};
-
-	useEffect(() => {
-		if (view === 'Monthly') {
-			const newStartDate = dayjs(startDate).startOf('month').startOf('week').add(1, 'day');
-			const lastDayIsSunday = dayjs(endDate).endOf('month').weekday() === 0;
-			const newEndDate = !lastDayIsSunday
-				? dayjs(endDate).endOf('month').endOf('week').add(1, 'day')
-				: dayjs(endDate).endOf('month').endOf('week').subtract(1, 'week').add(1, 'day');
-
-			getEvents({ variables: { startTime: newStartDate.toDate(), endTime: newEndDate.toDate() } });
-		} else getEvents({ variables: { startTime: startDate, endTime: endDate } });
-	}, [startDate]);
 
 	return (
 		<div id='calendar'>

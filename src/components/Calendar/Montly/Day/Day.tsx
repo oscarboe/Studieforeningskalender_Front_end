@@ -7,12 +7,13 @@ import { Event } from '../../../../pages/HomePage/HomePage';
 import dayjs from 'dayjs';
 
 interface props {
-	addSubConnectors: (origin: DOMRect, offsets: number[]) => void;
+	setSubConnectors: (origin: DOMRect, offsets: number[]) => void;
 	day: day;
 	setRef: (el: HTMLImageElement | null) => void;
+	date: Date;
 }
 
-const Day = ({ day, setRef, addSubConnectors }: props) => {
+const Day = ({ day, setRef, setSubConnectors, date }: props) => {
 	const [hover, setHover] = useState(false);
 	const [open, setOpen] = useState(false);
 	const [selectedEvent, setSelectedEvent] = useState<Event>({});
@@ -22,15 +23,7 @@ const Day = ({ day, setRef, addSubConnectors }: props) => {
 		const middle = (length - 1) / 2;
 		const translationUnit = 100;
 
-		if (length % 2 !== 0) {
-			return (index - middle) * translationUnit;
-		} else {
-			if (index < middle) {
-				return (index - middle) * translationUnit + translationUnit / 2;
-			} else {
-				return (index - middle) * translationUnit - translationUnit / 2;
-			}
-		}
+		return (index - middle) * translationUnit;
 	};
 
 	const getStyle = (index: number): React.CSSProperties => {
@@ -58,8 +51,13 @@ const Day = ({ day, setRef, addSubConnectors }: props) => {
 
 			const origin = e.currentTarget.getBoundingClientRect();
 
-			addSubConnectors(origin, xOffsets);
+			setSubConnectors(origin, xOffsets);
 		}
+	};
+
+	const onUnHover = () => {
+		setHover(false);
+		setSubConnectors(new DOMRect(), []);
 	};
 
 	return (
@@ -69,14 +67,15 @@ const Day = ({ day, setRef, addSubConnectors }: props) => {
 				<div
 					className={`monthly-day-events${day.dayEvents.length > 1 ? ' stacked-day' : ''}`}
 					onMouseEnter={onHover}
-					onMouseLeave={() => setHover(false)}
+					onMouseLeave={onUnHover}
 				>
 					{day.dayEvents.map((e, i) => (
 						<div style={getStyle(i)} key={e.id}>
 							<img
-								src={`data:image/png;base64,${e.smallImage}`}
+								src={`data:image/png;base64,${e.image}`}
 								ref={setRef}
 								className={`${e.id} ${Math.random()}${day.dayEvents.length > 1 ? ' stacked' : ''}`}
+								data-date={date}
 								onClick={() => {
 									setOpen(true);
 									setSelectedEvent(e);

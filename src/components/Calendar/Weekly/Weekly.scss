@@ -10,34 +10,6 @@
 		align-items: center;
 		justify-content: center;
 		border-bottom: #666666 solid 0.0675rem;
-
-		.weekly-day {
-			margin: 0;
-			height: 100%;
-			width: calc(100% / 7);
-			border-left: #666666 solid 0.0675rem;
-			border-right: #666666 solid 0.0675rem;
-			text-align: center;
-			flex-direction: column;
-
-			.weekly-sunday {
-				border-right: none;
-			}
-
-			p,
-			div {
-				margin: 0;
-				height: calc(100% / 24);
-				border-bottom: #666666 solid 0.0675rem;
-				flex-direction: column;
-
-				span {
-					height: 50%;
-					width: 100%;
-					border-top: #666666 solid 0.0675rem;
-				}
-			}
-		}
 	}
 
 	#weekly-hours {

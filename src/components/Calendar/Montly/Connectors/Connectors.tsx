@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import useThrottle from '../../../../Helpers/ThrottleHelper';
 import { EventDto } from '../../Calendar';
 import './Connectors.scss';
@@ -16,7 +17,7 @@ const Connectors = ({ eventRefs, events, subConnData }: props) => {
 
 	const drawConnections = async (usePixels: boolean = false) => {
 		// Wait for a bit for other stuff to resolve
-		await new Promise((resolve) => setTimeout(resolve, 50));
+		await new Promise((resolve) => setTimeout(resolve, 10));
 
 		let traversedEvents: HTMLImageElement[] = [];
 		let styles: React.SetStateAction<React.CSSProperties[]> = [];
@@ -27,22 +28,53 @@ const Connectors = ({ eventRefs, events, subConnData }: props) => {
 				return;
 			}
 
+			let halfConnector: boolean = false;
 			let prevRect: DOMRect | undefined;
+			let offsetLeft: number = 0;
+			let offsetTop: number = 0;
 			traversedEvents.forEach((r) => {
 				if (r.classList[0] === ref.classList[0]) {
 					prevRect = r.getBoundingClientRect();
+					halfConnector = dayjs(r.dataset.date).weekday() == 0;
+
+					const parent = r.parentElement;
+					if (parent) {
+						const transform = window.getComputedStyle(r.parentElement).transform;
+						const offsetLeftString = transform.substring(19, transform.indexOf(',', 19));
+
+						const startIndex = transform.lastIndexOf(',') + 1;
+						const offsetTopString = transform.substring(startIndex, transform.lastIndexOf(')'));
+
+						offsetLeft = offsetLeftString != 'none' ? Math.ceil(parseFloat(offsetLeftString)) : 0;
+						offsetTop = offsetTopString ? parseFloat(offsetTopString) : 0;
+					}
 				}
 			});
 
 			traversedEvents.push(ref);
 
 			if (prevRect) {
-				const style = {
-					top: `${prevRect.bottom - prevRect.height / 2}px`,
-					left: usePixels
-						? `${prevRect.right - prevRect.width / 2}px`
-						: `${((prevRect.right - prevRect.width / 2) / window.innerWidth) * 100}%`,
+				const left = prevRect.right - prevRect.width / 2 - offsetLeft;
+				const style: React.CSSProperties = {
+					top: `${prevRect.bottom - prevRect.height / 2 - offsetTop}px`,
+					left: usePixels ? `${left}px` : `${(left / window.innerWidth) * 100}%`,
 				};
+
+				if (halfConnector) {
+					style.clipPath = 'inset(0 50% 0 0)';
+
+					const currRect = ref.getBoundingClientRect();
+
+					const newStyle: React.CSSProperties = {
+						top: `${currRect.bottom - currRect.height / 2}px`,
+						left: usePixels
+							? `${currRect.right - currRect.width / 2 - 0.08 * window.innerWidth}px`
+							: `${((currRect.right - currRect.width / 2) / window.innerWidth) * 100 - 8}%`,
+						clipPath: 'inset(0 0 0 50%)',
+					};
+
+					styles.push(newStyle);
+				}
 
 				styles.push(style);
 			}
@@ -52,15 +84,50 @@ const Connectors = ({ eventRefs, events, subConnData }: props) => {
 	};
 
 	const drawSubConnections = ({ origin, offsets }: { origin: DOMRect; offsets: number[] }) => {
-		console.log(origin, offsets);
-
 		let tempSubConnectors: React.CSSProperties[] = [];
-		offsets.forEach((offset) => {
-			const left = origin.left + origin.width / 2 + offset * origin.width;
-			const top = origin.bottom + origin.width / 2 - 1.05 * origin.width;
-			const width = Math.abs(origin.left - left);
+		document.adoptedStyleSheets = [];
+		offsets.forEach((offset, i) => {
+			const left = origin.left + origin.width / 2 + (1 / 9) * origin.width + offset * origin.width;
+			const top = origin.top + origin.height / 2 - 1.05 * origin.height + (1 / 9) * origin.height;
 
-			tempSubConnectors.push({ left: left + 'px', top: top + 'px', width: width + 'px' });
+			const a = origin.left + origin.width / 2 - left;
+			const b = origin.top + origin.height / 2 - top;
+			const c = Math.sqrt(a ** 2 + b ** 2);
+
+			let angle = Math.atan2(b, a);
+			if (a < 0 && b < 0) {
+				angle += Math.PI; // Adjust for third quadrant
+			} else if (a < 0) {
+				angle += Math.PI * 2; // Adjust for second quadrant
+			}
+
+			const animationName = `animate-${i}`;
+			const keyFrameStyle = `@keyframes ${animationName} {
+				from {
+					left: ${origin.left + origin.width / 2}px;
+					top: ${origin.top + origin.height / 2}px;
+					width: 0px;
+				}
+				to {
+					left: ${left}px;
+					top: ${top}px;
+					width: ${c}px;
+				}
+			}`;
+
+			const styleSheet = new CSSStyleSheet();
+			styleSheet.replaceSync(keyFrameStyle);
+
+			document.adoptedStyleSheets.push(styleSheet);
+
+			tempSubConnectors.push({
+				left: left + 'px',
+				top: top + 'px',
+				width: c + 'px',
+				zIndex: 5,
+				rotate: `${angle}rad`,
+				animation: `${animationName} 0.5s linear`,
+			});
 		});
 		setSubConnectors(tempSubConnectors);
 	};
@@ -84,6 +151,7 @@ const Connectors = ({ eventRefs, events, subConnData }: props) => {
 
 	useEffect(() => {
 		if (events.length > 0) drawConnections();
+		else setConnectorStyles([]);
 	}, [events]);
 
 	useEffect(() => {
@@ -103,7 +171,7 @@ const Connectors = ({ eventRefs, events, subConnData }: props) => {
 			</div>
 			<div id='sub-connectors'>
 				{subConnectors.map((style, i) => (
-					<div key={style + '' + i} style={{ ...style, border: 'solid black 2px' }}></div>
+					<div key={style + '' + i} style={style} />
 				))}
 			</div>
 		</>

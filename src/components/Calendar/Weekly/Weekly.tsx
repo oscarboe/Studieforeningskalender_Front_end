@@ -1,19 +1,57 @@
 import { useEffect, useState } from 'react';
 import './Weekly.scss';
+import Day from './Day/Day';
+import { EventDto } from '../Calendar';
+import dayjs from 'dayjs';
+import { useLazyQuery } from '@apollo/client';
+import { useDispatch } from 'react-redux';
+import { CalendarEventsQuery, CalendarEventsQueryVariables } from '../../../../generated/graphql/graphql';
+import { CALENDAR_EVENTS } from '../../../Queries/EventQueries';
+import { addAlert } from '../../../Redux/Slices/alertsSlice';
 
 const hours = Array.from({ length: 24 }, (_, i) => `${i.toString().padStart(2, '0')}:00`);
-const shortWeekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+export interface day {
+	date: number;
+	shortDay?: string;
+	events: EventDto[];
+}
 
 export default function Weekly({ startDate, endDate }: { startDate: Date; endDate: Date }) {
-	const [days, setDays] = useState<{ date: number; shortDay: string }[]>([]);
+	const [days, setDays] = useState<day[]>([]);
+	const dispatch = useDispatch();
 
-	const getDays = () => {
+	const [getEvents] = useLazyQuery<CalendarEventsQuery, CalendarEventsQueryVariables>(CALENDAR_EVENTS, {
+		onCompleted: (data) => {
+			if (data.events?.items != null) {
+				getDays(data.events.items);
+			} else
+				dispatch(
+					addAlert({
+						message: `An error occurred while fetching the event for the specified week`,
+						severity: 'error',
+					})
+				);
+		},
+	});
+
+	const getDays = (events: EventDto[]) => {
 		const tempDays = [];
 
-		for (let currentDate = startDate; currentDate <= endDate; currentDate.setDate(currentDate.getDate() + 1)) {
+		for (
+			let currentDate = new Date(startDate);
+			currentDate <= endDate;
+			currentDate.setDate(currentDate.getDate() + 1)
+		) {
 			tempDays.push({
 				date: currentDate.getDate(), // Get the day number
-				shortDay: shortWeekDays[currentDate.getDay()], // Get the short weekday name
+				shortDay: dayjs.weekdaysShort(true)[currentDate.getDay()], // Get the short weekday name
+				events: events.filter(
+					(e) =>
+						dayjs(currentDate).isSame(e.startTime, 'day') ||
+						dayjs(currentDate).isSame(e.endTime, 'day') ||
+						dayjs(currentDate).isBetween(e.startTime, e.endTime, 'day')
+				),
 			});
 		}
 
@@ -21,8 +59,8 @@ export default function Weekly({ startDate, endDate }: { startDate: Date; endDat
 	};
 
 	useEffect(() => {
-		getDays();
-	}, [startDate]);
+		getEvents({ variables: { startTime: startDate, endTime: endDate } });
+	}, [startDate, endDate]);
 
 	return (
 		<div id='calendar-weekly'>
@@ -34,18 +72,7 @@ export default function Weekly({ startDate, endDate }: { startDate: Date; endDat
 			</div>
 			<div id='weekly-days'>
 				{days.map((day) => (
-					<div
-						key={day.date + '' + day.shortDay}
-						className={`weekly-day ${day.shortDay === 'Sun' ? 'weekly-sunday' : ''}`}
-					>
-						<p>{`${day.date} ${day.shortDay}`}</p>
-						{hours.map((hour) => (
-							<div className='weekly-whole-hour' key={hour}>
-								<span className='weekly-top-span' />
-								<span className='weekly-bottom-span' />
-							</div>
-						))}
-					</div>
+					<Day day={day} key={day.date + '' + day.shortDay} />
 				))}
 			</div>
 		</div>

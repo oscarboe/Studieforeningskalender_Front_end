@@ -12,6 +12,7 @@
 		border-right: #666666 solid 0.0675rem;
 		text-align: center;
 		flex-direction: column;
+		position: relative;
 
 		p,
 		div {
@@ -24,6 +25,17 @@
 				height: 50%;
 				width: 100%;
 				border-top: #666666 solid 0.0675rem;
+			}
+		}
+
+		.day-event {
+			border-radius: 1.5rem;
+			.day-event-title {
+				font-size: 2rem;
+			}
+
+			.day-event-image {
+				border-radius: 1rem;
 			}
 		}
 	}

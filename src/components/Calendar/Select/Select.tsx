@@ -15,8 +15,14 @@ export default function Select({ startDate, setStartDate, setEndDate, setNewDate
 		const unit: dayjs.ManipulateType =
 			e.currentTarget.value == 'Monthly' ? 'month' : e.currentTarget.value == 'Weekly' ? 'week' : 'day';
 
-		const newStartDate = dayjs(startDate).startOf(unit).toDate();
-		const newEndDate = dayjs(startDate).endOf(unit).toDate();
+		const newStartDate = dayjs(startDate)
+			.startOf(unit)
+			.add(unit === 'week' ? 1 : 0, 'day')
+			.toDate();
+		const newEndDate = dayjs(startDate)
+			.endOf(unit)
+			.add(unit === 'week' ? 1 : 0, 'day')
+			.toDate();
 
 		setStartDate(newStartDate);
 		setEndDate(newEndDate);

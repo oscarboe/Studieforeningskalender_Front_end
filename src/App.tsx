@@ -18,7 +18,7 @@ export default function App() {
 				<Route path='/Account' element={<AccountPage />} />
 				<Route path='/Verify' element={<Verify />} />
 				<Route path='/login' element={<LoginPage />} />
-				<Route path='/Calendar' element={<CalendarPage />}></Route>
+				<Route path='/Calendar' element={<CalendarPage />} />
 				<Route path='/' element={<HomePage />}></Route>
 			</Routes>
 		</BrowserRouter>

@@ -10,10 +10,10 @@ interface props {
 	endDate: Date;
 	setRef: (el: HTMLImageElement | null) => void;
 	events: EventDto[];
-	addSubConnectors: (origin: DOMRect, offsets: number[]) => void;
+	setSubConnectors: (origin: DOMRect, offsets: number[]) => void;
 }
 
-const Weeks = ({ startDate, endDate, setRef, events, addSubConnectors }: props) => {
+const Weeks = ({ startDate, endDate, setRef, events, setSubConnectors }: props) => {
 	const [weeks, setWeeks] = useState<day[][]>([]);
 
 	const getWeeks = (newStartDate: Date, newEndDate: Date) => {
@@ -51,6 +51,13 @@ const Weeks = ({ startDate, endDate, setRef, events, addSubConnectors }: props) 
 		setWeeks(tempWeeks);
 	};
 
+	const getDate = (date: number, inCurrentMonth: boolean): Date => {
+		const randomDayInMonth = dayjs(startDate).add(1, 'week');
+		const year = randomDayInMonth.year();
+		const month = inCurrentMonth ? randomDayInMonth.month() : randomDayInMonth.add(date < 15 ? 1 : -1, 'month').month();
+		return new Date(year, month, date);
+	};
+
 	useEffect(() => {
 		getWeeks(startDate, endDate);
 	}, [events]);
@@ -64,7 +71,8 @@ const Weeks = ({ startDate, endDate, setRef, events, addSubConnectors }: props) 
 							setRef={setRef}
 							day={day}
 							key={day.date + '' + day.inCurrentMonth}
-							addSubConnectors={addSubConnectors}
+							setSubConnectors={setSubConnectors}
+							date={getDate(day.date, day.inCurrentMonth)}
 						/>
 					))}
 				</div>

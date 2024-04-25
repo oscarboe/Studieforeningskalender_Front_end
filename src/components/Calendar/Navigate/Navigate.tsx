@@ -13,14 +13,15 @@ interface props {
 }
 
 export default function Navigate({ view, startDate, endDate, setStartDate, setEndDate, setNewDate, date }: props) {
-	const changeDate = (dir: 'next' | 'prev') => {
+	const changeDate = (dir: 'next' | 'prev', longJump: boolean = false) => {
 		const unit: dayjs.ManipulateType = view == 'Monthly' ? 'month' : view == 'Weekly' ? 'week' : 'day';
+		const jump = longJump ? 4 : 1;
 
 		var newStartDate = dayjs(startDate)
-			.add(dir === 'next' ? 1 : -1, unit)
+			.add(dir === 'next' ? jump : -jump, unit)
 			.toDate();
 		var newEndDate = dayjs(endDate)
-			.add(dir === 'next' ? 1 : -1, unit)
+			.add(dir === 'next' ? jump : -jump, unit)
 			.toDate();
 
 		setStartDate(newStartDate);
@@ -31,16 +32,16 @@ export default function Navigate({ view, startDate, endDate, setStartDate, setEn
 
 	return (
 		<div id='navigate'>
-			<div className='double-arrow'>
-				<IoIosArrowBack onClick={() => changeDate('prev')} />
-				<IoIosArrowBack onClick={() => changeDate('prev')} />
+			<div className='double-arrow' onClick={() => changeDate('prev', true)}>
+				<IoIosArrowBack />
+				<IoIosArrowBack />
 			</div>
 			<IoIosArrowBack onClick={() => changeDate('prev')} />
 			<p id='date'>{date}</p>
 			<IoIosArrowForward onClick={() => changeDate('next')} />
-			<div className='double-arrow'>
-				<IoIosArrowForward onClick={() => changeDate('next')} />
-				<IoIosArrowForward onClick={() => changeDate('next')} />
+			<div className='double-arrow' onClick={() => changeDate('next', true)}>
+				<IoIosArrowForward />
+				<IoIosArrowForward />
 			</div>
 		</div>
 	);
