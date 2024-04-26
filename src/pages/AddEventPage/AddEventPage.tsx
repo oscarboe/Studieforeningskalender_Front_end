@@ -14,6 +14,8 @@ import {
 } from '../../../generated/graphql/graphql';
 import { GET_ALL_TAGS } from '../../Queries/TagQueries';
 import { CREATE_EVENT_QUERY } from '../../Queries/EventQueries';
+import FBInit from '../../FacebookInit';
+import { get } from 'http';
 
 export default function AddEventPage() {
 	const [eventName, setEventName] = useState('');
@@ -66,26 +68,29 @@ export default function AddEventPage() {
 	};
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<label>
-				Event Navn:
-				<input type='text' onChange={(e) => setEventName(e.target.value)} />
-			</label>
-			<label>
-				Starttidspunkt:
-				<input type='datetime-local' onChange={(e) => setStartTime(e.target.value)} />
-			</label>
-			<label>
-				Sluttidspunkt:
-				<input type='datetime-local' onChange={(e) => setEndTime(e.target.value)} />
-			</label>
-			<label>
-				Beskrivelse:
+		<div>
+			<FBInit />
+
+			<form onSubmit={handleSubmit}>
+				<label>
+					Event Navn:
+					<input type='text' onChange={(e) => setEventName(e.target.value)} />
+				</label>
+				<label>
+					Starttidspunkt:
+					<input type='datetime-local' onChange={(e) => setStartTime(e.target.value)} />
+				</label>
+				<label>
+					Sluttidspunkt:
+					<input type='datetime-local' onChange={(e) => setEndTime(e.target.value)} />
+				</label>
+				<label>
+					Beskrivelse:
+					<div></div>
+					<textarea onChange={(e) => setDescription(e.target.value)} />
+				</label>
 				<div></div>
-				<textarea onChange={(e) => setDescription(e.target.value)} />
-			</label>
-			<div></div>
-			{/* <label>
+				{/* <label>
 				Tags:
 				<Autocomplete
 					multiple
@@ -101,32 +106,33 @@ export default function AddEventPage() {
 					filterSelectedOptions={true}
 				/>
 			</label> */}
-			<label>
-				Pictures:
-				<Tooltip title='Her kan du uploade op til 3 billeder der repræsenterer dit event. Billedet med den gyldne kant er hovedbilledet. Hvis du ønsker at et af de andre 2 billeder skal være hovedbillede så klik på det. '>
-					<IconButton>
-						<InfoIcon />
-					</IconButton>
-				</Tooltip>
-				<input type='file' accept='image/*' multiple onChange={handleFileChange} />
-			</label>
-			{imageURLs.map((url, index) => (
-				<img
-					className={`image ${index === 0 ? 'first-image' : ''}`}
-					key={index}
-					src={url}
-					alt={`Selected ${index}`}
-					onClick={() => handleImageClick(index)}
-				/>
-			))}
-			<button
-				onClick={(e) => {
-					e.preventDefault;
-					handleSubmit;
-				}}
-			>
-				Submit
-			</button>
-		</form>
+				<label>
+					Pictures:
+					<Tooltip title='Her kan du uploade op til 3 billeder der repræsenterer dit event. Billedet med den gyldne kant er hovedbilledet. Hvis du ønsker at et af de andre 2 billeder skal være hovedbillede så klik på det. '>
+						<IconButton>
+							<InfoIcon />
+						</IconButton>
+					</Tooltip>
+					<input type='file' accept='image/*' multiple onChange={handleFileChange} />
+				</label>
+				{imageURLs.map((url, index) => (
+					<img
+						className={`image ${index === 0 ? 'first-image' : ''}`}
+						key={index}
+						src={url}
+						alt={`Selected ${index}`}
+						onClick={() => handleImageClick(index)}
+					/>
+				))}
+				<button
+					onClick={(e) => {
+						e.preventDefault;
+						handleSubmit;
+					}}
+				>
+					Submit
+				</button>
+			</form>
+		</div>
 	);
 }
