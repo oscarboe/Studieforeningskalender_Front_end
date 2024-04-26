@@ -1,5 +1,24 @@
 import { useEffect } from 'react';
 
+interface loginResponse {
+	authResponse: {
+		accessToken: string;
+		code: string;
+		data_access_expiration_time: number;
+		expiresIn: number;
+		graphDomain: string;
+		signedRequest: string;
+		userID: string;
+	};
+	status: string;
+}
+
+declare global {
+	interface Window {
+		FB: any;
+	}
+}
+
 export default function FBInit() {
 	useEffect(() => {
 		// Create script for FB SDK
@@ -27,26 +46,23 @@ export default function FBInit() {
 
 	const handleLogin = () => {
 		window.FB.login(
-			function (response) {
+			function (response: loginResponse) {
 				console.log(response);
 				if (response.status === 'connected') {
 					console.log('Welcome!  Fetching your information.... ');
 					console.log(response.authResponse);
-					FB.api(
-						'/me?fields=events',
-						{
-							access_token: response.authResponse.code,
-						},
-						function (response2) {
-							console.log(response2);
-						}
-					);
+					FB.api('/me/accounts', 'GET', function (response) {
+						console.log(response);
+						FB.api(`${response.data[0].id}/events`, 'GET', (res) => {
+							console.log(res);
+						});
+					});
 				}
 			},
 			{
 				config_id: '760297902547164',
 				response_type: 'code',
-				override_default_response_type: true,
+				// override_default_response_type: true,
 			}
 		);
 	};

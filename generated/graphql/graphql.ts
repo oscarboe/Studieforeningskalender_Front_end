@@ -527,6 +527,7 @@ export type Query = {
   __typename?: 'Query';
   event?: Maybe<Event>;
   events?: Maybe<EventsCollectionSegment>;
+  facebookAccessToken: Scalars['String']['output'];
   /** Fetches an object given its ID. */
   node?: Maybe<Node>;
   /** Lookup nodes by a list of IDs. */
@@ -552,6 +553,12 @@ export type QueryEventsArgs = {
   tags?: InputMaybe<Array<Scalars['String']['input']>>;
   take?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<EventDtoFilterInput>;
+};
+
+
+export type QueryFacebookAccessTokenArgs = {
+  code: Scalars['String']['input'];
+  redirectURI: Scalars['String']['input'];
 };
 
 
