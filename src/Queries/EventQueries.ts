@@ -35,3 +35,11 @@ export const CREATE_EVENT_QUERY = gql(`
 		}
 	}
 `);
+
+export const GET_BIG_EVENT_IMAGE = gql(`
+	query GetBigEventImage($EventId: ID!){
+		event(where: {id: {eq: $EventId}}) {
+			image
+		}
+	}
+`);
