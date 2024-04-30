@@ -103,6 +103,11 @@ export const CALENDAR_EVENTS_BIG_IMAGE = gql(`
 				endTime
 				image
 			}
+export const CREATE_EVENT_QUERY = gql(`
+	mutation CreateEvent($createEventInput: CreateEventInput!) {
+		createEvent(input: $createEventInput) {
+			isSuccessful
+			message
 		}
 	}
 `);
