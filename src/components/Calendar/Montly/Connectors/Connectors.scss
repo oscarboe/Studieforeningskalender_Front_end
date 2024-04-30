@@ -1,0 +1,21 @@
+#connectors {
+	.event-connector {
+		position: fixed;
+		z-index: 5;
+		transform: translateY(-50%);
+		width: 8%;
+	}
+}
+
+#sub-connectors {
+	div {
+		left: 0px;
+		top: 0px;
+		width: 0px;
+		z-index: 5;
+		rotate: 0;
+		transform-origin: left;
+		position: fixed;
+		border: solid blue 1px;
+	}
+}

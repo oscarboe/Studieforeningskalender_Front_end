@@ -1,0 +1,62 @@
+.day {
+	outline: #666666 solid 0.05rem;
+	height: 100%;
+	width: calc(100% / 7);
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+
+	p {
+		margin: 0;
+		width: 100%;
+	}
+
+	.outSideMonth {
+		color: #666666;
+	}
+
+	.monthly-day-events {
+		width: 80%;
+		height: 100%;
+		justify-content: center;
+		position: relative;
+		z-index: 10;
+
+		div {
+			width: 90%;
+			height: 90%;
+			position: absolute;
+			justify-content: center;
+			align-items: center;
+			margin-top: 0.3rem;
+
+			img {
+				width: 80%;
+				height: 90%;
+				object-fit: cover;
+				border-radius: 0.5rem;
+				position: absolute;
+				z-index: 10;
+				cursor: pointer;
+
+				&.stacked {
+					border: solid black 1px;
+				}
+			}
+
+			&:nth-child(2) {
+				z-index: 11;
+				transform: translate(5%, -5%);
+			}
+
+			&:nth-child(3) {
+				z-index: 12;
+				transform: translate(10%, -10%);
+			}
+
+			&:nth-child(n + 4) {
+				opacity: 0;
+			}
+		}
+	}
+}

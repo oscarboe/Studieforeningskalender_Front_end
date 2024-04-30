@@ -1,0 +1,58 @@
+#calendar-daily {
+	height: 100%;
+	width: 100%;
+	margin-top: 2rem;
+	overflow-x: hidden;
+
+	#daily-day {
+		margin: 0;
+		height: 200%;
+		width: calc(100% * (7 / 8));
+		border-left: #666666 solid 0.0675rem;
+		border-right: #666666 solid 0.0675rem;
+		text-align: center;
+		flex-direction: column;
+		position: relative;
+
+		p,
+		div {
+			margin: 0;
+			height: calc(100% / 24);
+			border-bottom: #666666 solid 0.0675rem;
+			flex-direction: column;
+
+			span {
+				height: 50%;
+				width: 100%;
+				border-top: #666666 solid 0.0675rem;
+			}
+		}
+
+		.day-event {
+			border-radius: 1.5rem;
+			.day-event-title {
+				font-size: 1.5rem;
+			}
+
+			.day-event-image {
+				border-radius: 1rem;
+			}
+		}
+	}
+
+	#daily-hours {
+		width: calc(100% / 8);
+		flex-direction: column;
+		align-items: flex-start;
+		height: 200%;
+		border-right: #666666 solid 0.0675rem;
+
+		p {
+			width: 100%;
+			border-top: #666666 solid 0.0675rem;
+			border-bottom: #666666 solid 0.0675rem;
+			height: calc(100% / 24);
+			margin: 0;
+		}
+	}
+}
