@@ -1,0 +1,29 @@
+#calendar {
+	border-radius: 24px;
+	background: #242424;
+	box-shadow: 10px 10px 13px #1e1e1e, -10px -10px 13px #2a2a2a;
+	width: 70%;
+	height: 85%;
+	flex-direction: column;
+	padding: 1.5rem 2rem;
+
+	#selectors {
+		justify-content: space-between;
+		align-items: center;
+
+		#reset-date-button {
+			background-color: #2056a8;
+			border: 0.125rem solid #2056a8;
+			border-radius: 0.25rem;
+			text-align: center;
+			outline: none;
+			font-size: large;
+			transition: all 0.4s;
+			width: 9rem;
+		}
+
+		#reset-date-button:hover {
+			background-color: transparent;
+		}
+	}
+}

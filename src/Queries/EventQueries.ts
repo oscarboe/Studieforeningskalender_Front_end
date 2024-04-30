@@ -33,6 +33,82 @@ export const HOME_SLIDER_EVENT_QUERY = gql(`
 	}
 `);
 
+export const CALENDAR_EVENTS = gql(`
+	query CalendarEvents($startTime: DateTime!, $endTime: DateTime!) {
+		events(
+			where: {
+				or: [
+				{
+					and: [
+					{ startTime: { gte: $startTime } }
+					{ startTime: { lte: $endTime } }
+					]
+				}
+				{
+					and: [
+					{ endTime: { gte: $startTime } }
+					{ endTime: { lte: $endTime } }
+					]
+				}
+				{
+					and: [
+					{ startTime: { lte: $startTime } }
+					{ endTime: { gte: $endTime } }
+					]
+				}
+				]
+			}
+			order: { startTime: ASC }
+			take: 50
+		) {
+			items {
+				id
+				title
+				description
+				startTime
+				endTime
+				image: smallImage
+			}
+		}
+	}
+`);
+
+export const CALENDAR_EVENTS_BIG_IMAGE = gql(`
+	query CalendarEventsBigImage($startTime: DateTime!, $endTime: DateTime!) {
+		events(
+			where: {
+				or: [
+				{
+					and: [
+					{ startTime: { gte: $startTime } }
+					{ startTime: { lte: $endTime } }
+					]
+				}
+				{
+					and: [
+					{ endTime: { gte: $startTime } }
+					{ endTime: { lte: $endTime } }
+					]
+				}
+				{
+					and: [
+					{ startTime: { lte: $startTime } }
+					{ endTime: { gte: $endTime } }
+					]
+				}
+				]
+			}
+			order: { startTime: ASC }
+			take: 50
+		) {
+			items {
+				id
+				title
+				description
+				startTime
+				endTime
+				image
+			}
 export const CREATE_EVENT_QUERY = gql(`
 	mutation CreateEvent($createEventInput: CreateEventInput!) {
 		createEvent(input: $createEventInput) {
