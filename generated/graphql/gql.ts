@@ -15,10 +15,12 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
 const documents = {
     "\n\tmutation SendForgotPasswordVerificationEmail($email: String!, $reCaptchaToken: String!) {\n\t\tsendForgotPasswordVerificationEmail(input: { email: $email, reCaptchaToken: $reCaptchaToken }) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.SendForgotPasswordVerificationEmailDocument,
     "\n\tmutation ResendForgotPasswordVerificationEmail {\n\t\tresendRegistrationVerificationEmail {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.ResendForgotPasswordVerificationEmailDocument,
-    "\n\tquery BigEventsForHome($sorting: String, $tags: [String!], $searchText: String) {\n\t\tevents(sorting: $sorting, tags: $tags, searchText: $searchText, take: 3) {\n\t\t\titems {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\timage\n\t\t\t}\n\t\t\ttotalCount\n\t\t}\n\t}\n": types.BigEventsForHomeDocument,
-    "\n\tquery SliderEventsForHome($sorting: String, $tags: [String!], $searchText: String, $take: Int, $skip: Int) {\n\t\tevents(sorting: $sorting, tags: $tags, searchText: $searchText, take: $take, skip: $skip) {\n\t\t\titems {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\tmediumImage\n\t\t\t}\n\t\t}\n\t}\n": types.SliderEventsForHomeDocument,
+    "\n\tquery BigEventsForHome($sorting: String, $tags: [String!], $searchText: String) {\n\t\tevents(sorting: $sorting, tags: $tags, searchText: $searchText, take: 3) {\n\t\t\titems {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\timage\n\t\t\t\taddressLine\n\t\t\t\tcity\n\t\t\t\tpostalCode\n\t\t\t}\n\t\t\ttotalCount\n\t\t}\n\t}\n": types.BigEventsForHomeDocument,
+    "\n\tquery SliderEventsForHome($sorting: String, $tags: [String!], $searchText: String, $take: Int, $skip: Int) {\n\t\tevents(sorting: $sorting, tags: $tags, searchText: $searchText, take: $take, skip: $skip) {\n\t\t\titems {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\tmediumImage\n\t\t\t\taddressLine\n\t\t\t\tcity\n\t\t\t\tpostalCode\n\t\t\t}\n\t\t}\n\t}\n": types.SliderEventsForHomeDocument,
     "\n\tmutation CreateEvent($createEventInput: CreateEventInput!) {\n\t\tcreateEvent(input: $createEventInput) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.CreateEventDocument,
     "\n\tquery GetBigEventImage($EventId: ID!){\n\t\tevent(where: {id: {eq: $EventId}}) {\n\t\t\timage\n\t\t}\n\t}\n": types.GetBigEventImageDocument,
+    "\n\tquery Event {\n\t\tevent(where: { postalCode: { contains: \"8200\" } }) {\n\t\t\tid\n\t\t\ttitle\n\t\t\tdescription\n\t\t\tstartTime\n\t\t\tendTime\n\t\t\timage: smallImage\n\t\t\taddressLine\n\t\t\tcity\n\t\t\tpostalCode\n\t\t}\n\t}\n": types.EventDocument,
+    "\n    mutation AddSelf($addSelfInput: AddSelfToEventInput!) {\n        addSelfToEvent(input: $addSelfInput) {\n            isSuccessful\n            message\n        }\n    }\n": types.AddSelfDocument,
     "\n\tquery Tags {\n\t\ttags {\n\t\t\tid\n\t\t\tname\n\t\t}\n\t}\n": types.TagsDocument,
     "\n\tmutation Login($username: String!, $password: String!, $rememberMe: Boolean!, $recaptchaToken: String!) {\n\t\tlogin(loginInput: { userName: $username, password: $password, rememberMe: $rememberMe, recaptchaToken: $recaptchaToken }) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.LoginDocument,
     "\n\tmutation CreateUser($createUserInput: CreateUserInput!) {\n\t\tcreateUser(createUserInput: $createUserInput) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.CreateUserDocument,
@@ -56,11 +58,11 @@ export function gql(source: "\n\tmutation ResendForgotPasswordVerificationEmail 
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n\tquery BigEventsForHome($sorting: String, $tags: [String!], $searchText: String) {\n\t\tevents(sorting: $sorting, tags: $tags, searchText: $searchText, take: 3) {\n\t\t\titems {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\timage\n\t\t\t}\n\t\t\ttotalCount\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery BigEventsForHome($sorting: String, $tags: [String!], $searchText: String) {\n\t\tevents(sorting: $sorting, tags: $tags, searchText: $searchText, take: 3) {\n\t\t\titems {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\timage\n\t\t\t}\n\t\t\ttotalCount\n\t\t}\n\t}\n"];
+export function gql(source: "\n\tquery BigEventsForHome($sorting: String, $tags: [String!], $searchText: String) {\n\t\tevents(sorting: $sorting, tags: $tags, searchText: $searchText, take: 3) {\n\t\t\titems {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\timage\n\t\t\t\taddressLine\n\t\t\t\tcity\n\t\t\t\tpostalCode\n\t\t\t}\n\t\t\ttotalCount\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery BigEventsForHome($sorting: String, $tags: [String!], $searchText: String) {\n\t\tevents(sorting: $sorting, tags: $tags, searchText: $searchText, take: 3) {\n\t\t\titems {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\timage\n\t\t\t\taddressLine\n\t\t\t\tcity\n\t\t\t\tpostalCode\n\t\t\t}\n\t\t\ttotalCount\n\t\t}\n\t}\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n\tquery SliderEventsForHome($sorting: String, $tags: [String!], $searchText: String, $take: Int, $skip: Int) {\n\t\tevents(sorting: $sorting, tags: $tags, searchText: $searchText, take: $take, skip: $skip) {\n\t\t\titems {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\tmediumImage\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery SliderEventsForHome($sorting: String, $tags: [String!], $searchText: String, $take: Int, $skip: Int) {\n\t\tevents(sorting: $sorting, tags: $tags, searchText: $searchText, take: $take, skip: $skip) {\n\t\t\titems {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\tmediumImage\n\t\t\t}\n\t\t}\n\t}\n"];
+export function gql(source: "\n\tquery SliderEventsForHome($sorting: String, $tags: [String!], $searchText: String, $take: Int, $skip: Int) {\n\t\tevents(sorting: $sorting, tags: $tags, searchText: $searchText, take: $take, skip: $skip) {\n\t\t\titems {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\tmediumImage\n\t\t\t\taddressLine\n\t\t\t\tcity\n\t\t\t\tpostalCode\n\t\t\t}\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery SliderEventsForHome($sorting: String, $tags: [String!], $searchText: String, $take: Int, $skip: Int) {\n\t\tevents(sorting: $sorting, tags: $tags, searchText: $searchText, take: $take, skip: $skip) {\n\t\t\titems {\n\t\t\t\tid\n\t\t\t\ttitle\n\t\t\t\tdescription\n\t\t\t\tmediumImage\n\t\t\t\taddressLine\n\t\t\t\tcity\n\t\t\t\tpostalCode\n\t\t\t}\n\t\t}\n\t}\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -69,6 +71,14 @@ export function gql(source: "\n\tmutation CreateEvent($createEventInput: CreateE
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n\tquery GetBigEventImage($EventId: ID!){\n\t\tevent(where: {id: {eq: $EventId}}) {\n\t\t\timage\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery GetBigEventImage($EventId: ID!){\n\t\tevent(where: {id: {eq: $EventId}}) {\n\t\t\timage\n\t\t}\n\t}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n\tquery Event {\n\t\tevent(where: { postalCode: { contains: \"8200\" } }) {\n\t\t\tid\n\t\t\ttitle\n\t\t\tdescription\n\t\t\tstartTime\n\t\t\tendTime\n\t\t\timage: smallImage\n\t\t\taddressLine\n\t\t\tcity\n\t\t\tpostalCode\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery Event {\n\t\tevent(where: { postalCode: { contains: \"8200\" } }) {\n\t\t\tid\n\t\t\ttitle\n\t\t\tdescription\n\t\t\tstartTime\n\t\t\tendTime\n\t\t\timage: smallImage\n\t\t\taddressLine\n\t\t\tcity\n\t\t\tpostalCode\n\t\t}\n\t}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    mutation AddSelf($addSelfInput: AddSelfToEventInput!) {\n        addSelfToEvent(input: $addSelfInput) {\n            isSuccessful\n            message\n        }\n    }\n"): (typeof documents)["\n    mutation AddSelf($addSelfInput: AddSelfToEventInput!) {\n        addSelfToEvent(input: $addSelfInput) {\n            isSuccessful\n            message\n        }\n    }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

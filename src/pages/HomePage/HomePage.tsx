@@ -17,6 +17,9 @@ export interface Event {
 	smallImage?: string;
 	startTime?: Date;
 	title?: string;
+	addressLine?: string;
+	city?: string;
+	postalCode?: string;
 }
 
 export default function HomePage() {

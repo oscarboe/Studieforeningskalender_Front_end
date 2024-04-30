@@ -1,23 +1,28 @@
 import { useState } from 'react';
-import { handleSendMessage } from '../../Helpers/ChatGPTHelper';
 import './KalenderPage.css';
+import { Event } from '../HomePage/HomePage';
+import { useQuery } from '@apollo/client';
+import { EventQuery, EventQueryVariables } from '../../../generated/graphql/graphql';
+import { EVENT } from '../../Queries/EventQueries';
+import { useNavigate } from 'react-router-dom';
 
 export default function KalenderPage() {
-	const [chatText, setChatText] = useState('');
+	const [event, setEvent] = useState<Event>({});
 
-	const askChatGPT = async () => {
-		console.log(chatText);
-		const res = await handleSendMessage(chatText);
+	const {} = useQuery<EventQuery, EventQueryVariables>(EVENT, {
+		onCompleted: (data) => {
+			if (data?.event) setEvent(data.event);
+		},
+	});
 
-		console.log(res);
+	const navigate = useNavigate();
+	const showEvent = () => {
+		navigate('/Event', { state: { event: event, imageSize: 'small' } });
 	};
 
 	return (
 		<div className='kalender-page'>
-			<h1>Hello from Kalender</h1>
-			<input onChange={(e) => setChatText(e.currentTarget.value)}></input>
-			<button onClick={askChatGPT}>Ask ChatGPT!</button>
-			{/* <PopularEventsWrapper /> */}
+			<button onClick={showEvent}>Show Event</button>
 		</div>
 	);
 }

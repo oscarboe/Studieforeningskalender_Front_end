@@ -8,6 +8,9 @@ export const HOME_BIG_EVENT_QUERY = gql(`
 				title
 				description
 				image
+				addressLine
+				city
+				postalCode
 			}
 			totalCount
 		}
@@ -22,6 +25,9 @@ export const HOME_SLIDER_EVENT_QUERY = gql(`
 				title
 				description
 				mediumImage
+				addressLine
+				city
+				postalCode
 			}
 		}
 	}
@@ -40,6 +46,22 @@ export const GET_BIG_EVENT_IMAGE = gql(`
 	query GetBigEventImage($EventId: ID!){
 		event(where: {id: {eq: $EventId}}) {
 			image
+		}
+	}
+`);
+
+export const EVENT = gql(`
+	query Event {
+		event(where: { postalCode: { contains: "8200" } }) {
+			id
+			title
+			description
+			startTime
+			endTime
+			image: smallImage
+			addressLine
+			city
+			postalCode
 		}
 	}
 `);
