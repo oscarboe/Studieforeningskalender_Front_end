@@ -52,8 +52,6 @@ const Navbar = () => {
 					)}
 				</li>
 			</ul>
-			<FBInit />
-
 		</nav>
 	);
 };

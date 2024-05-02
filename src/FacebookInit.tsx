@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { set } from 'react-hook-form';
 
 interface loginResponse {
 	authResponse: {
@@ -13,13 +14,33 @@ interface loginResponse {
 	status: string;
 }
 
+export interface FBEvent {
+	description: string;
+	id: string;
+	name: string;
+	place: { name: string };
+	start_time: string;
+}
+
+interface FBInitProps {
+	onEventsFetched: (response: any) => void; // replace 'any' with the actual type of the response
+}
+
 declare global {
 	interface Window {
 		FB: any;
 	}
 }
+interface PageInfo {
+	name: string;
+	id: string;
+}
 
-export default function FBInit() {
+const FBInit = ({ onEventsFetched }: FBInitProps) => {
+	const [multiplePages, setMultiplePages] = useState(false);
+	const [multipleEvents, setMultipleEvents] = useState(false);
+	const [pageInfo, setPageInfo] = useState<PageInfo[]>([]);
+	const [events, setEvents] = useState<FBEvent[]>([]);
 	useEffect(() => {
 		// Create script for FB SDK
 		const scriptSDK = document.createElement('script');
@@ -44,6 +65,20 @@ export default function FBInit() {
 		document.body.appendChild(scriptInit);
 	}, []);
 
+	const handlePageSelect = (id) => {
+		setMultiplePages(false);
+		console.log(id);
+		FB.api(`/${id}/events`, 'GET', (response) => {
+			if (response.data.length === 1) {
+				onEventsFetched(response.data[0]);
+			} else if (response.data.length > 1) {
+				setEvents([]);
+				setMultipleEvents(true);
+				setEvents(response.data);
+			}
+		});
+	};
+
 	const handleLogin = () => {
 		window.FB.login(
 			function (response: loginResponse) {
@@ -52,19 +87,65 @@ export default function FBInit() {
 					console.log('Welcome!  Fetching your information.... ');
 					console.log(response.authResponse);
 					FB.api('/me/accounts', 'GET', function (response) {
-						console.log(response);
-						FB.api(`${response.data[0].id}/events`, 'GET', (res) => {
-							console.log(res);
-						});
+						console.log('This is the accounts', response);
+						if (response.data.length === 0) {
+							console.log('No pages found');
+							return;
+						} else if (response.data.length === 1) {
+							handlePageSelect(response.data[0].id);
+							return;
+						} else {
+							setMultiplePages(true);
+							setPageInfo([]);
+							setPageInfo(response.data);
+							console.log('Multiple pages found');
+							return;
+						}
 					});
 				}
 			},
 			{
 				config_id: '760297902547164',
 				response_type: 'code',
-				// override_default_response_type: true,
 			}
 		);
 	};
-	return <button onClick={handleLogin}>Login with Facebook</button>;
-}
+
+	return (
+		<div>
+			{multiplePages ? (
+				<div>
+					<label>Vælg hvilken side der ønskes importeret events fra.</label>
+					<select onChange={(e) => handlePageSelect(e.target.value)}>
+						{pageInfo.map((item, index) => (
+							<option key={index} value={item.id}>
+								{item.name}
+							</option>
+						))}
+					</select>
+				</div>
+			) : (
+				<button onClick={handleLogin}>Import Event From Facebook Page</button>
+			)}
+
+			{multipleEvents ? (
+				<div>
+					<label>Select the event to import.</label>
+					<select
+						onChange={(e) => {
+							const selectedEvent = events.find((event) => event.id === e.target.value);
+							onEventsFetched(selectedEvent);
+						}}
+					>
+						{events.map((event, index) => (
+							<option key={index} value={event.id}>
+								{event.name}
+							</option>
+						))}
+					</select>
+				</div>
+			) : null}
+		</div>
+	);
+};
+export default FBInit;
