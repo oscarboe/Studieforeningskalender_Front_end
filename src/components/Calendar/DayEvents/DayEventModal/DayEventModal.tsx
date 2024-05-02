@@ -3,14 +3,26 @@ import { Event } from '../../../../pages/HomePage/HomePage';
 import './DayEventModal.scss';
 import { IoTimeOutline } from 'react-icons/io5';
 import { PiCalendarBlankLight } from 'react-icons/pi';
+import { useNavigate } from 'react-router-dom';
+import { useLazyQuery } from '@apollo/client';
+import { GetMediumEventImageQuery, GetMediumEventImageQueryVariables } from '../../../../../generated/graphql/graphql';
+import { GET_MEDIUM_EVENT_IMAGE } from '../../../../Queries/EventQueries';
+import { useEffect } from 'react';
 
 interface props {
 	event: Event;
 	open: boolean;
 	setOpen: (value: React.SetStateAction<boolean>) => void;
+	imageSize: 'small' | 'medium' | 'large';
 }
 
-const DayEventModal = ({ event, open, setOpen }: props) => {
+const DayEventModal = ({ event, open, setOpen, imageSize }: props) => {
+	const navigate = useNavigate();
+
+	const [getMediumImage, { data }] = useLazyQuery<GetMediumEventImageQuery, GetMediumEventImageQueryVariables>(
+		GET_MEDIUM_EVENT_IMAGE
+	);
+
 	const getDateString = (): string => {
 		if (!event.startTime || !event.endTime) return '';
 		const startTime = new Date(event.startTime);
@@ -41,11 +53,19 @@ const DayEventModal = ({ event, open, setOpen }: props) => {
 		return time;
 	};
 
+	useEffect(() => {
+		if (imageSize == 'small' && event.id) getMediumImage({ variables: { EventId: event.id } });
+	}, [event.id]);
+
+	const goToEvent = () => {
+		navigate('/Event', { state: { event: event, imageSize: imageSize } });
+	};
+
 	return (
 		<Modal open={open} onClose={() => setOpen(false)} closeAfterTransition className='modal-for-day'>
 			<Fade in={open}>
 				<div className='eventCard'>
-					<img className='eventImage' src={`data:image/png;base64,${event.image}`}></img>
+					<img className='eventImage' src={`data:image/png;base64,${data?.event?.mediumImage || event.image}`}></img>
 					<div className='cardBottom'>
 						<div className='title-desc'>
 							<h3>{event.title}</h3>
@@ -60,7 +80,7 @@ const DayEventModal = ({ event, open, setOpen }: props) => {
 								<IoTimeOutline />
 								<p>{getTimeString()}</p>
 							</div>
-							<button>View More</button>
+							<button onClick={goToEvent}>View More</button>
 						</div>
 					</div>
 				</div>

@@ -24,8 +24,7 @@ export default function App() {
 				<Route path='/Verify' element={<Verify />} />
 				<Route path='/login' element={<LoginPage />} />
 				<Route path='/Calendar' element={<CalendarPage />} />
-				<Route path='/kalender' element={<KalenderPage />}></Route>
-				<Route path='/AddEvent' element={<AddEventPage />}></Route>
+				<Route path='/AddEvent' element={<AddEventPage />} />
 				<Route path='/Event' element={<EventPage />} />
 				<Route path='/' element={<HomePage />}></Route>
 			</Routes>

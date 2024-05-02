@@ -54,17 +54,17 @@
 		margin: 2rem 0;
 		width: 100%;
 		justify-content: space-between;
-		gap: 2rem;
+		gap: 1rem;
 		text-align: start;
 
 		.description {
-			width: 75%;
+			width: 70%;
 			white-space: pre-wrap;
 			margin: 0;
 		}
 
 		.side-content {
-			width: 25%;
+			width: 30%;
 			flex-direction: column;
 			gap: 1.5rem;
 
@@ -76,19 +76,16 @@
 				padding: 1rem;
 				gap: 1rem;
 
-				p {
+				.title {
 					font-weight: bold;
+				}
+
+				p {
 					margin: 0;
 				}
 
 				.logo {
 					margin-right: 0.5rem;
-				}
-			}
-
-			.location-box {
-				.location {
-					align-items: center;
 				}
 			}
 		}

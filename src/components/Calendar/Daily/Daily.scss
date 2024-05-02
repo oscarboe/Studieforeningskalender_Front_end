@@ -31,11 +31,12 @@
 		.day-event {
 			border-radius: 1.5rem;
 			.day-event-title {
-				font-size: 1.5rem;
+				font-size: 1.25rem;
 			}
 
 			.day-event-image {
 				border-radius: 1rem;
+				max-height: calc(100% - 2.3rem);
 			}
 		}
 	}

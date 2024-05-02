@@ -10,7 +10,6 @@ import {
 	GetBigEventImageQueryVariables,
 } from '../../../generated/graphql/graphql';
 import { GET_BIG_EVENT_IMAGE } from '../../Queries/EventQueries';
-import { FaLocationDot } from 'react-icons/fa6';
 import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 import { useDispatch } from 'react-redux';
@@ -19,6 +18,7 @@ import DateAndTimeBox from '../../components/DateAndTimeBox/DateAndTimeBox';
 import { ADD_SELF_TO_EVENT } from '../../Queries/EventUserQueries';
 import { HandleGraphQLError, HandleGraphQLSuccess } from '../../Helpers/ResponseHelper';
 import 'add-to-calendar-button';
+import LocationBox from '../../components/LocationBox/LocationBox';
 
 dayjs.extend(localeData);
 
@@ -34,11 +34,12 @@ const EventPage = () => {
 	});
 
 	useEffect(() => {
-		console.log(event);
 		if (!event) {
 			dispatch(setAlerts([{ message: 'No event to show', severity: 'error' }]));
 			navigate('/');
 		} else if (imageSize != 'large' && event.id) getImage({ variables: { EventId: event.id } });
+
+		window.scrollTo(0, 0);
 	}, []);
 
 	const joinEvent = () => {
@@ -58,26 +59,9 @@ const EventPage = () => {
 					<p className='description'>{event.description}</p>
 					<div className='side-content'>
 						<DateAndTimeBox event={event} />
-						<div className='location-box'>
-							<p>Location</p>
-							<div className='location'>
-								<FaLocationDot className='logo' />
-								<address>
-									{event.addressLine}, {event.postalCode} {event.city}
-								</address>
-							</div>
-						</div>
+						<LocationBox event={event} />
 					</div>
 				</div>
-				<add-to-calendar-button
-					name={event.title}
-					description={event.description}
-					location={`${event.addressLine}, ${event.postalCode} ${event.city}`}
-					startDate={event.startTime?.toString()}
-					endDate={event.endTime?.toString()}
-					options="['Apple','Google','iCal','Microsoft365','Outlook.com','Yahoo']"
-					identifier='add-to-calendar-button'
-				/>
 			</div>
 		);
 };
