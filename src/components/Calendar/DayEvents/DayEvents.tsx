@@ -146,7 +146,7 @@ const DayEvents = ({ day }: props) => {
 					{useImage(style) ? <img src={`data:image/png;base64,${event.image}`} className='day-event-image' /> : ''}
 				</div>
 			))}
-			<DayEventModal event={selectedEvent} open={open} setOpen={setOpen} />
+			<DayEventModal event={selectedEvent} open={open} setOpen={setOpen} imageSize={day.shortDay ? 'small' : 'large'} />
 		</>
 	);
 };

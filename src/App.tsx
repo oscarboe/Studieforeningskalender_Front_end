@@ -10,7 +10,8 @@ import Verify from './pages/VerifyPage/Verify';
 import AccountPage from './pages/AccountPage/AccountPage';
 import CalendarPage from './pages/CalendarPage/CalendarPage';
 import AddEventPage from './pages/AddEventPage/AddEventPage';
-
+import EventPage from './pages/EventPage/EventPage';
+// import FBInit from './FacebookInit';
 
 export default function App() {
 	return (
@@ -23,8 +24,8 @@ export default function App() {
 				<Route path='/Verify' element={<Verify />} />
 				<Route path='/login' element={<LoginPage />} />
 				<Route path='/Calendar' element={<CalendarPage />} />
-				<Route path='/kalender' element={<KalenderPage />}></Route>
-				<Route path='/AddEvent' element={<AddEventPage />}></Route>
+				<Route path='/AddEvent' element={<AddEventPage />} />
+				<Route path='/Event' element={<EventPage />} />
 				<Route path='/' element={<HomePage />}></Route>
 			</Routes>
 		</BrowserRouter>

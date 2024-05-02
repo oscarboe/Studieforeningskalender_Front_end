@@ -86,7 +86,7 @@ const Day = ({ day, setRef, setSubConnectors, date }: props) => {
 			) : (
 				<></>
 			)}
-			<DayEventModal event={selectedEvent} open={open} setOpen={setOpen} />
+			<DayEventModal event={selectedEvent} open={open} setOpen={setOpen} imageSize='small' />
 		</div>
 	);
 };
