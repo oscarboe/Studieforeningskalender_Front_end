@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { set } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { addAlert } from '../../Redux/Slices/alertsSlice';
+import './FacebookInit.scss';
 
 interface loginResponse {
 	authResponse: {
@@ -119,7 +120,7 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
 	};
 
 	return (
-		<div>
+		<div className='FB'>
 			{pageInfo.length > 1 ? (
 				<div>
 					<label>Choose which page to import from.</label>
@@ -132,7 +133,7 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
 					</select>
 				</div>
 			) : (
-				<button onClick={handleLogin}>Import Event From Facebook Page</button>
+				<button className="FBbtn" onClick={handleLogin}>Import Event From Facebook Page</button>
 			)}
 
 			{multipleEvents ? (

@@ -7,10 +7,13 @@
 	box-shadow: 0 0 0.5rem 0.3rem #ff0;
 }
 
-// div {
-// 	display: block;
-// 	max-width: 40rem;
-// }
+.addEventPage div {
+	display: block;
+	max-width: 40rem;
+	flex-direction: column;
+	clear: both;
+
+}
 
 textarea {
 	width: 95%;

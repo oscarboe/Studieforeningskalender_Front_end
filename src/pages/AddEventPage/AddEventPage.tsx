@@ -70,7 +70,7 @@ export default function AddEventPage() {
 	function handleEventsFetched(event: FBEvent): void {
 		setDescription(event.description);
 		setEventName(event.name);
-		setLocation(event.place.name);
+		setAddress(event.place.name);
 		// Convert the startTime state to the "YYYY-MM-DDTHH:mm" format for two-way binding with the input field
 		const date = new Date(event.start_time);
 		const dateTimeLocal = date.toISOString().slice(0, 16);
@@ -78,7 +78,7 @@ export default function AddEventPage() {
 	}
 
 	return (
-		<div>
+		<div className='addEventPage'>
 			<FBInit onEventsFetched={handleEventsFetched} />
 			<form onSubmit={handleSubmit}>
 				<label>
@@ -101,7 +101,7 @@ export default function AddEventPage() {
 				<div></div>
 				<label>
 					Address
-					<input type='text' value={location} onChange={(e) => e.target.value} />
+					<input type='text' value={address} onChange={(e) => setAddress(e.target.value)} />
 				</label>
 				<div></div>
 				<label>
