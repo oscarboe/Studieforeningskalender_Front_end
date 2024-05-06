@@ -14,8 +14,7 @@ import {
 } from '../../../generated/graphql/graphql';
 import { GET_ALL_TAGS } from '../../Queries/TagQueries';
 import { CREATE_EVENT_QUERY } from '../../Queries/EventQueries';
-import FBInit, { FBEvent } from '../../FacebookInit';
-import { get } from 'http';
+import FBInit, { FBEvent } from '../../components/ImportFacebook/FacebookInit';
 
 export default function AddEventPage() {
 	const [eventName, setEventName] = useState('');

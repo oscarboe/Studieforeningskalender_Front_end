@@ -22,8 +22,12 @@ export interface FBEvent {
 	start_time: string;
 }
 
+interface eventResponse {
+	data: FBEvent[];
+}
+
 interface FBInitProps {
-	onEventsFetched: (response: any) => void; // replace 'any' with the actual type of the response
+	onEventsFetched: (response: FBEvent) => void;
 }
 
 declare global {
@@ -68,7 +72,7 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
 	const handlePageSelect = (id) => {
 		setMultiplePages(false);
 		console.log(id);
-		FB.api(`/${id}/events`, 'GET', (response) => {
+		FB.api(`/${id}/events`, 'GET', (response: eventResponse) => {
 			if (response.data.length === 1) {
 				onEventsFetched(response.data[0]);
 			} else if (response.data.length > 1) {
@@ -134,7 +138,7 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
 					<select
 						onChange={(e) => {
 							const selectedEvent = events.find((event) => event.id === e.target.value);
-							onEventsFetched(selectedEvent);
+							if (selectedEvent) onEventsFetched(selectedEvent);
 						}}
 					>
 						{events.map((event, index) => (
