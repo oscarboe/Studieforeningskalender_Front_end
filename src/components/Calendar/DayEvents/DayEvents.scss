@@ -1,0 +1,30 @@
+.day-event {
+	position: absolute;
+	background-color: rgba(32, 86, 168, 1);
+	border: none;
+	border-radius: 0.6rem;
+	align-items: center;
+	cursor: pointer;
+
+	.day-event-title {
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 1;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		word-break: break-all;
+		margin: 0;
+		width: 90%;
+		font-size: 0.75rem;
+	}
+
+	.day-event-image {
+		object-fit: contain;
+		aspect-ratio: 16/9;
+		border-radius: 0.5rem;
+		max-width: 90%;
+		max-height: 100%;
+		margin: 0.2rem;
+		box-sizing: border-box;
+	}
+}
