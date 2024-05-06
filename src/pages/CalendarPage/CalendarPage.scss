@@ -1,0 +1,41 @@
+#calendar-page {
+	display: flex;
+	position: fixed;
+	width: 80%;
+	height: 80%;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: calc(var(--header-height) + 4rem);
+
+	h1 {
+		margin: 1.5rem;
+	}
+}
+
+.rbc-calendar {
+	margin: 0;
+	padding: 0;
+	min-width: 43rem;
+	width: 60%;
+	height: 77% !important;
+
+	.rbc-row-content,
+	.rbc-allday-cell,
+	.rbc-row-segment {
+		display: block;
+	}
+
+	button:not(.rbc-button-link) {
+		color: white;
+	}
+
+	.rbc-today,
+	.rbc-off-range-bg {
+		background-color: #5b5b5b;
+	}
+
+	.rbc-active {
+		background-color: #5b5b5b !important;
+	}
+}

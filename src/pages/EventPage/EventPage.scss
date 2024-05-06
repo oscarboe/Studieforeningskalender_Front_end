@@ -1,0 +1,93 @@
+.event-page {
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	width: 60%;
+	min-width: 50rem;
+	position: absolute;
+	margin-top: calc(var(--header-height) + 4rem);
+	object-fit: fill;
+
+	img {
+		border-radius: 1.5rem;
+		width: 100%;
+	}
+
+	button {
+		background-color: #2056a8;
+		border: 0.125rem solid #2056a8;
+		border-radius: 0.25rem;
+		text-align: center;
+		outline: none;
+		font-size: large;
+		transition: all 0.4s;
+		height: 3rem;
+		width: 8rem;
+	}
+
+	button:hover {
+		background-color: transparent !important;
+	}
+
+	.title-and-signup {
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		margin: 0.5rem 0;
+
+		h1 {
+			font-size: 1.5rem;
+		}
+
+		button {
+			width: 8rem;
+		}
+	}
+
+	.divider {
+		background-color: #666666;
+		height: 1px;
+		width: 100%;
+	}
+
+	.content {
+		margin: 2rem 0;
+		width: 100%;
+		justify-content: space-between;
+		gap: 1rem;
+		text-align: start;
+
+		.description {
+			width: 70%;
+			white-space: pre-wrap;
+			margin: 0;
+		}
+
+		.side-content {
+			width: 30%;
+			flex-direction: column;
+			gap: 1.5rem;
+
+			.date-and-time-box,
+			.location-box {
+				background-color: rgba(32, 86, 168, 0.5);
+				border-radius: 0.5rem;
+				flex-direction: column;
+				padding: 1rem;
+				gap: 1rem;
+
+				.title {
+					font-weight: bold;
+				}
+
+				p {
+					margin: 0;
+				}
+
+				.logo {
+					margin-right: 0.5rem;
+				}
+			}
+		}
+	}
+}

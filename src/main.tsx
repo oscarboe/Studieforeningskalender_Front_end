@@ -15,7 +15,8 @@ const client = new ApolloClient({
 		uri: uri,
 		headers: {
 			'Content-Type': 'application/json',
-			'GraphQL-Preflight': 'true',
+			'GraphQL-Preflight': '1',
+
 		},
 		credentials: 'include',
 	}),

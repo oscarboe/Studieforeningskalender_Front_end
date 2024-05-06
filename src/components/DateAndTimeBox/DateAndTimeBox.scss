@@ -1,0 +1,11 @@
+.date-and-time-box {
+	overflow: visible;
+	.date-and-time {
+		width: 100%;
+		align-items: center;
+
+		.times {
+			flex-direction: column;
+		}
+	}
+}

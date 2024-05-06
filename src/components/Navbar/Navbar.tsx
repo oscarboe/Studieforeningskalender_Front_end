@@ -34,7 +34,7 @@ const Navbar = () => {
 					</NavLink>
 				</li>
 				<li className='nav__item'>
-					<NavLink to='/kalender' className='nav__link'>
+					<NavLink to='/Calendar' className='nav__link'>
 						<IoCalendarOutline size='2.5em' />
 					</NavLink>
 				</li>
