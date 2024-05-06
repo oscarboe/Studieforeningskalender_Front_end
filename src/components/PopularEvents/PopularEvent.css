@@ -47,3 +47,11 @@
 #eventButton:hover {
 	background-color: transparent; /* Transparent background on hover */
 }
+
+.PopularEvent .h1 #textPart .description {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 10;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
