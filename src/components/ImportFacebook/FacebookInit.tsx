@@ -119,7 +119,7 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
 		<div>
 			{multiplePages ? (
 				<div>
-					<label>Vælg hvilken side der ønskes importeret events fra.</label>
+					<label>Choose which page to import from.</label>
 					<select onChange={(e) => handlePageSelect(e.target.value)}>
 						{pageInfo.map((item, index) => (
 							<option key={index} value={item.id}>
