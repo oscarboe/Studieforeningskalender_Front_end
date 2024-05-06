@@ -58,7 +58,7 @@ export default function AddEventPage() {
 			return newImageURLs;
 		});
 	};
-	const handleFileChange = (e) => {
+	const handleFileChange = (e: any) => {
 		if (e.target.files.length > 0) {
 			const url = URL.createObjectURL(e.target.files[0]);
 			setFile(e.target.files[0]);
@@ -81,64 +81,61 @@ export default function AddEventPage() {
 		<div className='addEventPage'>
 			<FBInit onEventsFetched={handleEventsFetched} />
 			<form onSubmit={handleSubmit}>
-				<label>
-					Event Name:
+				<div className='event-field'>
+					<h3>Event Name</h3>
 					<input type='text' value={eventName} onChange={(e) => setEventName(e.target.value)} />
-				</label>
-				<label>
-					Start date and time:
-					<input type='datetime-local' value={startTime} onChange={(e) => setStartTime(e.target.value)} />
-				</label>
-				<label>
-					End date and time:
-					<input type='datetime-local' value={endTime} onChange={(e) => setEndTime(e.target.value)} />
-				</label>
-				<label>
-					Description:
-					<div></div>
+				</div>
+				<div className='dates'>
+					<div className='event-field'>
+						<h3>Start time</h3>
+						<input type='datetime-local' value={startTime} onChange={(e) => setStartTime(e.target.value)} />
+					</div>
+					<div className='event-field'>
+						<h3>End time</h3>
+						<input type='datetime-local' value={endTime} onChange={(e) => setEndTime(e.target.value)} />
+					</div>
+				</div>
+				<div className='event-field'>
+					<h3>Description</h3>
 					<textarea value={description} onChange={(e) => setDescription(e.target.value)} />
-				</label>
-				<div></div>
-				<label>
-					Address
+				</div>
+				<div className='event-field'>
+					<h3>Address</h3>
 					<input type='text' value={address} onChange={(e) => setAddress(e.target.value)} />
-				</label>
-				<div></div>
-				<label>
-					Postal Code
+				</div>
+				<div className='event-field'>
+					<h3>Postal Code</h3>
 					<input type='text' value={postalCode} onChange={(e) => setPostalCode(e.target.value)} />
-				</label>
-				<label>
-					City
+				</div>
+				<div className='event-field'>
+					<h3>City</h3>
 					<input type='text' value={city} onChange={(e) => setCity(e.target.value)} />
-				</label>
-
-				<div></div>
-				<label>
-					Tags:
+				</div>
+				<div className='event-field'>
+					<h3>Tags</h3>
 					<Autocomplete
 						multiple
 						id='tags-select'
 						options={data?.tags.map((tag) => ({ label: tag.name, id: tag.id })) || []}
 						getOptionLabel={(option) => option.label}
 						isOptionEqualToValue={(option, value) => option.id === value.id}
-						onChange={(newValue) => {
-							setSelectedTags(newValue);
+						onChange={(_, values) => {
+							setSelectedTags(values.map((x) => x.label));
 						}}
 						renderInput={(params) => <TextField {...params} variant='standard' label='Vælg tags' />}
 						disableCloseOnSelect={true}
 						filterSelectedOptions={true}
 					/>
-				</label>
-				<label>
-					Pictures:
+				</div>
+				<div className='event-field'>
+					<h3>Pictures</h3>
 					<Tooltip title='Her kan du uploade op til 3 billeder der repræsenterer dit event. Billedet med den gyldne kant er hovedbilledet. Hvis du ønsker at et af de andre 2 billeder skal være hovedbillede så klik på det. '>
 						<IconButton>
 							<InfoIcon />
 						</IconButton>
 					</Tooltip>
 					<input type='file' accept='image/*' multiple onChange={handleFileChange} />
-				</label>
+				</div>
 				{imageURLs.map((url, index) => (
 					<img
 						className={`image ${index === 0 ? 'first-image' : ''}`}
@@ -153,6 +150,7 @@ export default function AddEventPage() {
 						e.preventDefault;
 						handleSubmit;
 					}}
+					className='submit-button'
 				>
 					Submit
 				</button>

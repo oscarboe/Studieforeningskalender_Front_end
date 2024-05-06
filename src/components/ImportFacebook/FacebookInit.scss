@@ -1,7 +1,23 @@
-.FB div {
-	display: block;
-	max-width: 40rem;
-}
-.FBbtn {
-	flex-direction: column;
+.FB {
+	margin-bottom: 1rem;
+
+	div {
+		display: block;
+		max-width: 40rem;
+	}
+
+	button {
+		background-color: #2056a8;
+		border: 0.125rem solid #2056a8;
+		border-radius: 0.25rem;
+		text-align: center;
+		outline: none;
+		font-size: large;
+		transition: all 0.4s;
+		width: 100%;
+	}
+
+	button:hover {
+		background-color: transparent !important;
+	}
 }
