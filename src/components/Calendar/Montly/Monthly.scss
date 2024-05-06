@@ -1,0 +1,18 @@
+#calendar-month {
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	margin-top: 1.5rem;
+
+	#month-weekDays {
+		justify-content: space-between;
+		width: 100%;
+		color: var(--ria-light-blue);
+
+		p {
+			width: calc(100% / 7);
+		}
+	}
+}

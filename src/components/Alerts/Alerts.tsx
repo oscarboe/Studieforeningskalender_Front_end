@@ -14,7 +14,7 @@ export default function Alerts() {
 				<Alert
 					className='alert'
 					severity={data.severity}
-					key={data.message}
+					key={data.message + Math.random()}
 					style={{ animationDelay: `${index * 0.15}s, ${10 + index * 0.15}s` }}
 					onClose={() => dispatch(removeAlert(data))}
 				>

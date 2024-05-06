@@ -1,0 +1,21 @@
+.image {
+	width: 10rem;
+	height: 10rem;
+	margin: 1rem;
+}
+.first-image {
+	box-shadow: 0 0 0.5rem 0.3rem #ff0;
+}
+
+.addEventPage div {
+	display: block;
+	max-width: 40rem;
+	flex-direction: column;
+	clear: both;
+
+}
+
+textarea {
+	width: 95%;
+	height: 10rem;
+}

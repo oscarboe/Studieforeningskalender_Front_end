@@ -1,17 +1,19 @@
+import { useNavigate } from 'react-router-dom';
 import './PopularEvent.css';
+import { Event } from '../../pages/HomePage/HomePage';
 
 type PopularEventProps = {
-	eventData: {
-		__typename?: 'EventDto' | undefined;
-		id: string;
-		title: string;
-		description: string;
-		image: string;
-	};
+	eventData: Event;
 	swap?: boolean;
 };
 
 export default function PopularEvent({ eventData, swap }: PopularEventProps) {
+	const navigate = useNavigate();
+
+	const goToEvent = () => {
+		navigate('/Event', { state: { event: eventData, imageSize: 'large' } });
+	};
+
 	return (
 		<div className='PopularEvent' style={{ flexDirection: swap ? 'row' : 'row-reverse' }}>
 			<img className='img' src={`data:image/png;base64,${eventData.image}`} alt='Event' />
@@ -20,7 +22,9 @@ export default function PopularEvent({ eventData, swap }: PopularEventProps) {
 					<div className='title'>{eventData.title}</div>
 					<div className='description'>{eventData.description}</div>
 				</div>
-				<button id='eventButton'>Se Mere</button>
+				<button id='eventButton' onClick={goToEvent}>
+					Se Mere
+				</button>
 			</div>
 		</div>
 	);

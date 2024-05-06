@@ -1,0 +1,29 @@
+#calendar-weekly {
+	height: 100%;
+	width: 100%;
+	margin-top: 2rem;
+	overflow-x: hidden;
+
+	#weekly-days {
+		width: calc(100% * (7 / 8));
+		height: 200%;
+		align-items: center;
+		justify-content: center;
+		border-bottom: #666666 solid 0.0675rem;
+	}
+
+	#weekly-hours {
+		width: calc(100% / 8);
+		flex-direction: column;
+		align-items: flex-start;
+		height: 200%;
+		border-right: #666666 solid 0.0675rem;
+
+		p {
+			width: 100%;
+			outline: #666666 solid 0.0675rem;
+			height: calc(100% / 24);
+			margin: 0;
+		}
+	}
+}

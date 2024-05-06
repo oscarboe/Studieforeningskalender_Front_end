@@ -8,7 +8,6 @@ import { useQuery } from '@apollo/client';
 import { VALIDATE_SESSION } from '../../Queries/UserQueries';
 import { RootState } from '../../Redux/store';
 import { setLoggedIn } from '../../Redux/Slices/loggedInSlice';
-
 const Navbar = () => {
 	const location = useLocation();
 	const loggedIn = useSelector((state: RootState) => state.loggedIn);
@@ -35,14 +34,20 @@ const Navbar = () => {
 					</NavLink>
 				</li>
 				<li className='nav__item'>
-					<NavLink to='/kalender' className='nav__link'>
+					<NavLink to='/Calendar' className='nav__link'>
 						<IoCalendarOutline size='2.5em' />
 					</NavLink>
 				</li>
 				<li className='nav__item'>
-					<NavLink to='/login' className='nav__link'>
-						{loggedIn ? <button id='profileButton'>Profil</button> : <button id='loginButton'>Login</button>}
-					</NavLink>
+					{loggedIn ? (
+						<NavLink to='/Account' className='nav__link'>
+							<button id='profileButton'>Profil</button>
+						</NavLink>
+					) : (
+						<NavLink to='/login' className='nav__link'>
+							<button id='loginButton'>Login</button>
+						</NavLink>
+					)}
 				</li>
 			</ul>
 		</nav>
