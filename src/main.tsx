@@ -11,12 +11,11 @@ var uri = 'https://backend.studieforeningskalender.com';
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') uri = 'http://localhost:5022/graphql';
 
 const client = new ApolloClient({
-	link: new createUploadLink({
+	link: createUploadLink({
 		uri: uri,
 		headers: {
 			'Content-Type': 'application/json',
 			'GraphQL-Preflight': '1',
-
 		},
 		credentials: 'include',
 	}),

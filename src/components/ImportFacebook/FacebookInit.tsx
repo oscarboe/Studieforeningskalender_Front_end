@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { set } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { addAlert } from '../../Redux/Slices/alertsSlice';
 import './FacebookInit.scss';
@@ -69,9 +68,8 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
 		document.body.appendChild(scriptInit);
 	}, []);
 
-	const handlePageSelect = (id) => {
-		setMultiplePages(false);
-		FB.api(`/${id}/events`, 'GET', (response: eventResponse) => {
+	const handlePageSelect = (id: any) => {
+		window.FB.api(`/${id}/events`, 'GET', (response: eventResponse) => {
 			if (response.data.length === 0)
 				dispatch(
 					addAlert({
@@ -92,7 +90,7 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
 		window.FB.login(
 			function (response: loginResponse) {
 				if (response.status === 'connected') {
-					FB.api('/me/accounts', 'GET', function (response) {
+					window.FB.api('/me/accounts', 'GET', function (response: any) {
 						if (response.data.length === 0) {
 							dispatch(
 								addAlert({
@@ -105,7 +103,6 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
 							handlePageSelect(response.data[0].id);
 							return;
 						} else {
-							setMultiplePages(true);
 							setPageInfo(response.data);
 							return;
 						}
@@ -133,7 +130,9 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
 					</select>
 				</div>
 			) : (
-				<button className="FBbtn" onClick={handleLogin}>Import Event From Facebook Page</button>
+				<button className='FBbtn' onClick={handleLogin}>
+					Import Event From Facebook Page
+				</button>
 			)}
 
 			{multipleEvents ? (
