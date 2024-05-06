@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { set } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { addAlert } from '../../Redux/Slices/alertsSlice';
 
 interface loginResponse {
 	authResponse: {
@@ -39,14 +41,12 @@ interface PageInfo {
 	name: string;
 	id: string;
 }
-
 const FBInit = ({ onEventsFetched }: FBInitProps) => {
-	const [multiplePages, setMultiplePages] = useState(false);
 	const [multipleEvents, setMultipleEvents] = useState(false);
 	const [pageInfo, setPageInfo] = useState<PageInfo[]>([]);
 	const [events, setEvents] = useState<FBEvent[]>([]);
+	const dispatch = useDispatch();
 	useEffect(() => {
-		// Create script for FB SDK
 		const scriptSDK = document.createElement('script');
 		scriptSDK.src = 'https://connect.facebook.net/en_US/sdk.js';
 		scriptSDK.async = true;
@@ -63,7 +63,6 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
                     xfbml: true,
                     version: 'v19.0'
                 });
-				console.log('FB SDK initialized');
             };
         `;
 		document.body.appendChild(scriptInit);
@@ -71,12 +70,17 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
 
 	const handlePageSelect = (id) => {
 		setMultiplePages(false);
-		console.log(id);
 		FB.api(`/${id}/events`, 'GET', (response: eventResponse) => {
-			if (response.data.length === 1) {
+			if (response.data.length === 0)
+				dispatch(
+					addAlert({
+						message: 'No events found. Check your page has created events.',
+						severity: 'error',
+					})
+				);
+			else if (response.data.length === 1) {
 				onEventsFetched(response.data[0]);
 			} else if (response.data.length > 1) {
-				setEvents([]);
 				setMultipleEvents(true);
 				setEvents(response.data);
 			}
@@ -86,23 +90,22 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
 	const handleLogin = () => {
 		window.FB.login(
 			function (response: loginResponse) {
-				console.log(response);
 				if (response.status === 'connected') {
-					console.log('Welcome!  Fetching your information.... ');
-					console.log(response.authResponse);
 					FB.api('/me/accounts', 'GET', function (response) {
-						console.log('This is the accounts', response);
 						if (response.data.length === 0) {
-							console.log('No pages found');
+							dispatch(
+								addAlert({
+									message: 'No pages found. Check you are at least editor for a facebook page',
+									severity: 'error',
+								})
+							);
 							return;
 						} else if (response.data.length === 1) {
 							handlePageSelect(response.data[0].id);
 							return;
 						} else {
 							setMultiplePages(true);
-							setPageInfo([]);
 							setPageInfo(response.data);
-							console.log('Multiple pages found');
 							return;
 						}
 					});
@@ -117,12 +120,12 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
 
 	return (
 		<div>
-			{multiplePages ? (
+			{pageInfo.length > 1 ? (
 				<div>
 					<label>Choose which page to import from.</label>
 					<select onChange={(e) => handlePageSelect(e.target.value)}>
-						{pageInfo.map((item, index) => (
-							<option key={index} value={item.id}>
+						{pageInfo.map((item) => (
+							<option key={item.id} value={item.id}>
 								{item.name}
 							</option>
 						))}
@@ -141,8 +144,8 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
 							if (selectedEvent) onEventsFetched(selectedEvent);
 						}}
 					>
-						{events.map((event, index) => (
-							<option key={index} value={event.id}>
+						{events.map((event) => (
+							<option key={event.id} value={event.id}>
 								{event.name}
 							</option>
 						))}

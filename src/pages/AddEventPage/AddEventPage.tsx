@@ -21,7 +21,9 @@ export default function AddEventPage() {
 	const [description, setDescription] = useState('');
 	const [startTime, setStartTime] = useState('');
 	const [endTime, setEndTime] = useState('');
-	const [location, setLocation] = useState('');
+	const [address, setAddress] = useState('');
+	const [postalCode, setPostalCode] = useState('8000');
+	const [city, setCity] = useState('Aarhus');
 	const [imageURLs, setImageURLs] = useState<string[]>([]);
 	const [file, setFile] = useState<File | null>(null);
 
@@ -31,17 +33,17 @@ export default function AddEventPage() {
 
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
-		console.log(eventName, description, startTime, endTime, selectedTags);
-		console.log(imageURLs);
 		const input: CreateEventInput = {
 			title: eventName,
 			description: description,
 			image: file,
+			addressLine: address,
+			postalCode: postalCode,
+			city: city,
 			startTime: startTime,
 			endTime: endTime,
-			// tags: selectedTags,
+			tags: selectedTags,
 		};
-		console.log(input);
 		createEvent({
 			variables: {
 				createEventInput: input,
@@ -58,17 +60,14 @@ export default function AddEventPage() {
 	};
 	const handleFileChange = (e) => {
 		if (e.target.files.length > 0) {
-			console.log(e.target.files);
 			const url = URL.createObjectURL(e.target.files[0]);
 			setFile(e.target.files[0]);
 			if (imageURLs.length < 3) setImageURLs([...imageURLs, url]);
 			else setImageURLs([...imageURLs.slice(1, 3), url]);
-			console.log(imageURLs);
 		}
 	};
 
 	function handleEventsFetched(event: FBEvent): void {
-		console.log(event);
 		setDescription(event.description);
 		setEventName(event.name);
 		setLocation(event.place.name);
@@ -83,27 +82,37 @@ export default function AddEventPage() {
 			<FBInit onEventsFetched={handleEventsFetched} />
 			<form onSubmit={handleSubmit}>
 				<label>
-					Event Navn:
+					Event Name:
 					<input type='text' value={eventName} onChange={(e) => setEventName(e.target.value)} />
 				</label>
 				<label>
-					Starttidspunkt:
+					Start date and time:
 					<input type='datetime-local' value={startTime} onChange={(e) => setStartTime(e.target.value)} />
 				</label>
 				<label>
-					Sluttidspunkt:
+					End date and time:
 					<input type='datetime-local' value={endTime} onChange={(e) => setEndTime(e.target.value)} />
 				</label>
 				<label>
-					Beskrivelse:
+					Description:
 					<div></div>
 					<textarea value={description} onChange={(e) => setDescription(e.target.value)} />
 				</label>
 				<div></div>
 				<label>
-					Lokation
-					<input type='text' value={location} onChange={(e) => setLocation(e.target.value)} />
+					Address
+					<input type='text' value={location} onChange={(e) => e.target.value} />
 				</label>
+				<div></div>
+				<label>
+					Postal Code
+					<input type='text' value={postalCode} onChange={(e) => setPostalCode(e.target.value)} />
+				</label>
+				<label>
+					City
+					<input type='text' value={city} onChange={(e) => setCity(e.target.value)} />
+				</label>
+
 				<div></div>
 				<label>
 					Tags:

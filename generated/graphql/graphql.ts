@@ -24,7 +24,7 @@ export type Scalars = {
 };
 
 export type AddSelfToEventInput = {
-  eventId: Scalars['UUID']['input'];
+  eventId: Scalars['String']['input'];
   isAdmin?: Scalars['Boolean']['input'];
 };
 
@@ -101,10 +101,13 @@ export type CollectionSegmentInfo = {
 };
 
 export type CreateEventInput = {
+  addressLine: Scalars['String']['input'];
+  city: Scalars['String']['input'];
   description: Scalars['String']['input'];
   endTime: Scalars['DateTime']['input'];
   image: Scalars['Upload']['input'];
   otherAdministrators?: InputMaybe<Array<Scalars['String']['input']>>;
+  postalCode: Scalars['String']['input'];
   startTime: Scalars['DateTime']['input'];
   tags?: InputMaybe<Array<Scalars['String']['input']>>;
   title: Scalars['String']['input'];
@@ -196,6 +199,8 @@ export type DeleteUserPayload = {
 
 export type Event = Node & {
   __typename?: 'Event';
+  addressLine: Scalars['String']['output'];
+  city: Scalars['String']['output'];
   creation: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
   endTime: Scalars['DateTime']['output'];
@@ -204,6 +209,7 @@ export type Event = Node & {
   id: Scalars['ID']['output'];
   image: Array<Scalars['Byte']['output']>;
   mediumImage: Array<Scalars['Byte']['output']>;
+  postalCode: Scalars['String']['output'];
   smallImage: Array<Scalars['Byte']['output']>;
   startTime: Scalars['DateTime']['output'];
   title: Scalars['String']['output'];
@@ -221,6 +227,8 @@ export type EventAndTagsInput = {
 
 export type EventDto = Node & {
   __typename?: 'EventDto';
+  addressLine: Scalars['String']['output'];
+  city: Scalars['String']['output'];
   creation: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
   endTime: Scalars['DateTime']['output'];
@@ -229,13 +237,16 @@ export type EventDto = Node & {
   id: Scalars['ID']['output'];
   image: Scalars['String']['output'];
   mediumImage: Scalars['String']['output'];
+  postalCode: Scalars['String']['output'];
   smallImage: Scalars['String']['output'];
   startTime: Scalars['DateTime']['output'];
   title: Scalars['String']['output'];
 };
 
 export type EventDtoFilterInput = {
+  addressLine?: InputMaybe<StringOperationFilterInput>;
   and?: InputMaybe<Array<EventDtoFilterInput>>;
+  city?: InputMaybe<StringOperationFilterInput>;
   creation?: InputMaybe<DateTimeOperationFilterInput>;
   description?: InputMaybe<StringOperationFilterInput>;
   endTime?: InputMaybe<DateTimeOperationFilterInput>;
@@ -245,25 +256,31 @@ export type EventDtoFilterInput = {
   image?: InputMaybe<StringOperationFilterInput>;
   mediumImage?: InputMaybe<StringOperationFilterInput>;
   or?: InputMaybe<Array<EventDtoFilterInput>>;
+  postalCode?: InputMaybe<StringOperationFilterInput>;
   smallImage?: InputMaybe<StringOperationFilterInput>;
   startTime?: InputMaybe<DateTimeOperationFilterInput>;
   title?: InputMaybe<StringOperationFilterInput>;
 };
 
 export type EventDtoSortInput = {
+  addressLine?: InputMaybe<SortEnumType>;
+  city?: InputMaybe<SortEnumType>;
   creation?: InputMaybe<SortEnumType>;
   description?: InputMaybe<SortEnumType>;
   endTime?: InputMaybe<SortEnumType>;
   id?: InputMaybe<SortEnumType>;
   image?: InputMaybe<SortEnumType>;
   mediumImage?: InputMaybe<SortEnumType>;
+  postalCode?: InputMaybe<SortEnumType>;
   smallImage?: InputMaybe<SortEnumType>;
   startTime?: InputMaybe<SortEnumType>;
   title?: InputMaybe<SortEnumType>;
 };
 
 export type EventFilterInput = {
+  addressLine?: InputMaybe<StringOperationFilterInput>;
   and?: InputMaybe<Array<EventFilterInput>>;
+  city?: InputMaybe<StringOperationFilterInput>;
   creation?: InputMaybe<DateTimeOperationFilterInput>;
   description?: InputMaybe<StringOperationFilterInput>;
   endTime?: InputMaybe<DateTimeOperationFilterInput>;
@@ -273,6 +290,7 @@ export type EventFilterInput = {
   image?: InputMaybe<ListByteOperationFilterInput>;
   mediumImage?: InputMaybe<ListByteOperationFilterInput>;
   or?: InputMaybe<Array<EventFilterInput>>;
+  postalCode?: InputMaybe<StringOperationFilterInput>;
   smallImage?: InputMaybe<ListByteOperationFilterInput>;
   startTime?: InputMaybe<DateTimeOperationFilterInput>;
   title?: InputMaybe<StringOperationFilterInput>;
@@ -525,9 +543,8 @@ export type Node = {
 
 export type Query = {
   __typename?: 'Query';
-  event?: Maybe<Event>;
+  event?: Maybe<EventDto>;
   events?: Maybe<EventsCollectionSegment>;
-  facebookAccessToken: Scalars['String']['output'];
   /** Fetches an object given its ID. */
   node?: Maybe<Node>;
   /** Lookup nodes by a list of IDs. */
@@ -541,7 +558,7 @@ export type Query = {
 
 
 export type QueryEventArgs = {
-  where?: InputMaybe<EventFilterInput>;
+  where?: InputMaybe<EventDtoFilterInput>;
 };
 
 
@@ -553,12 +570,6 @@ export type QueryEventsArgs = {
   tags?: InputMaybe<Array<Scalars['String']['input']>>;
   take?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<EventDtoFilterInput>;
-};
-
-
-export type QueryFacebookAccessTokenArgs = {
-  code: Scalars['String']['input'];
-  redirectURI: Scalars['String']['input'];
 };
 
 

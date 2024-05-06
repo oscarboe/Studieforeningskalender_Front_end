@@ -8,8 +8,6 @@ import { useQuery } from '@apollo/client';
 import { VALIDATE_SESSION } from '../../Queries/UserQueries';
 import { RootState } from '../../Redux/store';
 import { setLoggedIn } from '../../Redux/Slices/loggedInSlice';
-import FBInit from '../ImportFacebook/FacebookInit';
-
 const Navbar = () => {
 	const location = useLocation();
 	const loggedIn = useSelector((state: RootState) => state.loggedIn);
