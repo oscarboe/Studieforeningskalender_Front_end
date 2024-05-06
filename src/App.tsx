@@ -10,15 +10,14 @@ import Verify from './pages/VerifyPage/Verify';
 import AccountPage from './pages/AccountPage/AccountPage';
 import CalendarPage from './pages/CalendarPage/CalendarPage';
 import AddEventPage from './pages/AddEventPage/AddEventPage';
+
 import EventPage from './pages/EventPage/EventPage';
-// import FBInit from './FacebookInit';
 
 export default function App() {
 	return (
 		<BrowserRouter>
 			<Alerts />
 			<Navbar />
-			{/* <FBInit /> */}
 			<Routes>
 				<Route path='/Account' element={<AccountPage />} />
 				<Route path='/Verify' element={<Verify />} />
