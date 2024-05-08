@@ -70,7 +70,14 @@ export default function AddEventPage() {
 	function handleEventsFetched(event: FBEvent): void {
 		setDescription(event.description);
 		setEventName(event.name);
-		setAddress(event.place.name);
+		//the location from facebook typically comes in the format "address, postalcode city"
+		const location = event.place.name.split(',');
+		const eventPostalCode = location[1].match(/\d+/g);
+		if (eventPostalCode) setPostalCode(eventPostalCode[0]);
+		const eventCity = location[1].match(/[a-zA-Z]+/g);
+		if (eventCity) setCity(eventCity[0]);
+		setAddress(location[0]);
+
 		// Convert the startTime state to the "YYYY-MM-DDTHH:mm" format for two-way binding with the input field
 		const date = new Date(event.start_time);
 		const dateTimeLocal = date.toISOString().slice(0, 16);
@@ -82,33 +89,33 @@ export default function AddEventPage() {
 			<FBInit onEventsFetched={handleEventsFetched} />
 			<form onSubmit={handleSubmit}>
 				<div className='event-field'>
-					<h3>Event Name</h3>
+					<h3>Begivenhedsnavn</h3>
 					<input type='text' value={eventName} onChange={(e) => setEventName(e.target.value)} />
 				</div>
 				<div className='dates'>
 					<div className='event-field'>
-						<h3>Start time</h3>
+						<h3>Starttid</h3>
 						<input type='datetime-local' value={startTime} onChange={(e) => setStartTime(e.target.value)} />
 					</div>
 					<div className='event-field'>
-						<h3>End time</h3>
+						<h3>Sluttid</h3>
 						<input type='datetime-local' value={endTime} onChange={(e) => setEndTime(e.target.value)} />
 					</div>
 				</div>
 				<div className='event-field'>
-					<h3>Description</h3>
+					<h3>Beskrivelse</h3>
 					<textarea value={description} onChange={(e) => setDescription(e.target.value)} />
 				</div>
 				<div className='event-field'>
-					<h3>Address</h3>
+					<h3>Adresse</h3>
 					<input type='text' value={address} onChange={(e) => setAddress(e.target.value)} />
 				</div>
 				<div className='event-field'>
-					<h3>Postal Code</h3>
+					<h3>Postnummer</h3>
 					<input type='text' value={postalCode} onChange={(e) => setPostalCode(e.target.value)} />
 				</div>
 				<div className='event-field'>
-					<h3>City</h3>
+					<h3>By</h3>
 					<input type='text' value={city} onChange={(e) => setCity(e.target.value)} />
 				</div>
 				<div className='event-field'>
@@ -128,7 +135,7 @@ export default function AddEventPage() {
 					/>
 				</div>
 				<div className='event-field'>
-					<h3>Pictures</h3>
+					<h3>Billeder</h3>
 					<Tooltip title='Her kan du uploade op til 3 billeder der repræsenterer dit event. Billedet med den gyldne kant er hovedbilledet. Hvis du ønsker at et af de andre 2 billeder skal være hovedbillede så klik på det. '>
 						<IconButton>
 							<InfoIcon />
@@ -152,7 +159,7 @@ export default function AddEventPage() {
 					}}
 					className='submit-button'
 				>
-					Submit
+					Opret Event
 				</button>
 			</form>
 		</div>
