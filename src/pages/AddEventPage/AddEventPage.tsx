@@ -147,7 +147,7 @@ export default function AddEventPage() {
 				</div>
 				<div className='event-field'>
 					<div className='pictures'>
-						<h3>Pictures</h3>
+						<h3>Billeder</h3>
 						<Tooltip title='Her kan du uploade op til 3 billeder der repræsenterer dit event. Billedet med den gyldne kant er hovedbilledet. Hvis du ønsker at et af de andre 2 billeder skal være hovedbillede så klik på det. '>
 							<IconButton>
 								<InfoIcon />
