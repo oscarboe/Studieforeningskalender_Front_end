@@ -15,6 +15,11 @@ import {
 import { GET_ALL_TAGS } from '../../Queries/TagQueries';
 import { CREATE_EVENT_QUERY } from '../../Queries/EventQueries';
 import FBInit, { FBEvent } from '../../components/ImportFacebook/FacebookInit';
+import ChatGPTButton from '../../components/ChatGPTButton/ChatGPTButton';
+import { IS_ADMIN_OR_UNION } from '../../Queries/UserQueries';
+import { useNavigate } from 'react-router-dom';
+import { setAlerts } from '../../Redux/Slices/alertsSlice';
+import { useDispatch } from 'react-redux';
 
 export default function AddEventPage() {
 	const [eventName, setEventName] = useState('');
@@ -26,9 +31,17 @@ export default function AddEventPage() {
 	const [city, setCity] = useState('Aarhus');
 	const [imageURLs, setImageURLs] = useState<string[]>([]);
 	const [file, setFile] = useState<File | null>(null);
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const { data } = useQuery<TagsQuery>(GET_ALL_TAGS);
 	const [createEvent] = useMutation<CreateEventMutation, CreateEventMutationVariables>(CREATE_EVENT_QUERY);
+	const {} = useQuery(IS_ADMIN_OR_UNION, {
+		onError: (_) => {
+			dispatch(setAlerts([{ message: 'Du har ikke adgang til denne side', severity: 'error' }]));
+			navigate('/');
+		},
+	});
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
 	const handleSubmit = (event: React.FormEvent) => {
@@ -50,6 +63,7 @@ export default function AddEventPage() {
 			},
 		});
 	};
+
 	const handleImageClick = (index: number) => {
 		setImageURLs((prevImageURLs) => {
 			const newImageURLs = [...prevImageURLs];
@@ -58,6 +72,7 @@ export default function AddEventPage() {
 			return newImageURLs;
 		});
 	};
+
 	const handleFileChange = (e: any) => {
 		if (e.target.files.length > 0) {
 			const url = URL.createObjectURL(e.target.files[0]);
@@ -104,7 +119,10 @@ export default function AddEventPage() {
 				</div>
 				<div className='event-field'>
 					<h3>Beskrivelse</h3>
-					<textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+					<div className='text-area'>
+						<textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+						<ChatGPTButton setDescription={setDescription} />
+					</div>
 				</div>
 				<div className='event-field'>
 					<h3>Adresse</h3>
@@ -135,12 +153,14 @@ export default function AddEventPage() {
 					/>
 				</div>
 				<div className='event-field'>
-					<h3>Billeder</h3>
-					<Tooltip title='Her kan du uploade op til 3 billeder der repræsenterer dit event. Billedet med den gyldne kant er hovedbilledet. Hvis du ønsker at et af de andre 2 billeder skal være hovedbillede så klik på det. '>
-						<IconButton>
-							<InfoIcon />
-						</IconButton>
-					</Tooltip>
+					<div className='pictures'>
+						<h3>Billeder</h3>
+						<Tooltip title='Her kan du uploade op til 3 billeder der repræsenterer dit event. Billedet med den gyldne kant er hovedbilledet. Hvis du ønsker at et af de andre 2 billeder skal være hovedbillede så klik på det. '>
+							<IconButton>
+								<InfoIcon />
+							</IconButton>
+						</Tooltip>
+					</div>
 					<input type='file' accept='image/*' multiple onChange={handleFileChange} />
 				</div>
 				{imageURLs.map((url, index) => (
