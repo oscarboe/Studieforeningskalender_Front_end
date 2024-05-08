@@ -111,7 +111,7 @@ export default function AddEventPage() {
 					</div>
 				</div>
 				<div className='event-field'>
-					<h3>Description</h3>
+					<h3>Beskrivelse</h3>
 					<div className='text-area'>
 						<textarea value={description} onChange={(e) => setDescription(e.target.value)} />
 						<ChatGPTButton setDescription={setDescription} />
