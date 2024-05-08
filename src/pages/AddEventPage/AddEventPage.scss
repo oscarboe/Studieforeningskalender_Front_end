@@ -21,7 +21,7 @@
 	form {
 		display: flex;
 		flex-direction: column;
-		width: 70%;
+		width: 60%;
 		gap: 1.5rem;
 
 		.event-field {
@@ -44,11 +44,32 @@
 				outline: none;
 			}
 
+			.pictures {
+				align-items: center;
+
+				h3 {
+					margin-top: 0.4rem;
+				}
+
+				button {
+					outline: none;
+				}
+			}
+
 			.MuiAutocomplete-root {
 				#tags-select {
 					width: 100%;
 					background-color: transparent;
 					color: white;
+				}
+			}
+
+			.text-area {
+				width: 100%;
+				position: relative;
+
+				textarea {
+					resize: vertical;
 				}
 			}
 		}
