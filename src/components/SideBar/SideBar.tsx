@@ -26,11 +26,11 @@ export default function SideBar() {
 
 	return (
 		<div id='SideBar'>
-			<input id='search' type='search' placeholder='Search...' onChange={updateSearchText} onKeyDown={handleKeyPress} />
+			<input id='search' type='search' placeholder='Søg...' onChange={updateSearchText} onKeyDown={handleKeyPress} />
 			<SelectedTags />
 			<Tags />
 			<button id='searchButton' onClick={search}>
-				Search
+				Søg
 			</button>
 		</div>
 	);

@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addAlert } from '../../Redux/Slices/alertsSlice';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+
 import './FacebookInit.scss';
 
 interface loginResponse {
@@ -70,18 +73,21 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
 
 	const handlePageSelect = (id: any) => {
 		window.FB.api(`/${id}/events`, 'GET', (response: eventResponse) => {
-			if (response.data.length === 0)
+			if (response.data.length === 0) {
 				dispatch(
 					addAlert({
 						message: 'No events found. Check your page has created events.',
 						severity: 'error',
 					})
 				);
-			else if (response.data.length === 1) {
+				setPageInfo([]);
+			} else if (response.data.length === 1) {
 				onEventsFetched(response.data[0]);
+				setPageInfo([]);
 			} else if (response.data.length > 1) {
 				setMultipleEvents(true);
 				setEvents(response.data);
+				setPageInfo([]);
 			}
 		});
 	};
@@ -119,39 +125,36 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
 	return (
 		<div className='FB'>
 			{pageInfo.length > 1 ? (
-				<div>
-					<label>Choose which page to import from.</label>
-					<select onChange={(e) => handlePageSelect(e.target.value)}>
-						{pageInfo.map((item) => (
-							<option key={item.id} value={item.id}>
-								{item.name}
-							</option>
-						))}
-					</select>
+				<div className='event-field'>
+					<label>Vælg hvilken facebookside du vil importere fra.</label>
+					<Autocomplete
+						options={pageInfo}
+						getOptionLabel={(option) => option.name}
+						onChange={(event, newValue) => {
+							handlePageSelect(newValue?.id);
+						}}
+						renderInput={(params) => <TextField {...params} label='Facebook side' variant='standard' />}
+					/>
+				</div>
+			) : multipleEvents ? (
+				<div className='event-field'>
+					<label>Vælg hvilket event der skal importeres.</label>
+					<Autocomplete
+						className='event-field'
+						options={events}
+						getOptionLabel={(option) => option.name}
+						onChange={(event, newValue) => {
+							if (newValue) onEventsFetched(newValue);
+							setMultipleEvents(false);
+						}}
+						renderInput={(params) => <TextField {...params} label='Event' variant='outlined' />}
+					/>
 				</div>
 			) : (
 				<button className='FBbtn' onClick={handleLogin}>
-					Import Event From Facebook Page
+					Importer fra Facebook
 				</button>
 			)}
-
-			{multipleEvents ? (
-				<div>
-					<label>Select the event to import.</label>
-					<select
-						onChange={(e) => {
-							const selectedEvent = events.find((event) => event.id === e.target.value);
-							if (selectedEvent) onEventsFetched(selectedEvent);
-						}}
-					>
-						{events.map((event) => (
-							<option key={event.id} value={event.id}>
-								{event.name}
-							</option>
-						))}
-					</select>
-				</div>
-			) : null}
 		</div>
 	);
 };
