@@ -2,7 +2,6 @@
 	display: flex;
 	margin-top: var(--header-height);
 	justify-content: space-between;
-	min-height: 25rem;
 }
 
 .PopularEvent #textPart {
