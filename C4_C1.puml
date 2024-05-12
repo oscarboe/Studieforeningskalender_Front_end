@@ -6,10 +6,7 @@ Person(asso, "Student Association", "Student Association creating events")
 
 Container(sys, "Student Calendar","React, ASP.NET Core", "The system developed for this project")
 Container(ria, "RIA's Webpage","Wordpress", "Ria's webpage where the calendar will be embedded")
-ContainerDb(AWSDB,"AWS database","PostgreSQL", "The database of AWS where the events and users are stored")
 Rel(stud, sys, "Views")
 Rel(asso, sys, "Creates events")
 Rel(ria,sys, "Hosts")
-Rel(sys, AWSDB, "Stores events")
-
 @enduml
