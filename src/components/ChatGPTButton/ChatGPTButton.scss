@@ -11,7 +11,7 @@
 	color: var(--background-color);
 	border: none;
 	transition: all 0.5s;
-	outline: none;
+	outline: none !important;
 }
 
 .chatGPT:hover,
@@ -49,6 +49,7 @@
 			position: relative;
 			font-size: 1.2rem;
 			padding: 0.5rem 0.9rem;
+			outline: none !important;
 		}
 
 		.generated-text {

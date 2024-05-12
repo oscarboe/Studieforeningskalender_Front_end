@@ -130,7 +130,7 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
 					<Autocomplete
 						options={pageInfo}
 						getOptionLabel={(option) => option.name}
-						onChange={(event, newValue) => {
+						onChange={(_, newValue) => {
 							handlePageSelect(newValue?.id);
 						}}
 						renderInput={(params) => <TextField {...params} label='Facebook side' variant='standard' />}
@@ -143,7 +143,7 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
 						className='event-field'
 						options={events}
 						getOptionLabel={(option) => option.name}
-						onChange={(event, newValue) => {
+						onChange={(_, newValue) => {
 							if (newValue) onEventsFetched(newValue);
 							setMultipleEvents(false);
 						}}

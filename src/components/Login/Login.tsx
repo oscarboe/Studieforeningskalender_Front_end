@@ -71,7 +71,9 @@ export default function Login({ reCaptchaRef }: { reCaptchaRef: React.RefObject<
 					<input type='checkbox' {...register('rememberMe')} />
 					<p>Remember Me</p>
 				</div>
-				<a onClick={() => setOpen(true)}>Forgot Password?</a>
+				<a onClick={() => setOpen(true)} aria-label='Use this if you forgot your password'>
+					Forgot Password?
+				</a>
 				<PasswordReset
 					open={open}
 					setOpen={setOpen}
