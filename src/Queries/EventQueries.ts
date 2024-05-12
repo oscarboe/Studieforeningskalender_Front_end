@@ -147,3 +147,13 @@ export const GET_BIG_EVENT_IMAGE = gql(`
 		}
 	}
 `);
+
+export const GET_DESCRIPTION_FROM_CHATGPT = gql(`
+	query AskChatGPT($prompt: String!) {
+		chatGPTDescription(prompt: $prompt) {
+			isSuccessful
+			response
+			message
+		}
+	}
+`);

@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom';
-import { IoCalendarOutline } from 'react-icons/io5';
+import { IoAdd, IoCalendarOutline } from 'react-icons/io5';
 import './Navbar.css';
 import ToggleSlider from '../ToggleSlider/ToggleSlider';
 import { useDispatch, useSelector } from 'react-redux';
@@ -40,9 +40,14 @@ const Navbar = () => {
 				</li>
 				<li className='nav__item'>
 					{loggedIn ? (
-						<NavLink to='/Account' className='nav__link'>
-							<button id='profileButton'>Profil</button>
-						</NavLink>
+						<div>
+							<NavLink to='/AddEvent' className='nav__link'>
+								<IoAdd size='2.5em' />
+							</NavLink>
+							<NavLink to='/Account' className='nav__link'>
+								<button id='profileButton'>Profil</button>
+							</NavLink>
+						</div>
 					) : (
 						<NavLink to='/login' className='nav__link'>
 							<button id='loginButton'>Login</button>
