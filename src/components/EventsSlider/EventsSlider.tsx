@@ -61,7 +61,7 @@ const EventsSlider = ({ eventCount }: { eventCount: number }) => {
 	return (
 		<div id='eventsSlider'>
 			<div id='slider'>
-				<button id='backButton' onClick={() => changePage(page - 1)}>
+				<button id='backButton' onClick={() => changePage(page - 1)} aria-label='Previous events'>
 					<SlArrowLeft />
 				</button>
 				<div id='currentEvents'>
@@ -69,7 +69,7 @@ const EventsSlider = ({ eventCount }: { eventCount: number }) => {
 						<EventCard event={event} key={key} />
 					))}
 				</div>
-				<button id='nextButton' onClick={() => changePage(page + 1)}>
+				<button id='nextButton' onClick={() => changePage(page + 1)} aria-label='Next events'>
 					<SlArrowRight />
 				</button>
 			</div>
