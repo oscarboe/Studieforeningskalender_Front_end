@@ -1,0 +1,48 @@
+@startuml C4_Elements
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(stud, "Student", "A student looking for an overview of the events on campus")
+Person(asso, "StudentAssociation", "Student Association creating events")
+
+System_Boundary(frontend, "Front-end Application", "React, AWS Amplify", "Front-end application for the Student Calendar") {
+    Container(AccountPage, "AccountPage", "page","Page where the users can edit/delete and see their account")
+    Container(AddEventPage, "AddEventPage", "page","Page for adding new events either through a form or by importing from facebook")
+    Container(CalendarPage, "CalendarPage", "page","Page for displaying the calendar in depth with all events")
+    Container(EventPage, "EventPage", "page","Page for displaying event details for a specific event")
+    Container(HomePage, "HomePage", "page","Main landing page of the application. Here you can see the popular or upcoming events")
+    Container(LoginPage, "LoginPage", "page","Page for user authentication or registration")
+    Container(VerifyPage, "VerifyPage", "page","Landing page for E-mail verification")
+}
+
+Container(be, "Back-end API", "ASP.NET Core, AWS Elastic Beanstalk", "Back-end API for the Student Calendar")
+Container(db, "Database", "PostgreSQL, AWS RDS", "The AWS database where the events and users are stored")
+Container(facebook, "StudieforeningskalenderenFB", "Facebook App, GraphQL", "This Facebook developer app helps Student associations import events from facebook")
+Container_Ext(brevo, "Brevo", "", "An Email Marketing system used to send verification Emails to users when they are created")
+Container_Ext(recap, "reCAPTCHA", "", "The system used to safegaurd against spam users")
+
+Rel(stud, HomePage, "Views")
+Rel(stud, CalendarPage, "Views")
+Rel(stud, EventPage, "Views")
+Rel(stud, VerifyPage, "Views")
+Rel(stud, AccountPage, "Edits")
+Rel(stud, LoginPage, "Uses")
+Rel(asso, LoginPage, "Uses")
+Rel(asso, AddEventPage, "Creates events")
+Rel(asso, AccountPage, "Edits")
+
+
+Rel(be, db, "Stores data")
+Rel(VerifyPage, be, "Forwards Brevo Token")
+
+Rel(AccountPage, be, "Gets/updates account information")
+Rel(LoginPage, be, "Register/login user")
+Rel(AddEventPage, be, "Creates events")
+Rel(CalendarPage, be, "Gets events")
+Rel(EventPage, be, "Gets events")
+Rel(HomePage, be, "Gets events")
+Rel(LoginPage,recap,"Validates Token")
+Rel(AccountPage,recap,"Validates Token")
+Rel(be,brevo,"Sends Emails through")
+Rel(brevo,VerifyPage,"Links to")
+Rel(AddEventPage,facebook,"Imports events through")
+@enduml

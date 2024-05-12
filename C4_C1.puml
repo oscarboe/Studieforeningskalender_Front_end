@@ -1,12 +1,18 @@
 @startuml C4_Elements
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
-
 Person(stud, "Student", "Student of the university viewing the calendar")
 Person(asso, "Student Association", "Student Association creating events")
 
-Container(sys, "Student Calendar","React, ASP.NET Core", "The system developed for this project")
-Container(ria, "RIA's Webpage","Wordpress", "Ria's webpage where the calendar will be embedded")
+
+System(sys, "Student Calendar", "Development of a user-friendly web application for Aarhus University students to access and manage events and student associations")
+Container(facebook, "StudieforeningskalenderenFB", "Facebook App, GraphQL", "This Facebook developer app helps Student associations import events from facebook")
+Container_Ext(brevo, "Brevo", "", "An Email Marketing system used to send verification Emails to users when they are created")
+Container_Ext(recap, "reCAPTCHA", "", "The system used to safegaurd against spam users")
+
 Rel(stud, sys, "Views")
 Rel(asso, sys, "Creates events")
-Rel(ria,sys, "Hosts")
+Rel(sys,facebook, "Imports events")
+Rel(sys,brevo, "Uses")
+Rel(sys,recap, "Uses")
+SHOW_LEGEND()
 @enduml
