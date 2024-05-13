@@ -91,6 +91,13 @@ export type ChangePasswordPayload = {
   message: Scalars['String']['output'];
 };
 
+export type ChatGptPayload = {
+  __typename?: 'ChatGPTPayload';
+  isSuccessful: Scalars['Boolean']['output'];
+  message: Scalars['String']['output'];
+  response: Scalars['String']['output'];
+};
+
 /** Information about the offset pagination. */
 export type CollectionSegmentInfo = {
   __typename?: 'CollectionSegmentInfo';
@@ -543,8 +550,10 @@ export type Node = {
 
 export type Query = {
   __typename?: 'Query';
+  chatGPTDescription: ChatGptPayload;
   event?: Maybe<EventDto>;
   events?: Maybe<EventsCollectionSegment>;
+  isAdminOrUnion: Scalars['Boolean']['output'];
   /** Fetches an object given its ID. */
   node?: Maybe<Node>;
   /** Lookup nodes by a list of IDs. */
@@ -554,6 +563,11 @@ export type Query = {
   userInfo?: Maybe<User>;
   users: Array<User>;
   validateSession: Scalars['Boolean']['output'];
+};
+
+
+export type QueryChatGptDescriptionArgs = {
+  prompt: Scalars['String']['input'];
 };
 
 
