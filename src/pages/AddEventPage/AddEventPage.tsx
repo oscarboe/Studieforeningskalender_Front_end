@@ -20,6 +20,14 @@ import { IS_ADMIN_OR_UNION } from '../../Queries/UserQueries';
 import { useNavigate } from 'react-router-dom';
 import { setAlerts } from '../../Redux/Slices/alertsSlice';
 import { useDispatch } from 'react-redux';
+import { HandleGraphQLSuccess, HandleGraphQLValidationError } from '../../Helpers/ResponseHelper';
+import Spinner from '../../components/Spinner/Spinner';
+
+type ServerError = Error & {
+	response: Response;
+	result: Record<string, any> | string;
+	statusCode: number;
+};
 
 export default function AddEventPage() {
 	const [eventName, setEventName] = useState('');
@@ -35,7 +43,18 @@ export default function AddEventPage() {
 	const dispatch = useDispatch();
 
 	const { data } = useQuery<TagsQuery>(GET_ALL_TAGS);
-	const [createEvent] = useMutation<CreateEventMutation, CreateEventMutationVariables>(CREATE_EVENT_QUERY);
+	const [createEvent, { loading }] = useMutation<CreateEventMutation, CreateEventMutationVariables>(
+		CREATE_EVENT_QUERY,
+		{
+			onCompleted: (data) => HandleGraphQLSuccess(data.createEvent, dispatch, 'createEvent'),
+			onError: ({ networkError }) => {
+				if ((networkError as ServerError).result) {
+					const errors = ((networkError as ServerError).result as any).errors;
+					HandleGraphQLValidationError(errors, dispatch);
+				}
+			},
+		}
+	);
 	const {} = useQuery(IS_ADMIN_OR_UNION, {
 		onError: (_) => {
 			dispatch(setAlerts([{ message: 'Du har ikke adgang til denne side', severity: 'error' }]));
@@ -172,15 +191,19 @@ export default function AddEventPage() {
 						onClick={() => handleImageClick(index)}
 					/>
 				))}
-				<button
-					onClick={(e) => {
-						e.preventDefault;
-						handleSubmit;
-					}}
-					className='submit-button'
-				>
-					Opret Event
-				</button>
+				{loading ? (
+					<Spinner style={{ width: '100%', marginBottom: '2rem', justifyContent: 'center' }} />
+				) : (
+					<button
+						onClick={(e) => {
+							e.preventDefault;
+							handleSubmit;
+						}}
+						className='submit-button'
+					>
+						Opret Event
+					</button>
+				)}
 			</form>
 		</div>
 	);
