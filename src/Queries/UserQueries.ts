@@ -76,3 +76,9 @@ export const DELETE_USER = gql(`
 		}
 	}
 `);
+
+export const IS_ADMIN_OR_UNION = gql(`
+	query IsAdminOrUnion {
+		isAdminOrUnion
+	}
+`);

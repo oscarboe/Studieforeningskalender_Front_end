@@ -1,0 +1,59 @@
+.chatGPT,
+#chatGPT-form button {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	margin: 10px;
+	font-size: 0.9rem;
+	padding: 0.3rem 0.65rem;
+	background: rgba(231, 72, 234, 1);
+	background: linear-gradient(45deg, rgba(231, 72, 234, 1) 0%, rgba(75, 26, 188, 1) 100%);
+	color: var(--background-color);
+	border: none;
+	transition: all 0.5s;
+	outline: none !important;
+}
+
+.chatGPT:hover,
+#chatGPT-form button:hover {
+	filter: hue-rotate(135deg);
+}
+
+#chatGPT-modal {
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+
+	#chatGPT-form {
+		width: 50%;
+		height: 65%;
+		background-color: var(--background-color);
+		border-radius: 1rem;
+		padding: 3rem;
+		box-sizing: border-box;
+		justify-content: space-between;
+		align-items: center;
+		flex-direction: column;
+		display: flex;
+
+		textarea {
+			resize: none;
+			width: 100%;
+			outline: none;
+		}
+
+		button {
+			right: auto;
+			bottom: auto;
+			position: relative;
+			font-size: 1.2rem;
+			padding: 0.5rem 0.9rem;
+			outline: none !important;
+		}
+
+		.generated-text {
+			height: 10rem;
+		}
+	}
+}

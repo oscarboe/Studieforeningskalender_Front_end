@@ -22,6 +22,7 @@ const documents = {
     "\n\tmutation CreateEvent($createEventInput: CreateEventInput!) {\n\t\tcreateEvent(input: $createEventInput) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.CreateEventDocument,
     "\n\tquery GetMediumEventImage($EventId: ID!){\n\t\tevent(where: {id: {eq: $EventId}}) {\n\t\t\tmediumImage\n\t\t}\n\t}\n": types.GetMediumEventImageDocument,
     "\n\tquery GetBigEventImage($EventId: ID!){\n\t\tevent(where: {id: {eq: $EventId}}) {\n\t\t\timage\n\t\t}\n\t}\n": types.GetBigEventImageDocument,
+    "\n\tquery AskChatGPT($prompt: String!) {\n\t\tchatGPTDescription(prompt: $prompt) {\n\t\t\tisSuccessful\n\t\t\tresponse\n\t\t\tmessage\n\t\t}\n\t}\n": types.AskChatGptDocument,
     "\n    mutation AddSelf($addSelfInput: AddSelfToEventInput!) {\n        addSelfToEvent(input: $addSelfInput) {\n            isSuccessful\n            message\n        }\n    }\n": types.AddSelfDocument,
     "\n\tquery Tags {\n\t\ttags {\n\t\t\tid\n\t\t\tname\n\t\t}\n\t}\n": types.TagsDocument,
     "\n\tmutation Login($username: String!, $password: String!, $rememberMe: Boolean!, $recaptchaToken: String!) {\n\t\tlogin(loginInput: { userName: $username, password: $password, rememberMe: $rememberMe, recaptchaToken: $recaptchaToken }) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.LoginDocument,
@@ -33,6 +34,7 @@ const documents = {
     "\n\tquery GetUser {\n\t\tuserInfo {\n\t\t\tuserName\n\t\t\tfirstName\n\t\t\tlastName\n\t\t\temailAddress\n\t\t}\n\t}\n": types.GetUserDocument,
     "\n\tmutation UpdateUser($updateUser: UpdateUserInput!) {\n\t\tupdateUser(updateUserInput: $updateUser) {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.UpdateUserDocument,
     "\n\tmutation DeleteUser {\n\t\tdeleteUser {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n": types.DeleteUserDocument,
+    "\n\tquery IsAdminOrUnion {\n\t\tisAdminOrUnion\n\t}\n": types.IsAdminOrUnionDocument,
 };
 
 /**
@@ -88,6 +90,10 @@ export function gql(source: "\n\tquery GetBigEventImage($EventId: ID!){\n\t\teve
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function gql(source: "\n\tquery AskChatGPT($prompt: String!) {\n\t\tchatGPTDescription(prompt: $prompt) {\n\t\t\tisSuccessful\n\t\t\tresponse\n\t\t\tmessage\n\t\t}\n\t}\n"): (typeof documents)["\n\tquery AskChatGPT($prompt: String!) {\n\t\tchatGPTDescription(prompt: $prompt) {\n\t\t\tisSuccessful\n\t\t\tresponse\n\t\t\tmessage\n\t\t}\n\t}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function gql(source: "\n    mutation AddSelf($addSelfInput: AddSelfToEventInput!) {\n        addSelfToEvent(input: $addSelfInput) {\n            isSuccessful\n            message\n        }\n    }\n"): (typeof documents)["\n    mutation AddSelf($addSelfInput: AddSelfToEventInput!) {\n        addSelfToEvent(input: $addSelfInput) {\n            isSuccessful\n            message\n        }\n    }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -129,6 +135,10 @@ export function gql(source: "\n\tmutation UpdateUser($updateUser: UpdateUserInpu
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n\tmutation DeleteUser {\n\t\tdeleteUser {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n"): (typeof documents)["\n\tmutation DeleteUser {\n\t\tdeleteUser {\n\t\t\tisSuccessful\n\t\t\tmessage\n\t\t}\n\t}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n\tquery IsAdminOrUnion {\n\t\tisAdminOrUnion\n\t}\n"): (typeof documents)["\n\tquery IsAdminOrUnion {\n\t\tisAdminOrUnion\n\t}\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

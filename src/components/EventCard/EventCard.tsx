@@ -15,7 +15,7 @@ const EventCard = ({ event }: eventCardProps) => {
 
 	return (
 		<div id='eventCard'>
-			<img id='eventImage' src={`data:image/png;base64,${event.mediumImage}`}></img>
+			<img id='eventImage' src={`data:image/png;base64,${event.mediumImage}`} alt={event.title}></img>
 			<div id='cardBottom'>
 				<h3>{event.title}</h3>
 				<p>{event.description}</p>

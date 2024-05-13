@@ -5,13 +5,14 @@ import { useEffect, useRef, useState } from 'react';
 import { setAlerts } from '../../Redux/Slices/alertsSlice';
 import { useNavigate } from 'react-router-dom';
 import { useLazyQuery, useMutation } from '@apollo/client';
-import { GET_USER_INFO, UPDATE_USER } from '../../Queries/UserQueries';
+import { GET_USER_INFO, SIGN_OUT_QUERY, UPDATE_USER } from '../../Queries/UserQueries';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { GetUserQuery, UpdateUserInput } from '../../../generated/graphql/graphql';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { ValidateUpdateUser } from '../../Validators/UserValidators';
 import DeleteUserModal from '../../components/DeleteUserModal/DeleteUserModal';
 import { HandleGraphQLError, HandleGraphQLSuccess } from '../../Helpers/ResponseHelper';
+import { setLoggedIn } from '../../Redux/Slices/loggedInSlice';
 
 export default function AccountPage() {
 	const [open, setOpen] = useState(false);
@@ -31,6 +32,12 @@ export default function AccountPage() {
 	const [updateUser] = useMutation(UPDATE_USER, {
 		onCompleted: (data) => HandleGraphQLSuccess(data.updateUser, dispatch, 'updateUser'),
 		onError: (error) => HandleGraphQLError(error, dispatch),
+	});
+	const [signOutUser] = useMutation(SIGN_OUT_QUERY, {
+		onCompleted: () => {
+			dispatch(setLoggedIn(false));
+			navigate('/');
+		},
 	});
 
 	useEffect(() => {
@@ -58,6 +65,11 @@ export default function AccountPage() {
 		setOpen(true);
 	};
 
+	const signOut = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		e.preventDefault();
+		signOutUser();
+	};
+
 	return (
 		<div id='account-page'>
 			<form id='account-form' onSubmit={handleSubmit(onSubmit)}>
@@ -80,6 +92,9 @@ export default function AccountPage() {
 				</div>
 				<div id='account-buttons'>
 					<button type='submit'>Update Profile</button>
+					<button type='button' onClick={signOut}>
+						Sign Out
+					</button>
 					<button id='delete-profile-button' onClick={onDelete}>
 						Delete Profile
 					</button>
