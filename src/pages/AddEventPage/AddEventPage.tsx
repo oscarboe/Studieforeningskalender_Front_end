@@ -28,7 +28,27 @@ export default function AddEventPage() {
 	const [file, setFile] = useState<File | null>(null);
 
 	const { data } = useQuery<TagsQuery>(GET_ALL_TAGS);
-	const [createEvent] = useMutation<CreateEventMutation, CreateEventMutationVariables>(CREATE_EVENT_QUERY);
+	const [createEvent, { loading }] = useMutation<CreateEventMutation, CreateEventMutationVariables>(
+		CREATE_EVENT_QUERY,
+		{
+			onCompleted: (data) => HandleGraphQLSuccess(data.createEvent, dispatch, 'createEvent'),
+			onError: ({ networkError, graphQLErrors }) => {
+				console.log(`This is the whole networkError: ${networkError}`);
+				console.log(`And here is graphQLError just for the lolz: ${graphQLErrors}`);
+				console.log((networkError as any).result.errors);
+				if ((networkError as any).result.errors) {
+					const errors = (networkError as any).result.errors;
+					HandleGraphQLValidationError(errors, dispatch);
+				}
+			},
+		}
+	);
+	const {} = useQuery(IS_ADMIN_OR_UNION, {
+		onError: (_) => {
+			dispatch(setAlerts([{ message: 'Du har ikke adgang til denne side', severity: 'error' }]));
+			navigate('/');
+		},
+	});
 	const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
 	const handleSubmit = (event: React.FormEvent) => {
