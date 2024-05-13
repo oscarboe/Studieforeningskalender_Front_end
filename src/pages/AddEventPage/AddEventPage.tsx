@@ -23,12 +23,6 @@ import { useDispatch } from 'react-redux';
 import { HandleGraphQLSuccess, HandleGraphQLValidationError } from '../../Helpers/ResponseHelper';
 import Spinner from '../../components/Spinner/Spinner';
 
-type ServerError = Error & {
-	response: Response;
-	result: Record<string, any> | string;
-	statusCode: number;
-};
-
 export default function AddEventPage() {
 	const [eventName, setEventName] = useState('');
 	const [description, setDescription] = useState('');
@@ -48,8 +42,9 @@ export default function AddEventPage() {
 		{
 			onCompleted: (data) => HandleGraphQLSuccess(data.createEvent, dispatch, 'createEvent'),
 			onError: ({ networkError }) => {
-				if ((networkError as ServerError).result) {
-					const errors = ((networkError as ServerError).result as any).errors;
+				console.log((networkError as any).result.errors);
+				if ((networkError as any).result.errors) {
+					const errors = (networkError as any).result.errors;
 					HandleGraphQLValidationError(errors, dispatch);
 				}
 			},
