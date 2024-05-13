@@ -1,7 +1,8 @@
 import { UnknownAction, Dispatch } from 'redux';
-import { addAlert } from '../Redux/Slices/alertsSlice';
+import { addAlert, setAlerts } from '../Redux/Slices/alertsSlice';
 import { ApolloError } from '@apollo/client';
-import GetErrorMessage from './ErrorMessageHelper';
+import GetErrorMessage, { GetErrorAlerts } from './ErrorMessageHelper';
+import { GraphQLErrors } from '@apollo/client/errors';
 
 export const HandleGraphQLSuccess = (
 	{ isSuccessful, message }: dataType,
@@ -9,9 +10,9 @@ export const HandleGraphQLSuccess = (
 	messageKey: keyof typeof standardMessages
 ) => {
 	if (!isSuccessful) {
-		dispatch(addAlert({ message: message, severity: 'error' }));
+		dispatch(setAlerts([{ message: message, severity: 'error' }]));
 	} else {
-		dispatch(addAlert({ message: standardMessages[messageKey], severity: 'success' }));
+		dispatch(setAlerts([{ message: standardMessages[messageKey], severity: 'success' }]));
 
 		if (message != standardMessages[messageKey]) dispatch(addAlert({ message: message, severity: 'warning' }));
 	}
@@ -19,7 +20,10 @@ export const HandleGraphQLSuccess = (
 
 export const HandleGraphQLError = (error: ApolloError, dispatch: Dispatch<UnknownAction>) => {
 	dispatch(addAlert({ message: GetErrorMessage(error), severity: 'error' }));
-	console.log(error.message);
+};
+
+export const HandleGraphQLValidationError = (errors: GraphQLErrors, dispatch: Dispatch<UnknownAction>) => {
+	dispatch(setAlerts(GetErrorAlerts(errors)));
 };
 
 export const standardMessages = {
@@ -31,6 +35,7 @@ export const standardMessages = {
 	deleteUser: 'Deleted user successfully',
 	updateUser: 'Updated user successfully',
 	addUserToEvent: 'User successfully added to event',
+	createEvent: 'Created event successfully',
 };
 
 interface dataType {
