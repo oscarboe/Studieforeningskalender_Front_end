@@ -28,7 +28,10 @@ export default function AccountPage() {
 
 	const { register, handleSubmit } = useForm<UpdateUserInput>();
 
-	const [getUserInfo] = useLazyQuery(GET_USER_INFO, { onCompleted: (data) => setPlaceholders(data) });
+	const [getUserInfo] = useLazyQuery(GET_USER_INFO, {
+		onCompleted: (data) => setPlaceholders(data),
+		fetchPolicy: 'no-cache',
+	});
 	const [updateUser] = useMutation(UPDATE_USER, {
 		onCompleted: (data) => HandleGraphQLSuccess(data.updateUser, dispatch, 'updateUser'),
 		onError: (error) => HandleGraphQLError(error, dispatch),
