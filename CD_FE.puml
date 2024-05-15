@@ -1,0 +1,23 @@
+@startuml FrontEndClassDiagram
+class HomePage {
+    
+    +existingMethod(): void 
+    +<color:red>MethodForAddedUS(): void 
+    +<color:red>MethodFromChild(): void 
+    
+}
+class CalendarPage {
+}
+class EventPage {
+}
+class AddEventPage {
+}
+class VerifyPage {
+}
+class AccountPage {
+}
+class LoginPage {
+    
+}
+
+@enduml
