@@ -1,0 +1,13 @@
+@startuml C4_Elements
+!include ./stuff.puml
+
+Page(AddEventPage, "AddEventPage", "", "The page where student associations can add events")
+Component(FBInit, "FBInit", "", "A component to import events from Facebook")
+Component(ChatGPTButton, "ChatGPTButton", "", "A component that with a modal where a student associations can write a prompt for ChatGPT to give them a description for their event")
+Component(Spinner, "Spinner", "", "A loading spinner animation")
+
+Rel(AddEventPage, FBInit, "")
+Rel(AddEventPage, ChatGPTButton, "")
+Rel(AddEventPage, Spinner, "")
+
+@enduml

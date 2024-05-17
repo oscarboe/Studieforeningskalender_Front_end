@@ -1,0 +1,9 @@
+@startuml C4_Elements
+!include ./stuff.puml
+
+Page(AccountPage, "AccountPage", "", "The page where a user can edit their account information")
+Component(DeleteUserModal, "DeleteUserModal", "", "A confirmation popup to confirm that the user wants to delete their account")
+
+Rel(AccountPage, DeleteUserModal, "")
+
+@enduml

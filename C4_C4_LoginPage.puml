@@ -1,0 +1,24 @@
+@startuml C4_Elements
+!include ./stuff.puml
+
+Page(LoginPage, "LoginPage", "", "The page users use to login, register, and reset password")
+Component(Login, "Login", "", "Shows the part of the page used to log in")
+Component(PasswordReset, "PasswordReset", "", "A modal to reset password")
+Component(SendEmailField, "SendEmailField", "", "An imput field with a button used to send a verification email")
+
+Component(Register, "Register", "", "Shows the part of the page used to register")
+
+Component(Password, "Password", "", "An input field with a show/hide button")
+Component(Spinner, "Spinner", "", "A loading spinner animation")
+
+Rel(LoginPage, Login, "")
+Rel(LoginPage, Register, "")
+Rel(Login, PasswordReset, "")
+Rel(Login, Password, "")
+Rel(Login, Spinner, "")
+Rel(PasswordReset, SendEmailField, "")
+Rel(PasswordReset, Spinner, "")
+Rel(Register, Password, "")
+Rel(Register, Spinner, "")
+
+@enduml

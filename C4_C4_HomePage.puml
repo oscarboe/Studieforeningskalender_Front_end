@@ -1,0 +1,24 @@
+@startuml C4_Elements
+!include ./stuff.puml
+
+Page(HomePage, "HomePage", "", "The homepage of the website")
+
+Component(SideBar, "SideBar", "", "The sidebar where the user can filter events")
+Component(SelectedTags, "SelectedTags", "", "Shows the tags the user has selected")
+Component(Tags, "Tags", "", "Shows the available tags")
+
+Component(PopularEventsWrapper, "PopularEventsWrapper", "", "Has the three either most popular or soonest events")
+Component(PopularEvent, "PopularEvent", "", "Has the details of an event")
+
+Component(EventsSlider, "EventsSlider", "", "Has a slider with all remaining events")
+Component(EventCard, "EventCard", "", "A card containing the information about an event")
+
+Rel(HomePage, SideBar, "")
+Rel(HomePage, PopularEventsWrapper, "")
+Rel(HomePage, EventsSlider, "")
+Rel(SideBar, SelectedTags, "")
+Rel(SideBar, Tags, "")
+Rel(PopularEventsWrapper, PopularEvent, "")
+Rel(EventsSlider, EventCard, "")
+
+@enduml

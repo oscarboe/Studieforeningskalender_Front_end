@@ -1,0 +1,9 @@
+@startuml C4_Elements
+!include ./stuff.puml
+
+Page(Verify, "Verify", "", "The page used to verify user verification")
+Component(Spinner, "Spinner", "", "A loading spinner animation")
+
+Rel(Verify, Spinner, "")
+
+@enduml
