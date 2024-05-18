@@ -1,0 +1,11 @@
+@startuml C4_Elements
+!include ./stuff.puml
+
+Page(EventPage, "EventPage", "", "The page that shows the details of an event")
+Component(DateAndTimeBox, "DateAndTimeBox", "", "Shows the date and time of the event")
+Component(LocationBox, "LocationBox", "", "Shows the location of the event")
+
+Rel(EventPage, DateAndTimeBox, "")
+Rel(EventPage, LocationBox, "")
+
+@enduml

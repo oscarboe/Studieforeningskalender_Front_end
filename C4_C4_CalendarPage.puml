@@ -1,0 +1,37 @@
+@startuml C4_Elements
+!include ./stuff.puml
+
+Page(CalendarPage, "CalendarPage", "", "A page where users can see all the events in calendar form")
+Component(Calendar, "Calendar", "", "Has the contents of the calendar")
+Component(Navigate, "Navigate", "", "Changes which dates are shown")
+Component(Select, "Select", "", "Changes the calendar view")
+
+Component(Monthly, "Monthly", "", "Has the monthly view of the calendar")
+Component(Connectors, "Connectors", "", "Shows the connectors between multiday events in the monthly view")
+Component(Weeks, "Weeks", "", "Renders the week in the month")
+Component(Day, "Day", "", "Renders the day in the week")
+
+Component(Weekly, "Weekly", "", "Has the weekly view of the calendar")
+Component(Day2, "Day", "", "Renders the day in the week")
+
+Component(Daily, "Daily", "", "Has the daily view of the calendar")
+
+Component(DayEvents, "DayEvents", "", "Draws the events on a day")
+Component(DayEventModal, "DayEventModal", "", "Shows information about a selected event")
+
+Rel(CalendarPage, Calendar, "")
+Rel(Calendar, Navigate, "")
+Rel(Calendar, Select, "")
+Rel(Calendar, Monthly, "")
+Rel(Monthly, Connectors, "")
+Rel(Monthly, Weeks, "")
+Rel(Weeks, Day, "")
+Rel(Day, DayEventModal, "")
+Rel(Calendar, Weekly, "")
+Rel(Weekly, Day2, "")
+Rel(Day2, DayEvents, "")
+Rel(DayEvents, DayEventModal, "")
+Rel(Calendar, Daily, "")
+Rel(Daily, DayEvents, "")
+
+@enduml
