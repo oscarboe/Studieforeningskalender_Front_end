@@ -1,0 +1,36 @@
+@startuml FrontEndClassDiagram
+class HomePage {
+    ~ <color:red>events : Query
+    --
+    + <color:red>PopularEvents
+}
+
+class App {
+    --
+    + <color:red> NavigationBar
+    + <color:red> ToggleSlider
+}
+
+
+App*-- HomePage  
+legend
+    |= Example  |= Description |
+    |        ○ | A Component |
+    |        □ | A Variable/UseState |
+    |        <size:11>△ | Query or Mutation |
+    |<color:red> Red text | Newly added|
+    |<color:blue> Blue text | Updated |
+endlegend
+@enduml
+class CalendarPage {
+}
+class EventPage {
+}
+class AddEventPage {
+}
+class VerifyPage {
+}
+class AccountPage {
+}
+class LoginPage {
+    }

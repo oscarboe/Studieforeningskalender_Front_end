@@ -1,0 +1,78 @@
+@startuml FrontEndClassDiagram
+class HomePage {
+    - eventCount : Number
+    - searchText: String
+    ~ events : Query
+    ~ tags : Query
+    --
+    + PopularEvents
+    + EventsSlider
+    + EventCard
+    + SideBar
+    + Tags 
+    + SelectedTags
+}
+
+class App {
+    --
+    + <color:blue>NavigationBar
+    + ToggleSlider
+    + <color:blue>Alerts
+}
+class CalendarPage {
+    ~ events: Query
+    --
+    + Calendar
+    + Monthly
+    + Weekly
+    + Daily
+    + DayEvents
+    + EventCard
+}
+class EventPage {
+    -Image : Img
+    -Event : Event
+    ~addSelfToEvent : Mutation
+    --
+    + DateAndTimeBox
+    + AddToCalendarButton
+    + LocationBox
+}
+class LoginPage {
+    ~ <color:red>createUser : Mutation
+    --
+    +<color:red>Register
+    +<color:red>reCaptha
+    }
+    class VerifyPage {
+    ~ <color:red>verifyUser : Mutation
+    ~ <color:red>resendRegistrationVerificationEmail : Mutation
+    --
+}
+
+App*-- HomePage 
+App*-- CalendarPage   
+App*-- LoginPage
+App*-- VerifyPage
+HomePage-- EventPage
+CalendarPage-- EventPage
+
+legend
+    |= Example  |= Description |
+    |        ○ | A Component |
+    |        □ | A Variable/UseState |
+    |        <size:11>△ | Query or Mutation |
+    |<color:red> Red text | Newly added|
+    |<color:blue> Blue text | Updated |
+endlegend
+@enduml
+
+
+class AddEventPage {
+    --
+}
+
+class AccountPage {
+    --
+}
+
