@@ -10,7 +10,7 @@ class HomePage {
 
 class App {
     --
-    + NavigationBar
+    + <color:blue>NavigationBar
     + ToggleSlider
     + <color:red>Alerts
 }
@@ -21,7 +21,6 @@ class CalendarPage {
     + <color:red>Monthly
     + <color:red>Weekly
     + <color:red>Daily
-    + <color:red>DayEvents
 }
 
 App*-- HomePage 

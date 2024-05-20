@@ -1,0 +1,31 @@
+@startuml Event_Related_Services
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(stud, "Student", "A student looking for an overview of the events on campus")
+Person(asso, "Student Association", "Student Association creating events")
+Container(facebook, "StudieforeningskalenderenFB", "Facebook App, GraphQL", "This Facebook developer app helps Student associations import events from facebook")
+Container(fr, "Front-end Application", "React, AWS Amplify", "Front-end application for the Student Calendar")
+Container(db, "Database", "PostgreSQL, AWS RDS", "The AWS database where the events and users are stored")
+
+System_Boundary(be_events, "Back-end API for Events", "ASP.NET Core, AWS Elastic Beanstalk", "Back-end API segment handling all event-related functionalities") {
+    Container(ChatGPTService, "ChatGPTService", "ASP.NET Core Service", "Service for handling requests to the ChatGPT model")
+    Container(EventService, "EventService", "ASP.NET Core Service", "Manages event data")
+    Container(EventTagService, "EventTagService", "ASP.NET Core Service", "Handles adding and removing tags for events")
+    Container(EventUserService, "EventUserService", "ASP.NET Core Service", "Manages user interactions with events")
+    Container(TagService, "TagService", "ASP.NET Core Service", "Handles creation and deletion of tags")
+}
+
+Rel(stud, fr, "Views")
+Rel(asso, fr, "Creates events")
+Rel(EventService, db, "Stores events")
+Rel(EventUserService, db, "Edits participants")
+Rel(EventTagService, db, "Updates event tags")
+Rel(TagService, db, "Stores tags")
+Rel_U(fr,facebook,"Imports events through")
+Rel(fr,ChatGPTService, "generates event descriptions")
+
+Rel(fr, EventService, "Creates/Gets Events")
+Rel(EventService, TagService, "Get tags")
+Rel(EventService, EventTagService, "Uses")
+Rel(EventService, EventUserService, "Uses")
+@enduml

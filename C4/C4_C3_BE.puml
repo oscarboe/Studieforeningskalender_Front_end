@@ -1,0 +1,62 @@
+@startuml C4_Elements
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(stud, "Student", "A student looking for an overview of the events on campus")
+Person(asso, "Student Association", "Student Association creating events")
+Container(facebook, "StudieforeningskalenderenFB", "Facebook App, GraphQL", "This Facebook developer app helps Student associations import events from facebook")
+Container_Ext(brevo, "Brevo", "", "An Email Marketing system used to send verification Emails to users when they are created")
+Container_Ext(recap, "reCAPTCHA", "", "The system used to safegaurd against spam users")
+Container(fr, "Front-end Application", "React, AWS Amplify", "Front-end application for the Student Calendar")
+Container(db, "Database", "PostgreSQL, AWS RDS", "The AWS database where the events and users are stored")
+
+System_Boundary(be, "Back-end API", "ASP.NET Core, AWS Elastic Beanstalk", "Back-end API for the Student Calendar") {
+    Container(ChatGPTService, "ChatGPTService", "ASP.NET Core Service", "Service for handling requests to the ChatGPT model")
+    Container(EmailReputationService, "EmailReputationService", "ASP.NET Core Service", "Handles bounces from Brevo if does not exsist or can't be found")
+    Container(EmailService, "EmailService", "ASP.NET Core Service", "Handles all email communications to users using Brevo")
+    Container(EncryptionService, "EncryptionService", "ASP.NET Core Service", "Responsable for encrypting and decrypting data. Primarily used for the verification of users")
+    Container(EventService, "EventService", "ASP.NET Core Service", "Manages event data")
+    Container(EventTagService, "EventTagService", "ASP.NET Core Service", "Handles adding and removing tags for events")
+    Container(EventUserService, "EventUserService", "ASP.NET Core Service", "Manages user interactions with events")
+    Container(ReCaptchaService, "ReCaptchaService", "ASP.NET Core Service", "Handles reCAPTCHA validations")
+    Container(RoleService, "RoleService", "ASP.NET Core Service", "Manages roles within the system")
+    Container(TagService, "TagService", "ASP.NET Core Service", "Handles creation and deletion of tags")
+    Container(UserRoleService, "UserRoleService", "ASP.NET Core Service", "Manages user roles assignment")
+    Container(UserService, "UserService", "ASP.NET Core Service", "Manages user accounts and interactions")
+    Container(controller, "WebHookController", "ASP.NET Core Controller", "Handles incoming webhooks from Brevo")
+}
+
+Rel(stud, fr, "Views")
+Rel(asso, fr, "Creates events")
+Rel(EventService, db, "Stores events")
+Rel(UserService, db, "Stores users")
+Rel(TagService, db, "Stores tags")
+Rel(UserRoleService, db, "Updates user roles")
+Rel(EventUserService, db, "Stores user interactions with events")
+Rel(EventTagService, db, "Updates event tags")
+Rel_D(RoleService, db, "Stores roles")
+Rel_U(fr,recap,"Validates token")
+Rel(EmailService,brevo,"Sends Emails through")
+Rel(brevo,fr,"Links to")
+Rel_U(fr,facebook,"Imports events through")
+Rel_D(EmailService, EncryptionService, "Uses")
+Rel_D(EmailService, ReCaptchaService, "Verifies tokens through")
+Rel(ReCaptchaService, recap, "sends reCapthca to")
+Rel(EventService, TagService, "Get tags")
+Rel(EventService, EventTagService, "uses")
+Rel(EventService, EventUserService, "Adds creater to event")
+
+
+' Relations from front-end application to back-end services
+Rel(fr, UserService, "Interacts with for user management and authentication")
+Rel(fr, EventService, "Interacts with to manage events")
+Rel(fr, EventTagService, "Interacts with for tagging events")
+Rel(fr, EmailService, "Interacts with for email operations")
+Rel(controller, EmailReputationService, "Updates bounces/complaints")
+
+Rel(UserService, UserRoleService, "Collaborates with for managing user roles")
+Rel(UserService, RoleService, "Uses for managing roles within the system")
+Rel(UserService, EncryptionService, "Interacts with for encryption and decryption services")
+Rel(UserService, EmailService, "Utilizes for managing email communications")
+Rel(UserService, ReCaptchaService, "Uses for reCAPTCHA validations")
+
+@enduml

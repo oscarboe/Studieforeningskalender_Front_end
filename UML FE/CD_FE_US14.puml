@@ -28,8 +28,7 @@ class CalendarPage {
     + Monthly
     + Weekly
     + Daily
-    + DayEvents
-    + EventCard
+    + DayEventModal    
 }
 class EventPage {
     -Image : Img

@@ -1,0 +1,36 @@
+@startuml Other_Backend_Services
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(stud, "Student", "A student looking for an overview of the events on campus")
+Person(asso, "Student Association", "Student Association creating events")
+Container_Ext(brevo, "Brevo", "", "An Email Marketing system used to send verification Emails to users when they are created")
+Container_Ext(recap, "reCAPTCHA", "", "The system used to safegaurd against spam users")
+Container(fr, "Front-end Application", "React, AWS Amplify", "Front-end application for the Student Calendar")
+Container(db, "Database", "PostgreSQL, AWS RDS", "The AWS database where the events and users are stored")
+
+System_Boundary(be_other, "Back-end API", "ASP.NET Core, AWS Elastic Beanstalk", "Back-end API segment handling non-event related functionalities") {
+    Container(EncryptionService, "EncryptionService", "ASP.NET Core Service", "Responsible for encrypting and decrypting data. Primarily used for the verification of users")
+    Container(EmailService, "EmailService", "ASP.NET Core Service", "Handles all email communications to users using Brevo")
+    Container(ReCaptchaService, "ReCaptchaService", "ASP.NET Core Service", "Handles reCAPTCHA validations")
+    Container(RoleService, "RoleService", "ASP.NET Core Service", "Manages roles within the system")
+    Container(UserRoleService, "UserRoleService", "ASP.NET Core Service", "Manages user roles assignment")
+    Container(UserService, "UserService", "ASP.NET Core Service", "Manages user accounts and interactions")
+}
+
+Rel(stud, fr, "Views")
+Rel(asso, fr, "Creates events")
+Rel(UserService, db, "Stores users")
+Rel(UserRoleService, db, "Updates user roles")
+Rel(RoleService, db, "Stores roles")
+Rel(fr,recap,"Validates token")
+Rel(ReCaptchaService, recap, "sends reCaptcha to")
+
+' Relations from front-end application to back-end services
+Rel(fr, UserService, "Adds/Updates Users")
+Rel(EmailService,brevo,"Sends Emails")
+Rel(UserService, UserRoleService, "adds Roles To Users")
+Rel(UserService, RoleService, "Gets roles")
+Rel(UserService, EncryptionService, "Uses")
+Rel(UserService, EmailService, "Uses")
+Rel(UserService, ReCaptchaService, "Uses for reCAPTCHA validations")
+@enduml

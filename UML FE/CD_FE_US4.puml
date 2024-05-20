@@ -21,8 +21,7 @@ class CalendarPage {
     + Monthly
     + Weekly
     + Daily
-    + <color:blue>DayEvents
-    + <color:red>EventCard
+    + <color:red>DayEventModal
 }
 class EventPage {
     -<color:red>Image : Img

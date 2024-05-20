@@ -1,0 +1,100 @@
+@startuml
+class ChatGPTService {
+    + <color:red>ChatGPTService(httpClient:HttpClient, configuration:IConfiguration)
+    + <color:red><<async>> GetChatGPTDescription(prompt:string) : Task<ChatGPTPayload>
+}
+
+class EmailReputationService {
+    + EmailReputationService(repository:IEmailReputationRepository)
+    + <<async>> IncreaseBounceCount(emailAddress:string, isHardBounce:bool) : Task<IActionResult>
+    + <<async>> IncreaseComplaintCount(emailAddress:string) : Task<IActionResult>
+    + CheckReputation(emailAddress:string) : (bool hasBadReputation, string? message)
+}
+
+class EmailService {
+    + EmailService(userRepository:IUserRepository, encryptionService:EncryptionService, emailReputationService:EmailReputationService, configuration:IConfiguration, contextAccessor:IHttpContextAccessor, captchaService:ReCaptchaService)
+    + <<async>> SendForgotPasswordVerificationEmail(email:string, reCaptchaToken:string) : Task<VerificationEmailPayload>
+    + <<async>> SendRegisterVerificationEmail(email:string, userId:Guid, firstName:string) : Task<VerificationEmailPayload>
+    + <<async>> ResendRegisterVerificationEmail() : Task<VerificationEmailPayload>
+}
+EmailService --> EmailReputationService
+EmailService --> EncryptionService
+EmailService --> ReCaptchaService
+
+class EncryptionService {
+    + EncryptionService(configuration:IConfiguration)
+    + Encrypt(plainText:string) : string
+    + Decrypt(cipherText:string) : string
+}
+
+class EventService {
+    + EventService(repository:IEventRepository, tagService:TagService, eventTagService:EventTagService, eventUserService:EventUserService)
+    + GetEvent() : IQueryable<EventDto>
+    + GetEvents(sorting:string, tags:IList<string>?, searchText:string) : IQueryable<EventDto>
+    + <<async>> CreateEvent(input:CreateEventInput) : Task<CreateEventPayload>
+    + <<async>> DeleteEvent(id:Guid) : Task<DeleteEventPayload>
+}
+EventService --> TagService
+EventService --> EventTagService
+EventService --> EventUserService
+
+class EventTagService {
+    + EventTagService(repository:IEventTagRepository, tagRepository:ITagRepository)
+    + <<async>> AttachTagToEvent(input:EventAndTagInput) : Task<AttachTagToEventPayload>
+    + <<async>> AttachTagsToEvent(input:EventAndTagsInput) : Task<AttachTagsToEventPayload>
+    + <<async>> RemoveTagFromEvent(input:EventAndTagInput) : Task<RemoveTagFromEventPayload>
+}
+
+class EventUserService {
+    + EventUserService(repository:IEventUserRepository, userRepository:IUserRepository, contextAccessor:IHttpContextAccessor, serializer:IIdSerializer)
+    + <<async>> AddUserToEvent(input:AddUserToEventInput) : Task<AddUserToEventPayload>
+    + <<async>> AddSelfToEvent(input:AddSelfToEventInput) : Task<AddUserToEventPayload>
+    + <<async>> RemoveUserFromEvent(input:RemoveUserFromEventInput) : Task<RemoveUserFromEventPayload>
+}
+
+class ReCaptchaService {
+    + ReCaptchaService(configuration:IConfiguration, httpClient:HttpClient)
+    + <<async>> ValidateReCaptcha(recaptcha:string) : Task<bool>
+}
+
+class RoleService {
+    + RoleService(roleRepository:IRoleRepository)
+    + GetRolesById(userRoles:IList<UserRole>) : IList<Role>
+    + GetRoles(roleIds:IList<Guid>?) : IQueryable<Role>
+    + <<async>> CreateRole(input:RoleNameInput) : Task<CreateRolePayload>
+    + <<async>> DeleteRole(input:RoleNameInput) : Task<DeleteRolePayload>
+}
+
+class TagService {
+    + TagService(repository:ITagRepository)
+    + GetTags() : IQueryable<Tag>
+    + <<async>> CreateTag(input:CreateTagInput) : Task<CreateTagPayload>
+    + <<async>> CreateTags(input:CreateTagsInput) : Task<CreateTagPayload>
+    + <<async>> DeleteTag(input:DeleteTagInput) : Task<DeleteTagPayload>
+}
+
+class UserRoleService {
+    + UserRoleService(repository:IUserRoleRepository)
+    + GetRoleId(id:Guid) : IList<UserRole>
+    + <<async>> GrantRoleToUser(input:RoleAndUserInput) : Task<UserRolesPayload>
+    + <<async>> RemoveRoleFromUser(input:RoleAndUserInput) : Task<UserRolesPayload>
+}
+
+class UserService {
+    + UserService(repository:IUserRepository, userRoleRepository:IUserRoleRepository, roleService:RoleService, encryptionService:EncryptionService, emailService:EmailService, userRoleService:UserRoleService, reCaptchaService:ReCaptchaService, contextAccessor:IHttpContextAccessor)
+    + GetUserInfo() : IQueryable<User>
+    + GetUsers() : IQueryable<User
+    + <<async>> CreateUser(input:CreateUserInput) : Task<CreateUserPayload>
+    + <<async>> VerifyUser(emailAddress:string, token:string) : Task<VerifyUserPayload>
+    + <<async>> DeleteUser() : Task<DeleteUserPayload>
+    + <<async>> UpdateUser(input:UpdateUserInput) : Task<UpdateUserPayload>
+    + <<async>> ChangePassword(emailAddress:string, verificationCode:string, password:string, reCaptcha:string) : Task<ChangePasswordPayload>
+    + <<async>> Login(loginInput:LoginInput) : Task<LoginPayload>
+    + <<async>> SignOut() : Task
+}
+UserService --> UserRoleService
+UserService --> RoleService
+UserService --> EncryptionService
+UserService --> EmailService
+UserService --> ReCaptchaService
+@enduml
