@@ -4,7 +4,7 @@ import { addAlert } from '../../Redux/Slices/alertsSlice';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
-import './FacebookInit.scss';
+import './FacebookImport.scss';
 
 interface loginResponse {
 	authResponse: {
@@ -31,7 +31,7 @@ interface eventResponse {
 	data: FBEvent[];
 }
 
-interface FBInitProps {
+interface FacebookImportProps {
 	onEventsFetched: (response: FBEvent) => void;
 }
 
@@ -44,7 +44,7 @@ interface PageInfo {
 	name: string;
 	id: string;
 }
-const FBInit = ({ onEventsFetched }: FBInitProps) => {
+const FacebookImport = ({ onEventsFetched }: FacebookImportProps) => {
 	const [multipleEvents, setMultipleEvents] = useState(false);
 	const [pageInfo, setPageInfo] = useState<PageInfo[]>([]);
 	const [events, setEvents] = useState<FBEvent[]>([]);
@@ -158,4 +158,4 @@ const FBInit = ({ onEventsFetched }: FBInitProps) => {
 		</div>
 	);
 };
-export default FBInit;
+export default FacebookImport;

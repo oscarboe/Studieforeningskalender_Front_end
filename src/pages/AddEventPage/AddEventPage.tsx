@@ -14,7 +14,7 @@ import {
 } from '../../../generated/graphql/graphql';
 import { GET_ALL_TAGS } from '../../Queries/TagQueries';
 import { CREATE_EVENT_QUERY } from '../../Queries/EventQueries';
-import FBInit, { FBEvent } from '../../components/ImportFacebook/FacebookInit';
+import FacebookImport, { FBEvent } from '../../components/ImportFacebook/FacebookImport';
 import ChatGPTButton from '../../components/ChatGPTButton/ChatGPTButton';
 import { IS_ADMIN_OR_UNION } from '../../Queries/UserQueries';
 import { useNavigate } from 'react-router-dom';
@@ -115,7 +115,7 @@ export default function AddEventPage() {
 
 	return (
 		<div className='addEventPage'>
-			<FBInit onEventsFetched={handleEventsFetched} />
+			<FacebookImport onEventsFetched={handleEventsFetched} />
 			<form onSubmit={handleSubmit}>
 				<div className='event-field'>
 					<h3>Begivenhedsnavn</h3>
