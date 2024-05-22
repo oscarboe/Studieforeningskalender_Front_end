@@ -119,8 +119,8 @@ textarea {
 }
 
 .MuiAutocomplete-paper {
-	background-color: rgb(18, 18, 18);
-	color: white;
+	background-color: rgb(18, 18, 18) !important;
+	color: white !important;
 	background-image: linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
 }
 
@@ -129,5 +129,5 @@ textarea {
 }
 
 .MuiAutocomplete-listbox {
-	overflow-x: hidden;
+	overflow-x: hidden !important;
 }
