@@ -43,14 +43,17 @@
 				color: white;
 			}
 		}
-		.css-clttge-MuiAutocomplete-root .MuiAutocomplete-inputRoot .MuiAutocomplete-input {
+
+		.MuiFormLabel-root {
+			top: -0.5rem;
+			color: white;
+		}
+
+		.MuiAutocomplete-root .MuiAutocomplete-inputRoot .MuiAutocomplete-input {
 			width: auto;
 			min-width: 100px;
 			background-color: transparent;
 			color: white;
-		}
-		#\:r3\:-label {
-			color: #ffffff;
 		}
 	}
 
