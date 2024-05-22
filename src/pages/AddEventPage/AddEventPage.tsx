@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
-import Autocomplete from '@mui/material/Autocomplete';
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import './AddEventPage.scss';
 import { useMutation, useQuery } from '@apollo/client';
@@ -22,6 +22,7 @@ import { setAlerts } from '../../Redux/Slices/alertsSlice';
 import { useDispatch } from 'react-redux';
 import { HandleGraphQLSuccess, HandleGraphQLValidationError } from '../../Helpers/ResponseHelper';
 import Spinner from '../../components/Spinner/Spinner';
+import { FilterOptionsState } from '@mui/material';
 
 export default function AddEventPage() {
 	const [eventName, setEventName] = useState('');
@@ -36,7 +37,10 @@ export default function AddEventPage() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const { data } = useQuery<TagsQuery>(GET_ALL_TAGS);
+	const {} = useQuery<TagsQuery>(GET_ALL_TAGS, {
+		onCompleted: (data) => setOptions(data?.tags.map((tag) => tag.name)),
+		fetchPolicy: 'no-cache',
+	});
 	const [createEvent, { loading }] = useMutation<CreateEventMutation, CreateEventMutationVariables>(
 		CREATE_EVENT_QUERY,
 		{
@@ -113,7 +117,42 @@ export default function AddEventPage() {
 		const date = new Date(event.start_time);
 		const dateTimeLocal = date.toISOString().slice(0, 16);
 		setStartTime(dateTimeLocal);
+
+		if (event.end_time) {
+			const endDate = new Date(event.end_time);
+			const endDateTimeLocal = endDate.toISOString().slice(0, 16);
+			setEndTime(endDateTimeLocal);
+		}
 	}
+
+	const [options, setOptions] = useState<string[]>([]);
+	const handleOnChange = (_: React.SyntheticEvent<Element, Event>, values: string[]) => {
+		console.log(values);
+		const newValues = values.map((value) => {
+			if (
+				typeof value === 'string' &&
+				!(options.some((x) => x === value) || options.some((x) => x === value.substring(7)))
+			) {
+				if (value.substring(0, 7) === 'Tilføj ') setOptions((prev) => [...prev, value.substring(7)]);
+				else setOptions((prev) => [...prev, value]);
+			}
+
+			return value.substring(0, 7) === 'Tilføj ' ? value.substring(7) : value;
+		});
+
+		setSelectedTags(newValues);
+	};
+
+	const filterOptions = (options: string[], params: FilterOptionsState<string>) => {
+		const filter = createFilterOptions<string>();
+		const filtered = filter(options, params);
+
+		if (params.inputValue !== '') {
+			filtered.push(`Tilføj ${params.inputValue}`);
+		}
+
+		return filtered;
+	};
 
 	return (
 		<div className='addEventPage'>
@@ -157,15 +196,26 @@ export default function AddEventPage() {
 					<Autocomplete
 						multiple
 						id='tags-select'
-						options={data?.tags.map((tag) => ({ label: tag.name, id: tag.id })) || []}
-						getOptionLabel={(option) => option.label}
-						isOptionEqualToValue={(option, value) => option.id === value.id}
-						onChange={(_, values) => {
-							setSelectedTags(values.map((x) => x.label));
-						}}
+						options={options}
+						getOptionLabel={(option) => (option.substring(0, 7) === 'Tilføj ' ? option.substring(7) : option)}
+						onChange={handleOnChange}
+						filterOptions={filterOptions}
 						renderInput={(params) => <TextField {...params} variant='standard' label='Vælg tags' />}
-						disableCloseOnSelect={true}
-						filterSelectedOptions={true}
+						renderOption={(props, option) => {
+							const { key, ...rest } = props as any;
+							return (
+								<li key={key} {...rest} className='tags-list'>
+									{option}
+								</li>
+							);
+						}}
+						sx={{ width: 300 }}
+						disableCloseOnSelect
+						filterSelectedOptions
+						freeSolo
+						clearOnBlur
+						selectOnFocus
+						handleHomeEndKeys
 					/>
 				</div>
 				<div className='event-field'>

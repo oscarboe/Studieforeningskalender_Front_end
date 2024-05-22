@@ -39,9 +39,8 @@
 				color: rgb(228 228 228);
 			}
 			#tags-select-label {
-				color: #ffffff; 
+				color: #ffffff;
 			}
-
 
 			textarea {
 				width: 100%;
@@ -111,4 +110,24 @@ textarea {
 
 #tags-select {
 	width: 100%;
+}
+
+.tags-list {
+	width: 300px;
+	cursor: pointer;
+	padding: 6px 16px;
+}
+
+.css-9e5uuu-MuiPaper-root-MuiAutocomplete-paper {
+	background-color: rgb(18, 18, 18);
+	color: white;
+	background-image: linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
+}
+
+.tags-list.Mui-focused {
+	background-color: rgba(255, 255, 255, 0.08);
+}
+
+.css-gdh49b-MuiAutocomplete-listbox {
+	overflow-x: hidden;
 }
