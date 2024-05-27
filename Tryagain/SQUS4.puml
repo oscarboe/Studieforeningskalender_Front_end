@@ -1,0 +1,47 @@
+@startuml "System sequence diagram for US1, and US2"
+title Frontend Application Sequence Diagram for US4 See event details
+actor Student as User
+
+participant "HomePage" as HomePage
+participant "CalendarPage" as cp
+participant "EventPage" as ep
+participant "Backend" as es #LightGreen
+
+alt
+User -> HomePage: Open HomePage
+
+activate HomePage
+HomePage ->  EventService: events query
+activate EventService
+EventService -->  HomePage: Events data
+deactivate EventService
+HomePage -> HomePage: SetEventCount()
+HomePage --> User: PopularEvents-component
+deactivate HomePage
+User ->HomePage: Clicks on "View More"
+activate HomePage
+HomePage ->ep: navigate(/Event)
+deactivate HomePage
+activate ep
+ep -->User: Event Details
+deactivate ep
+
+else
+
+cp ->User: Calendar
+
+User ->cp: Clicks on Event in calendar
+activate cp
+cp -->User: DayEventModal-component
+deactivate cp
+User ->cp: Clicks on "View More"
+activate cp
+cp ->ep: navigate(/Event)
+deactivate cp
+activate ep
+ep -->User:  Event Details
+deactivate ep
+end alt
+
+
+@enduml

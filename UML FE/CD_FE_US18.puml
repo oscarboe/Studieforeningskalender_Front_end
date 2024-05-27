@@ -1,6 +1,6 @@
 @startuml FrontEndClassDiagram
 class HomePage {
-    - eventCount : Number
+    - 
     - searchText: String
     ~ events : Query
     ~ tags : Query
@@ -95,9 +95,3 @@ legend
     |<color:blue> Blue text | Updated |
 endlegend
 @enduml
-
-
-
-
-
-

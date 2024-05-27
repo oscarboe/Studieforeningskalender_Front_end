@@ -1,0 +1,56 @@
+@startuml "System Sequence Diagram for Register Flow"
+title Frontend application  Sequence Diagram for US13: Delete profile
+actor User as user
+
+participant "App" as App
+participant "AccountPage" as Ac
+\
+
+participant "Backend" as be #LightGreen
+
+participant "reCAPTCHA" as reCap #PaleVioletRed
+note right of user
+  User must be logged in.
+end note
+user -> App: click on "Profile"
+activate App
+App -> Ac: navigate(/Account)
+deactivate App
+activate Ac
+Ac -> be: getUser query
+activate be
+be --> Ac: response
+deactivate be
+Ac -> Ac: setPlaceholders(response)
+
+Ac --> user: Display account page.
+deactivate Ac
+user -> Ac: click on "Delete Profile"
+activate Ac
+Ac -> user: DeleteUserModal
+deactivate Ac
+user -> Ac: click on "Delete"
+activate Ac
+
+deactivate reCap
+Ac -> be: deleteUser mutation
+activate be
+be --> Ac: response 
+deactivate be
+alt success
+  Ac -> App: HandleGraphQLSuccess(response.deleteUser, dispatch, 'deleteUser')
+  Ac -> App: setLoginState(false)
+  Ac -> App: navigate(/)
+  deactivate Ac
+    activate App
+  App -> user: Alert user their profile has been deleted.
+    deactivate App
+else error
+    Ac -> App: HandleGraphQLError(error, dispatch) 
+    activate App
+    App -> user: Alert user that there was an error  
+    deactivate App
+end
+
+
+@enduml

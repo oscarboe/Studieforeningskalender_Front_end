@@ -8,11 +8,13 @@ System(sys, "Student Calendar", "Development of a user-friendly web application 
 Container(facebook, "StudieforeningskalenderenFB", "Facebook App, GraphQL", "This Facebook developer app helps Student associations import events from facebook")
 Container_Ext(brevo, "Brevo", "", "An Email Marketing system used to send verification Emails to users when they are created")
 Container_Ext(recap, "reCAPTCHA", "", "The system used to safegaurd against spam users")
+Container_Ext(chat, "ChatGPT", "", "An AI API used to generate descriptions for events")
 
 Rel(stud, sys, "Views")
 Rel(asso, sys, "Creates events")
 Rel(sys,facebook, "Imports events")
 Rel(sys,brevo, "Uses")
 Rel(sys,recap, "Uses")
+Rel(sys,chat, "Uses")
 SHOW_LEGEND()
 @enduml

@@ -5,10 +5,10 @@ Person(stud, "Student", "A student looking for an overview of the events on camp
 Person(asso, "Student Association", "Student Association creating events")
 Container_Ext(brevo, "Brevo", "", "An Email Marketing system used to send verification Emails to users when they are created")
 Container_Ext(recap, "reCAPTCHA", "", "The system used to safegaurd against spam users")
-Container(fr, "Front-end Application", "React, AWS Amplify", "Front-end application for the Student Calendar")
+Container(fr, "Single-Page Application", "React, AWS Amplify", "Front-end application for the Student Calendar")
 Container(db, "Database", "PostgreSQL, AWS RDS", "The AWS database where the events and users are stored")
 
-System_Boundary(be_other, "Back-end API", "ASP.NET Core, AWS Elastic Beanstalk", "Back-end API segment handling non-event related functionalities") {
+System_Boundary(be_other, "API Application for User", "ASP.NET Core, AWS Elastic Beanstalk", "Back-end API segment handling non-event related functionalities") {
     Container(EncryptionService, "EncryptionService", "ASP.NET Core Service", "Responsible for encrypting and decrypting data. Primarily used for the verification of users")
     Container(EmailService, "EmailService", "ASP.NET Core Service", "Handles all email communications to users using Brevo")
     Container(ReCaptchaService, "ReCaptchaService", "ASP.NET Core Service", "Handles reCAPTCHA validations")
@@ -22,7 +22,7 @@ Rel(asso, fr, "Creates events")
 Rel(UserService, db, "Stores users")
 Rel(UserRoleService, db, "Updates user roles")
 Rel(RoleService, db, "Stores roles")
-Rel(fr,recap,"Validates token")
+Rel(fr,recap,"gets token from")
 Rel(ReCaptchaService, recap, "sends reCaptcha to")
 
 ' Relations from front-end application to back-end services

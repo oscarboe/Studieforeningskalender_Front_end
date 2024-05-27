@@ -1,0 +1,45 @@
+@startuml
+
+
+class EventService {
+    + GetEvents(sorting:string, tags:IList<string>?, searchText:string) : IQueryable<EventDto>
+}
+EventService --> EventUserService
+
+
+class UserService {
+    + <color:red>VerifyUser(emailAddress:string, token:string) : Task<VerifyUserPayload>
+    + <color:red>CreateUser(input:CreateUserInput) : Task<CreateUserPayload>
+}
+
+class ReCaptchaService {
+    + <color:red>ValidateReCaptcha(recaptcha:string) : Task<bool>
+}
+class EventUserService {
+    + AddSelfToEvent(input:AddSelfToEventInput) : Task<AddUserToEventPayload>
+    + AddUserToEventInput(Guid eventId, string username, bool isAdmin): Task<AddUserToEventPayload>
+}
+
+class EmailService {
+    + <color:red>SendRegisterVerificationEmail(email:string, userId:Guid, firstName:string) : Task<VerificationEmailPayload>
+}
+class EmailReputationService {
+    + <color:red>CheckReputation(emailAddress:string) : (bool hasBadReputation, string? message)
+}
+EmailService --> EmailReputationService
+
+class UserRoleService {
+    + <color:red>GrantRoleToUser(input:RoleAndUserInput) : Task<UserRolesPayload>
+}
+
+class EncryptionService {
+    + <color:red>Encrypt(plainText:string) : string
+}
+
+UserService --> UserRoleService
+UserService --> EncryptionService
+UserService --> EmailService
+UserService --> ReCaptchaService
+EmailService --> EncryptionService
+EmailService --> ReCaptchaService
+@enduml

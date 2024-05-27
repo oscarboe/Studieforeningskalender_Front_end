@@ -1,0 +1,63 @@
+@startuml FrontEndClassDiagram
+
+class HomePage {
+    - sortPopular : useState
+    - setEventCount : useState
+    ~ events : Query 
+    --
+    + <color:blue>PopularEvents: Component
+    + EventsSlider: Component
+}
+
+class App {
+    - changeSorting : Function
+    --
+    + NavBar: Component
+    + Redux: Component
+    + Router: Component
+    + Alert: Component
+    }
+class CalendarPage {
+    - events : Query
+    --
+    + Calendar: Component
+    + Monthly: Component
+    + Weekly: Component
+    + Daily: Component
+    + Select: Component
+    + Navigate: Component
+    + <color:red>DayEventModal : Component
+
+}
+class EventPage {
+    -<color:red>Image : Img
+    -<color:red>Event : Event
+    --
+    + <color:red>DateAndTimeBox: Component
+    + <color:red>LocationBox : Component
+}
+
+App*-- HomePage    
+App*-- CalendarPage  
+CalendarPage-- EventPage 
+HomePage-- EventPage
+legend
+    |= Example  |= Description |
+    |        ○ | A Component |
+    |        □ | A Variable/Function |
+    |        <size:11>△ | Query or Mutation |
+    |<color:red> Red text | Newly added|
+    |<color:blue> Blue text | Updated |
+endlegend
+@enduml
+
+class EventPage {
+}
+class AddEventPage {
+}
+class VerifyPage {
+}
+class AccountPage {
+}
+class LoginPage {
+    }

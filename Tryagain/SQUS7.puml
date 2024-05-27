@@ -1,0 +1,20 @@
+@startuml "System sequence diagram for US1, and US2"
+title Frontend application Sequence Diagram for US7 See events in one's private calendar
+actor Student as User
+
+participant "App" as app
+participant "EventPage" as ep
+ participant "Google Calendar" as gc #PaleVioletRed
+
+
+ note right of User
+    User is on the EventPage
+ end note
+
+User -> ep: Hover the AddToCalendar button
+ep -->User: show calendar options
+User -> ep: Click on Google Calendar
+ep -> gc: redirect to Google Calendar with event details
+User -> gc: press save
+
+@enduml

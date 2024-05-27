@@ -1,0 +1,46 @@
+@startuml "System sequence diagram for US1, and US2"
+title Frontend Application Sequence Diagram for US3 See the event calendar
+actor Student as User
+participant "App" as app
+participant "CalendarPage" as cp
+participant "Backend" as es #LightGreen
+
+User -> app: Click calendar on Navbar
+activate app
+app -> cp: navigate(/Calendar)
+deactivate app
+activate cp
+cp -> es: events query
+activate es
+es --> cp: events data
+deactivate es
+cp --> User: Monthly Calendar
+deactivate cp
+opt No events found
+cp -->app: AddAlert("An error occurred while fetching events", severity="error")
+activate app
+app --> User: Error message alert
+deactivate app
+end
+
+User -> cp: Click next month in Navigate-component
+activate cp
+cp -> es:  events query
+es --> cp: events data
+deactivate es
+cp --> User: Monthly Calendar
+deactivate cp
+
+
+
+User -> cp: Click weekly view in Select-component
+activate cp
+cp --> User: Weekly Calendar
+deactivate cp
+
+User -> cp: Click daily view in Select-component
+activate cp
+cp --> User: Daily Calendar
+deactivate cp
+
+@enduml

@@ -6,7 +6,7 @@ Component(FacebookImport, "FacebookImport", "", "A component to import events fr
 Component(ChatGPTButton, "ChatGPTButton", "", "A component that with a modal where a student associations can write a prompt for ChatGPT to give them a description for their event")
 Component(Spinner, "Spinner", "", "A loading spinner animation")
 
-Rel(AddEventPage, FBInit, "")
+Rel(AddEventPage, FacebookImport, "")
 Rel(AddEventPage, ChatGPTButton, "")
 Rel(AddEventPage, Spinner, "")
 

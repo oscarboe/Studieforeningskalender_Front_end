@@ -6,10 +6,11 @@ Person(asso, "Student Association", "Student Association creating events")
 Container(facebook, "StudieforeningskalenderenFB", "Facebook App, GraphQL", "This Facebook developer app helps Student associations import events from facebook")
 Container_Ext(brevo, "Brevo", "", "An Email Marketing system used to send verification Emails to users when they are created")
 Container_Ext(recap, "reCAPTCHA", "", "The system used to safegaurd against spam users")
+Container_Ext(chat, "ChatGPT", "", "An AI API used to generate descriptions for events")
 
 System_Boundary(cal, "Student Calendar") {
-    Container(fr, "Front-end Application", "React, AWS Amplify", "Front-end application for the Student Calendar")
-    Container(be, "Back-end API", "ASP.NET Core, AWS Elastic Beanstalk", "Back-end API for the Student Calendar")
+    Container(fr, "Single-Page Aplication", "React, AWS Amplify", "Front-end application for the Student Calendar")
+    Container(be, "API Application", "ASP.NET Core, AWS EC2", "Back-end API for the Student Calendar")
     Container(db, "Database", "PostgreSQL, AWS RDS", "The AWS database where the events and users are stored")
 }
 
@@ -17,10 +18,11 @@ Rel_D(stud, fr, "Views")
 Rel_U(asso, fr, "Creates events")
 Rel_L(be, db, "Stores data")
 Rel_L(fr, be, "Gets/sends data")
-Rel(fr,recap,"Validates token")
+Rel(fr,recap,"Gets token from")
 Rel(be,brevo,"Sends Emails through")
 Rel(brevo,fr,"Links to")
 Rel(fr,facebook,"Imports events through")
+Rel(fr,chat,"Uses")
 
 
 @enduml

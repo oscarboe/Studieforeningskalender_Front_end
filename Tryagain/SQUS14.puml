@@ -1,0 +1,56 @@
+@startuml "System Sequence Diagram for Register Flow"
+title Frontend application  Sequence Diagram for US14: Create an event
+actor User as user
+
+participant "App" as App
+participant "AddEventPage" as AEP
+participant "Backend" as be #LightGreen
+
+note right of user
+User must be logged in and have the role of "studieforening" or "admin"
+end note
+user -> App: clicks the "Add Event" button on the Navbar
+activate App
+App -> AEP: navigate("/AddEvent")
+deactivate App
+activate AEP
+
+AEP -> be: isAdminOrUnion query
+activate be
+be --> AEP: response
+deactivate be
+
+opt User is not permitted to view the page
+    AEP -> App: setAlerts(errors:alert[])
+    AEP -> App: redirect("/")
+end
+AEP -> be: Tags query
+activate be
+be --> AEP: response
+deactivate be
+
+
+
+AEP --> user: AddEvent Form
+deactivate AEP
+user -> AEP: fills out the form
+user -> AEP: clicks the "Add Event" button
+activate AEP
+AEP -> be : createEvent mutation
+activate be
+be --> AEP: response
+deactivate be
+alt success
+  AEP -> App: HandleGraphQLSuccess(response.createEvent, dispatch, 'createEvent')
+    activate App
+  App -> user: Alert user event has been created.
+    deactivate App
+else error
+    AEP -> App: HandleGraphQLError(error, dispatch) 
+    deactivate AEP
+    activate App
+    App -> user: Alert user that there was an error  
+    deactivate App
+end
+
+@enduml

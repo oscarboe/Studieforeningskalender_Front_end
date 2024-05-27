@@ -1,0 +1,57 @@
+@startuml
+!define RECTANGLE class
+skinparam linetype polyline
+
+RECTANGLE Student {
+    +fieldOfStudy
+}
+
+RECTANGLE Association {
+}
+
+RECTANGLE Event {
+    +title
+    +date
+}
+
+RECTANGLE Calendar {
+}
+
+RECTANGLE Profile {
+}
+
+RECTANGLE Password {
+}
+
+RECTANGLE Description {
+}
+
+RECTANGLE Tag {
+}
+
+RECTANGLE Interest {
+}
+
+RECTANGLE Facebook {
+    +Pages
+}
+
+RECTANGLE Email {
+}
+
+Student "1" -- "0..*" Event: views
+Student "1" -- "0..*" Tag: filtersBy
+Student "1" -- "1" Profile: has
+Student "1" -- "1" Email: has
+Association "1" - "0..*" Event: creates
+Association "1" -- "1" Profile: has
+Association "1" -- "1" Email: has
+Calendar "1" -- "0..*" Event: has
+Event "1" -- "1" Description: has
+Event "1" -- "0..*" Tag: taggedWith
+Event "1" -- "0..*" Interest: relatedTo
+Profile "1" -- "1" Password: uses
+Profile "1" -- "1" Email: uses
+Facebook "1" -- "0..*" Event: imports
+
+@enduml

@@ -1,0 +1,17 @@
+@startuml "System sequence diagram for US1, and US2"
+title Backend Application Diagram for US1, US2, US3, US4 and US5: get Events
+participant "Frontend" as fe #LightGreen
+participant "EventService" as EventService
+database Database
+
+
+
+fe ->  EventService: GetEvents(sorting:string, tags:IList<string>?, searchText:string)
+activate EventService
+EventService -> Database: get events
+activate Database
+Database --> EventService: Return events
+deactivate Database
+EventService -->  fe: Events data
+deactivate EventService
+@enduml

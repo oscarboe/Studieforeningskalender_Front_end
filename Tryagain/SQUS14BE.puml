@@ -1,0 +1,46 @@
+@startuml "System Sequence Diagram for Register Flow"
+title Backend Application Sequence Diagram for US10
+
+participant "Frontend" as fe #LightGreen
+participant "EventService" as es
+participant "TagsService" as ts
+participant "EventTagService" as ets
+participant "EventUserService" as eus
+database "Database" as db
+
+fe -> es: CreateEvent(input:CreateEventInput)
+activate es
+    es -> db: add event
+    activate db
+    db --> es: event
+    deactivate db
+opt new tags
+    es -> ts: CreateTags(tags)
+    activate ts
+    ts -> db: add tags
+    activate db
+    db --> ts: tags
+    deactivate db
+    ts --> es: tags
+    deactivate ts
+    es -> ets: AttachTagsToEvent(eventId:Guid, tags:List<string>)
+    activate ets
+    ets -> db: add relation between tags and event
+    activate db
+    db --> ets: response
+    deactivate db
+    ets --> es: response
+    deactivate ets
+end opt
+es ->eus: AddSelfToEvent(eventId:string, isAdmin:boolean)
+activate eus
+eus -> db: add relation between user and event
+activate db
+db --> eus: response
+deactivate db
+eus --> es: response
+deactivate eus
+es --> fe: event created
+deactivate es
+
+@enduml

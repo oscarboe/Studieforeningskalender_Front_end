@@ -1,6 +1,6 @@
 @startuml FrontEndClassDiagram
 class HomePage {
-    - eventCount : Number
+    - 
     - <color:red>searchText: String
     ~ events : Query
     ~ <color:red>tags : Query

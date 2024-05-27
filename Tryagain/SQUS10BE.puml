@@ -1,0 +1,40 @@
+@startuml "System Sequence Diagram for Register Flow"
+title Backend Application Sequence Diagram for US10 Login as a student or an Association
+participant "Frontend" as fe #lightGreen
+participant "VerifyPage" as VerifyPage
+participant "UserService" as UserService
+participant "RoleService" as ros
+participant "ReCaptchaService" as rs
+participant "TokensHelper" as tkh
+database "Database" as db
+participant "reCAPTCHA" as reCap #PaleVioletRed
+
+
+
+fe -> reCap: get reCAPTCHA-token
+activate fe  
+activate reCap
+reCap --> fe: token
+deactivate reCap
+fe -> UserService: Login(loginInput:LoginInput)
+activate UserService
+UserService -> rs: validateReCaptcha(token:string)
+activate rs
+rs -> reCap: validate token
+activate reCap
+reCap --> rs: reCaptchaVerified:boolean
+deactivate reCap
+rs --> UserService: reCaptchaVerified:boolean
+deactivate rs
+UserService -> ros: getRolesById(roleIds:List<UserRole>)
+activate ros
+ros --> UserService: roles:List<Role>
+deactivate ros
+UserService -> tkh: SignInAsync(user:User, roles:IList<Role>,  httpContext:HttpContext, rememberMe:boolean)
+activate tkh
+UserService --> fe: response 
+deactivate UserService
+deactivate tkh
+deactivate fe
+
+@enduml

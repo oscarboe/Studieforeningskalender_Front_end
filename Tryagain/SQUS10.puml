@@ -1,0 +1,66 @@
+@startuml "System Sequence Diagram for Register Flow"
+title Frontend application  Sequence Diagram for US10 Login as a Student or an Association
+actor User as user
+
+participant "App" as App
+participant "HomePage" as HomePage
+participant "LoginPage" as LoginPage
+
+participant "VerifyPage" as VerifyPage
+participant "Backend" as be #lightGreen
+
+participant "reCAPTCHA" as reCap #PaleVioletRed
+
+
+user -> App: click on "Login"
+activate App
+App -> LoginPage: navigate(/Login)
+deactivate App
+activate LoginPage
+LoginPage --> user: Display Login-component
+deactivate LoginPage
+user -> LoginPage: Fill out Login form
+user -> LoginPage: press "Login"
+activate LoginPage
+LoginPage ->App : function ValidateLoginInput(FormData): alert[]
+activate App
+deactivate App
+opt invalid form
+    LoginPage ->App : setAlerts(errors:alert[])
+    deactivate LoginPage
+    activate App
+    App -> user: display errors
+    deactivate App
+user -> LoginPage: Fill out form
+user -> LoginPage: press "Login"
+activate LoginPage  
+
+end
+
+LoginPage -> reCap: get reCAPTCHA-token
+activate reCap
+reCap --> LoginPage: token
+deactivate reCap
+LoginPage -> be: Login mutation
+activate be
+be --> LoginPage: response 
+deactivate be
+alt success
+  LoginPage -> App: HandleGraphQLSuccess(response.login, dispatch, 'login')
+  deactivate LoginPage
+    activate App
+  App -> App: setLoggedIn(true)
+  App -> user: Alert user they are now logged in
+  App -> HomePage: navigate(/)
+
+
+    deactivate App
+else error
+    LoginPage -> App: HandleGraphQLError(error, dispatch) 
+    activate App
+    App -> user: Alert user that there was an error  
+    deactivate App
+end
+deactivate LoginPage
+
+@enduml

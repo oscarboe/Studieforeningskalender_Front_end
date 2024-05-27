@@ -1,0 +1,55 @@
+@startuml
+
+class EventService {
+    + GetEvents(sorting:string, tags:IList<string>?, searchText:string) : IQueryable<EventDto>
+}
+EventService --> EventUserService
+
+class UserService {
+    + VerifyUser(emailAddress:string, token:string) : Task<VerifyUserPayload>
+    + CreateUser(input:CreateUserInput) : Task<CreateUserPayload>
+    + Login(loginInput:LoginInput) : Task<LoginPayload>
+    + SignInAsync(user:User, roles:IList<Role>, httpContext:HttpContext, rememberMe:boolean) : Task
+    + <color:red>ChangePassword(emailAddress:string, verificationCode:string, password:string, reCaptcha:string) : Task<ChangePasswordPayload>
+}
+
+class ReCaptchaService {
+    + ValidateReCaptcha(recaptcha:string) : Task<bool>
+}
+UserService --> ReCaptchaService
+
+class EventUserService {
+    + AddSelfToEvent(input:AddSelfToEventInput) : Task<AddUserToEventPayload>
+    + AddUserToEventInput(Guid eventId, string username, bool isAdmin): Task<AddUserToEventPayload>
+}
+
+class EmailService {
+    + SendRegisterVerificationEmail(email:string, userId:Guid, firstName:string) : Task<VerificationEmailPayload>
+    + <color:red>SendForgotPasswordVerificationEmail(email:string, reCaptchaToken:string) : Task<VerificationEmailPayload>
+
+}
+EmailService --> EncryptionService
+
+class EmailReputationService {
+    + CheckReputation(emailAddress:string) : (bool hasBadReputation, string? message)
+}
+EmailService --> EmailReputationService
+
+class UserRoleService {
+    + GrantRoleToUser(input:RoleAndUserInput) : Task<UserRolesPayload>
+}
+UserService --> UserRoleService
+class RoleService {
+    + GetRolesById(roleIds:List<Guid>) : IList<Role>
+}
+UserService --> RoleService
+
+
+class EncryptionService {
+    + Encrypt(plainText:string) : string
+    + <color:red>Decrypt(cipherText:string) : string
+
+}
+UserService --> EncryptionService
+
+@enduml

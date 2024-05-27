@@ -1,0 +1,85 @@
+@startuml "System Sequence Diagram for Register Flow"
+title System Sequence Diagram for US10
+actor User as user
+participant "App" as App
+participant "addEventPage" as AEP
+participant "Backend" as be #LightGreen
+participant "Facebook" as fb #PaleVioletRed
+note right of user
+User must be logged in and have the role of "studieforening" or "admin"
+end note
+user -> App: clicks the "Add Event" button on the Navbar
+activate App
+App -> AEP: navigate("/AddEvent")
+deactivate App
+activate AEP
+
+AEP -> be: isAdminOrUnion query
+activate be
+be --> AEP: response
+deactivate be
+
+opt User is not permitted to view the page
+    AEP -> App: setAlerts(errors:alert[])
+    AEP -> App: redirect("/")
+end
+AEP -> fb: FB.init(AppId ...)
+note right of fb
+Initializes and loads
+the Facebook SDK
+end note
+AEP -> be: getTags query
+activate be
+be --> AEP: response
+deactivate be
+AEP --> user: AddEvent Form
+deactivate AEP
+
+user -> AEP: presses the "Importer fra Facebook" button
+activate AEP
+
+AEP -> fb: FB.login()
+activate fb
+fb --> user: Facebook Login modal.
+user -> fb: logs in with Facebook profile
+user -> fb: Selects facebook pages to grant access to.
+fb --> AEP: response
+deactivate fb
+AEP -> fb: FB.api("/me/accounts")
+activate fb
+fb --> AEP: response
+deactivate fb
+opt Multiple facebook pages in response
+    AEP --> user: Display a list of facebook pages
+    user -> AEP: Selects a facebook page
+end
+opt Multiple events on Facebook page
+    AEP --> user: Display a list of facebook events
+    user -> AEP: Selects a facebook event
+end
+AEP -> AEP: onEventsFetched(eventData)
+AEP --> user: Event data is displayed in the form
+deactivate AEP
+opt User wants to change some data
+    user -> AEP: Edits form
+end 
+user -> AEP: Submits form
+activate AEP
+AEP -> be: createEvent query
+activate be
+be --> AEP: response
+deactivate be
+alt success
+  AEP -> App: HandleGraphQLSuccess(response.createEvent, dispatch, 'createEvent')
+    activate App
+  App -> user: Alert user event has been created.
+    deactivate App
+else error
+    AEP -> App: HandleGraphQLError(error, dispatch) 
+    deactivate AEP
+    activate App
+    App -> user: Alert user that there was an error  
+    deactivate App
+end
+
+@enduml

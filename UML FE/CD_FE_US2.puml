@@ -1,6 +1,6 @@
 @startuml FrontEndClassDiagram
 class HomePage {
-    - <color:red>eventCount : Number
+    - <color:red>
     ~ events : Query 
     --
     + PopularEvents

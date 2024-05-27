@@ -1,0 +1,54 @@
+@startuml "System sequence diagram for US1, and US2"
+title Frontedn application Sequence Diagram for US5 See events based on one's field of study or interest
+actor Student as User
+participant "App" as App
+participant "HomePage" as HomePage
+participant "Backend" as EventService #LightGreen
+
+User -> HomePage: Open HomePage
+activate HomePage
+
+HomePage ->  EventService: events query
+activate EventService
+EventService -->  HomePage: Events data
+deactivate EventService
+
+HomePage -> HomePage: SetEventCount()
+HomePage --> User: PopularEvents-component
+deactivate HomePage
+
+User -> HomePage: Click a tag on the SideBar-component
+activate HomePage
+HomePage -> App: addTag()
+activate App
+App --> HomePage: Tag added
+deactivate App
+deactivate HomePage
+
+User -> HomePage: Write a search keyword in the SideBar-component
+activate HomePage
+HomePage -> App : setSearchText()
+activate App
+App --> HomePage: Search text set
+deactivate App
+deactivate HomePage
+
+User -> HomePage:  click search in SideBar-component
+activate HomePage
+HomePage -> App: toggleSwitch()
+activate App
+App --> HomePage: Search initiated
+deactivate App
+deactivate HomePage
+
+HomePage -> EventService: events query with filter params
+activate HomePage
+activate EventService
+EventService -->  HomePage: Events data
+deactivate EventService
+
+HomePage -> HomePage: SetEventCount()
+HomePage --> User: Filtered Events
+deactivate HomePage
+
+@enduml

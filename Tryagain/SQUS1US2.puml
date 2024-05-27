@@ -1,0 +1,37 @@
+@startuml "System sequence diagram for US1, and US2"
+title Frontend application Sequence Diagram for US1 See most popular events and US2 See remaining events
+actor Student as User
+participant "App" as App
+participant "HomePage" as HomePage
+participant "Backend" as EventService #LightGreen
+
+User -> HomePage: Open HomePage
+
+activate HomePage
+HomePage ->  EventService: events query
+activate EventService
+EventService -->  HomePage: Events data
+deactivate EventService
+HomePage -> HomePage: SetEventCount()
+HomePage --> User: PopularEvents-component
+deactivate HomePage
+User -> App: Click toggleSlider on NavBar
+activate App
+App -> App: changeSorting()
+App -> HomePage: sortPopular()
+deactivate App
+activate HomePage
+HomePage ->  EventService: events query
+activate EventService
+
+EventService -->  HomePage: Events data
+deactivate EventService
+HomePage --> User: updated popular events with most recent events
+deactivate HomePage
+
+User -> HomePage: Scroll down to see more events
+activate HomePage
+
+HomePage --> User: EventSlider
+deactivate HomePage
+@enduml

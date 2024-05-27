@@ -1,0 +1,56 @@
+@startuml "System Sequence Diagram for Register Flow"
+title Frontend application  Sequence Diagram for US14: Create an event
+actor User as user
+
+participant "App" as App
+participant "AddEventPage" as AEP
+participant "Backend" as be #LightGreen
+
+note right of user
+User must be logged in and have the role of "studieforening" or "admin"
+end note
+user -> App: clicks the "Add Event" button on the Navbar
+activate App
+App -> AEP: navigate("/AddEvent")
+deactivate App
+activate AEP
+
+AEP -> be: isAdminOrUnion query
+activate be
+be --> AEP: response
+deactivate be
+
+opt User is not permitted to view the page
+    AEP -> App: setAlerts(errors:alert[])
+    AEP -> App: redirect("/")
+end
+AEP -> be: getTags query
+activate be
+be --> AEP: response
+deactivate be
+AEP --> user: AddEvent Form
+deactivate AEP
+
+
+user -> AEP : presses the "Spørg AI " button.
+activate AEP
+AEP --> user: ChatGPTButton-modal opens.
+deactivate AEP
+user -> AEP : writes a prompt for the AI.
+user -> AEP : presses the "Få en beskrivelse" button.
+activate AEP
+AEP -> be: chatGPTDescription query
+activate be
+be --> AEP: response
+deactivate be
+AEP --> user: AI generated description
+deactivate AEP
+
+user -> AEP : press the "Benyt beskrivelse" button.
+activate AEP
+AEP -> AEP: setDescription()
+AEP -> AEP: closeChatGPTButton-modal
+AEP --> user: AI generated description is set in the form.
+
+
+@enduml

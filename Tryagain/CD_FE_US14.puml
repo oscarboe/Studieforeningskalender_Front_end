@@ -1,0 +1,99 @@
+@startuml FrontEndClassDiagram
+class HomePage {
+    - 
+    - sortPopular : useState
+    ~ events : Query 
+    --
+    + PopularEvents: Component
+    + EventsSlider: Component
+    + SideBar: Component
+}
+
+class App {
+    - changeSorting : Function
+    - setSearchText : Function
+    - addTag : Function
+    - toggleSwitch : Function
+    - HandleGQLSuccess : Function
+    - HandleGQLError : Function
+    - ValidateCreateUserInput : Function
+    - ValidateLoginInput : Function
+    - ValidateEmailAddress : Function
+    - ValidatePassword : Function
+    - ValidateUpdateUser : Function
+    - setLoggedin : Function
+    --
+    + <color:blue>NavBar: Component
+    + Redux: Component
+    + Alert: Component
+    }
+class CalendarPage {
+    - events : Query
+    --
+    + Calendar: Component
+    + Monthly: Component
+    + Weekly: Component
+    + Daily: Component
+    + Select: Component
+    + Navigate: Component
+    + DayEventModal: Component
+
+}
+class EventPage {
+    -Image : Img
+    -Event : Event
+     ~addSelfToEvent: Mutation
+    --
+    + DateAndTimeBox : Component
+    + LocationBox : Component
+    + AddToCalendar : Component
+}
+class LoginPage {
+    ~ createUser : Mutation
+    ~ login : Mutation
+    ~ sendForgotPasswordVerificationEmail : Mutation
+    ~ changePassword : Mutation
+    --
+    +Register: Component
+    +Login: Component
+    +PasswordReset: Component
+    }
+class VerifyPage {
+~ verifyUser : Mutation
+--
+}
+class AccountPage {
+    - setPlaceholders : Function
+    - user : Query
+    - updateUser : Mutation
+    - deleteUser : Mutation
+    --
+    + AccountForm: Component
+    + DeleteUserModal: Component
+}
+class AddEventPage {
+    -<color:red> isAdminOrUnion : Query
+    -<color:red> tags : Query
+    -<color:red> createEvent : Mutation
+    --
+    +<color:red> EventForm: Component
+}
+
+App*-- HomePage    
+App*-- CalendarPage  
+App*-- LoginPage
+App*-- VerifyPage
+CalendarPage-- EventPage 
+HomePage-- EventPage
+App*-- AccountPage
+legend
+    |= Example  |= Description |
+    |        ○ | A Component |
+    |        □ | A Variable/Function |
+    |        <size:11>△ | Query or Mutation |
+    |<color:red> Red text | Newly added|
+    |<color:blue> Blue text | Updated |
+endlegend
+@enduml
+
+

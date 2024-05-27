@@ -4,7 +4,7 @@
 Person(stud, "Student", "A student looking for an overview of the events on campus")
 Person(asso, "StudentAssociation", "Student Association creating events")
 
-System_Boundary(frontend, "Front-end Application", "React, AWS Amplify", "Front-end application for the Student Calendar") {
+System_Boundary(frontend, "Single-Page Application", "React, AWS Amplify", "Frontend application for the Student Calendar") {
     Container(AccountPage, "AccountPage", "page","Page where the users can edit/delete and see their account")
     Container(AddEventPage, "AddEventPage", "page","Page for adding new events either through a form or by importing from facebook")
     Container(CalendarPage, "CalendarPage", "page","Page for displaying the calendar in depth with all events")
@@ -14,7 +14,7 @@ System_Boundary(frontend, "Front-end Application", "React, AWS Amplify", "Front-
     Container(VerifyPage, "VerifyPage", "page","Landing page for E-mail verification")
 }
 
-Container(be, "Back-end API", "ASP.NET Core, AWS Elastic Beanstalk", "Back-end API for the Student Calendar")
+Container(be, "API Application", "ASP.NET Core, AWS Elastic Beanstalk", "Back-end API for the Student Calendar")
 Container(db, "Database", "PostgreSQL, AWS RDS", "The AWS database where the events and users are stored")
 Container(facebook, "StudieforeningskalenderenFB", "Facebook App, GraphQL", "This Facebook developer app helps Student associations import events from facebook")
 Container_Ext(brevo, "Brevo", "", "An Email Marketing system used to send verification Emails to users when they are created")
@@ -40,8 +40,8 @@ Rel(AddEventPage, be, "Creates events")
 Rel(CalendarPage, be, "Gets events")
 Rel(EventPage, be, "Gets events")
 Rel(HomePage, be, "Gets events")
-Rel(LoginPage,recap,"Validates Token")
-Rel(AccountPage,recap,"Validates Token")
+Rel(LoginPage,recap,"Gets Token")
+Rel(AccountPage,recap,"Gets Token")
 Rel(be,brevo,"Sends Emails through")
 Rel(brevo,VerifyPage,"Links to")
 Rel(AddEventPage,facebook,"Imports events through")

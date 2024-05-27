@@ -1,0 +1,30 @@
+@startuml "System sequence diagram for US1, and US2"
+title Frontend application Sequence Diagram for US8 Sign up for event
+actor Student as User
+
+participant "App" as app
+participant "EventPage" as ep
+participant "Backend" as eus #LightGreen
+
+
+ note right of User
+    User is on the EventPage and is logged in.
+ end note
+
+User -> ep: Clicks on the "Sign Up" button
+ep -> eus: add self to event mutation
+activate eus
+
+
+alt User not already added
+    eus --> ep: User added to event
+    deactivate eus
+    ep --> app: HandleGraphQLSuccess(response.addSelfToEvent, dispatch, 'addUserToEvent') 
+    app -> User: Show success message   
+else User already added
+    eus --> ep: error
+    ep -> app: HandleGraphQLError(error, dispatch)
+    app -> User: Show error message
+
+end
+@enduml

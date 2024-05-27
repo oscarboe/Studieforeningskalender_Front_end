@@ -1,0 +1,29 @@
+@startuml test
+left to right direction
+skinparam packageStyle rect
+actor Student as g
+actor StudentAssociation as fc
+actor reCAPTCHA as rc
+actor CalendarServices as gc
+actor Facebook as fb
+actor Brevo as b
+actor ChatGPT as cg
+package Studieforeningskalenderen as UC {
+
+}
+
+g -- UC
+
+UC -up-fc
+UC -- gc
+UC -- fb
+UC -- rc 
+UC -- b
+UC -- cg
+
+
+
+
+
+
+@enduml

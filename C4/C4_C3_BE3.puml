@@ -5,9 +5,9 @@ Person(stud, "Student", "A student looking for an overview of the events on camp
 Person(asso, "Student Association", "Student Association creating events")
 Container_Ext(brevo, "Brevo", "", "An Email Marketing system used to send verification Emails to users when they are created")
 Container_Ext(recap, "reCAPTCHA", "", "The system used to safegaurd against spam users")
-Container(fr, "Front-end Application", "React, AWS Amplify", "Front-end application for the Student Calendar")
+Container(fr, "Single-Page Application", "React, AWS Amplify", "Front-end application for the Student Calendar")
 
-System_Boundary(be_other, "Back-end API", "ASP.NET Core, AWS Elastic Beanstalk", "Back-end API segment handling non-event related functionalities") {
+System_Boundary(be_other, "API Application for Email", "ASP.NET Core, AWS Elastic Beanstalk", "Back-end API segment handling non-event related functionalities") {
     Container(EmailReputationService, "EmailReputationService", "ASP.NET Core Service", "Handles bounces from Brevo if does not exist or can't be found")
     Container(EmailService, "EmailService", "ASP.NET Core Service", "Handles all email communications to users using Brevo")
     Container(EncryptionService, "EncryptionService", "ASP.NET Core Service", "Responsible for encrypting and decrypting data. Primarily used for the verification of users")
@@ -17,14 +17,16 @@ System_Boundary(be_other, "Back-end API", "ASP.NET Core, AWS Elastic Beanstalk",
 Rel_D(fr, EmailService, "Interacts with for email operations")
 Rel(stud, fr, "Views")
 Rel(asso, fr, "Creates events")
-Rel(fr,recap,"Validates token")
+Rel(fr,recap,"gets Token")
 Rel(EmailService,brevo,"Sends Emails")
 Rel(EmailService, EncryptionService, "Uses")
 Rel(EmailService, ReCaptchaService, "Verifies tokens through")
 Rel(EmailService, EmailReputationService, "Uses")
 Rel(ReCaptchaService, recap, "sends reCaptcha to")
+Rel(brevo, controller, "Sends bounces/complaints")
 
-' Relations from front-end application to back-end services
+
+' Relations from front-end application to back-end services 
 Rel(controller, EmailReputationService, "Updates bounces/complaints")
 
 @enduml

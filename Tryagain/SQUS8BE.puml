@@ -1,0 +1,20 @@
+@startuml "System sequence diagram for US1, and US2"
+title Backend application Sequence Diagram for US8 Sign up for event
+
+participant "Frontend" as ep #LimeGreen
+participant "EventUserServices" as eus
+database "Database" as db
+
+ep -> eus: addSelfToEvent(input: addSelfInput)
+activate eus
+eus -> eus: AddUserToEventInput(eventId: Guid, username: string,  isAdmin: bool)
+opt a user was found and user not already attending.
+eus -> db : Add user to event 
+activate db
+db --> eus: response
+
+deactivate db
+end opt
+
+eus --> ep: response
+@enduml

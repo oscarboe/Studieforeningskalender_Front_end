@@ -1,0 +1,84 @@
+@startuml "System Sequence Diagram for Register Flow"
+title Frontend application  Sequence Diagram for US11 Reset password
+actor User as user
+
+participant "App" as App
+participant "LoginPage" as LoginPage
+
+participant "Backend" as be #LightGreen
+
+participant "reCAPTCHA" as reCap #PaleVioletRed
+participant "Email" as em #PaleVioletRed
+
+
+user -> App: click on "Login"
+activate App
+App -> LoginPage: navigate(/Login)
+deactivate App
+activate LoginPage
+LoginPage --> user: Display Login-component
+deactivate LoginPage
+user -> LoginPage: press "Forgot password" button
+activate LoginPage  
+LoginPage --> user: display PasswordReset component
+deactivate LoginPage
+user -> LoginPage: Writes email and presses "send code" button
+activate LoginPage
+LoginPage -> App: ValidateEmailAddress(data.emailAddress, 'passwordReset', 'emailAddress'): alert[]
+
+
+LoginPage -> reCap: get reCAPTCHA-token
+activate reCap
+reCap --> LoginPage: token
+deactivate reCap
+LoginPage -> be: SendForgotPasswordVerificationEmail mutation
+activate be
+be --> LoginPage: response 
+deactivate be
+alt success
+  LoginPage -> App: HandleGraphQLSuccess(response.sendForgotPasswordVerificationEmail, dispatch, 'sendVerificationEmail')
+  deactivate LoginPage
+    activate App
+  App -> user: Alert user a change password email has been sent
+    deactivate App
+else error
+    LoginPage -> App: HandleGraphQLError(error, dispatch) 
+    activate App
+    App -> user: Alert user that there was an error  
+    deactivate App
+end
+
+user -> em: click on link in email
+activate em
+em --> LoginPage : navigate(/Login?email={emailAddress}&token={validationToken})
+deactivate em
+activate LoginPage
+LoginPage -> user: PasswordReset component updated with verification checkmark
+deactivate LoginPage
+user -> LoginPage: Writes new password and presses "reset password" button
+activate LoginPage
+LoginPage -> App: ValidatePassword(data.password, 'passwordReset', 'password'): alert[]
+LoginPage -> be: ChangePassword mutation
+activate be
+be --> LoginPage: response
+deactivate be
+
+alt success
+  LoginPage -> App: HandleGraphQLSuccess(data.changePassword, dispatch, 'changePassword')
+  deactivate LoginPage
+    activate App
+  App -> user: Alert user their password is changed
+    deactivate App
+else error
+    LoginPage -> App: HandleGraphQLError(error, dispatch) 
+    activate App
+    App -> user: Alert user that there was an error  
+    deactivate App
+end
+
+
+
+
+
+
+@enduml

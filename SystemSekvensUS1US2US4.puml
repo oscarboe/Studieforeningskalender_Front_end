@@ -19,7 +19,6 @@ deactivate Database
 BackEnd --> FrontEnd: Event data
 
 deactivate BackEnd
-FrontEnd -> FrontEnd: Cache most popular events
 FrontEnd --> User: Page visible
 
 

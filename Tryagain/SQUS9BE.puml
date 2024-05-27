@@ -1,0 +1,79 @@
+@startuml "System Sequence Diagram for Register Flow"
+title Backend Application Sequence Diagram for US9 Register a user
+
+participant "Frontend" as fe #LightGreen
+participant "UserService" as UserService
+participant "ReCaptchaService" as rs
+participant "EmailService" as es
+participant "EmailReputationService" as ers
+participant "EncryptionService" as en
+participant "UserRoleService" as urs
+database "Database" as db
+participant "reCAPTCHA" as reCap #PaleVioletRed
+participant "Brevo" as brev #PaleVioletRed
+
+
+fe -> reCap: get reCAPTCHA-token
+activate fe  
+activate reCap
+reCap --> fe: token
+deactivate reCap
+fe -> UserService: CreateUser(input:CreateUserInput)
+activate UserService
+UserService -> rs: validateReCaptcha(token:string)
+activate rs
+rs -> reCap: validate token
+activate reCap
+reCap --> rs: reCaptchaVerified:boolean
+deactivate reCap
+rs --> UserService: reCaptchaVerified:boolean
+deactivate rs
+UserService -> es: SendRegisterVerificationEmail(email:string,firstname:string)
+activate es
+es-> ers: CheckReputation(email:string)
+activate ers
+ers --> es: hasBadReputation:boolean
+deactivate ers
+es -> en: Encrypt(userId:string)
+activate en
+note right of en
+Encrypts the userId to create 
+a verificationtoken
+end note
+en --> es: token:string
+deactivate en
+es ->brev: send email
+activate brev
+brev --> es: email sent
+deactivate brev
+es --> UserService: email sent
+deactivate es
+UserService -> db: create User
+activate db
+db --> UserService: user created
+deactivate db
+UserService --> fe: response
+deactivate UserService
+deactivate fe
+
+
+fe -> UserService: VerifyUser(email:string,token:string)
+activate fe
+activate UserService
+UserService -> db: get user
+activate db
+db --> UserService: user
+deactivate db
+UserService -> urs: GrantRoleToUser(userName:string,roleName:string)
+activate urs
+urs -> db: grant role
+activate db
+db --> urs: role granted
+deactivate db
+urs -> UserService: role granted
+deactivate urs
+
+UserService --> fe: response
+deactivate UserService
+deactivate fe
+@enduml

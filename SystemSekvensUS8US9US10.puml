@@ -1,5 +1,5 @@
 @startuml "US8 US9 US10 System"
-title System Sequence Diagram for US8 US9 and US10
+title System Sequence Diagram for US14 US18 and US19
 
 actor StudentAssociation as User
 participant "Front-End" as FrontEnd 
@@ -14,7 +14,7 @@ activate FrontEnd
 FrontEnd -> User : Display add event view
 
 deactivate FrontEnd
-alt US8 Facebook Event
+alt US18 Facebook Event
     User -> FrontEnd: Import Facebook Event
     activate FrontEnd
     FrontEnd -> BackEnd: import Facebook Event
@@ -27,7 +27,7 @@ alt US8 Facebook Event
     deactivate BackEnd
     FrontEnd -> User: Form with Event data
     deactivate FrontEnd
-else US9 Other Event
+else US19 Other Event
 
     User -> FrontEnd: Import Event
     activate FrontEnd

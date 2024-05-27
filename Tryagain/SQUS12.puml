@@ -1,0 +1,56 @@
+@startuml "System Sequence Diagram for Register Flow"
+title Frontend application  Sequence Diagram for US12: Update profile information
+actor User as user
+
+participant "App" as App
+participant "AccountPage" as Ac
+\
+
+participant "Backend" as be #LightGreen
+
+participant "reCAPTCHA" as reCap #PaleVioletRed
+note right of user
+  User must be logged in.
+end note
+user -> App: click on "Profile"
+activate App
+App -> Ac: navigate(/Account)
+deactivate App
+activate Ac
+Ac -> be: User query
+activate be
+be --> Ac: response
+deactivate be
+Ac -> Ac: setPlaceholders(response)
+
+Ac --> user: Display account page.
+deactivate Ac
+user -> Ac: Fill out account information in accountForm.
+user -> Ac: Press "Update Profile" button.
+activate Ac
+Ac -> App: ValidateUpdateUser(data): alert[]
+
+
+Ac -> reCap: get reCAPTCHA-token
+activate reCap
+reCap --> Ac: token
+deactivate reCap
+Ac -> be: updateUser mutation
+activate be
+be --> Ac: response 
+deactivate be
+alt success
+  Ac -> App: HandleGraphQLSuccess(
+  deactivate Ac
+    activate App
+  App -> user: Alert user profile has been updated
+    deactivate App
+else error
+    Ac -> App: HandleGraphQLError(error, dispatch) 
+    activate App
+    App -> user: Alert user that there was an error  
+    deactivate App
+end
+
+
+@enduml
