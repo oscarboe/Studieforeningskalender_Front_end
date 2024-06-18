@@ -48,7 +48,7 @@ class EventTagService {
 class EventUserService {
     + EventUserService(repository:IEventUserRepository, userRepository:IUserRepository, contextAccessor:IHttpContextAccessor, serializer:IIdSerializer)
     +  AddUserToEvent(input:AddUserToEventInput) : Task<AddUserToEventPayload>
-    +  AddSelfToEvent(input:AddSelfToEventInput) : Task<AddUserToEventPayload>
+    +  AddSelfToEvent(input) 
     +  RemoveUserFromEvent(input:RemoveUserFromEventInput) : Task<RemoveUserFromEventPayload>
 }
 

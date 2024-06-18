@@ -1,6 +1,0 @@
-@startuml
-
-class EventService {
-    + <color:red>GetEvents(sorting:string) : IQueryable<EventDto>
-}
-@enduml

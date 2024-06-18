@@ -1,0 +1,56 @@
+@startuml
+
+class EventService {
+    +     + GetEvents(sorting, tags, searchText) 
+    }
+EventService --> EventUserService
+
+class UserService {
+    + VerifyUser(emailAddress, token) 
+    + CreateUser(input) 
+    + Login(loginInput) 
+    + SignInAsync(user, roles, httpContext, rememberMe) 
+    + <color:red>ChangePassword(emailAddress, verificationCode, password, reCaptcha)
+}
+
+class ReCaptchaService {
+    + ValidateReCaptcha(recaptcha)
+}
+UserService --> ReCaptchaService
+
+class EventUserService {
+    + AddSelfToEvent(input) 
+    + AddUserToEventInput(eventId, username, isAdmin)
+}
+
+class EmailService {
+    + SendRegisterVerificationEmail(email, userId, firstName) 
+
+    + <color:red>SendForgotPasswordVerificationEmail(email, reCaptchaToken)
+
+}
+EmailService --> EncryptionService
+
+class EmailReputationService {
+    + CheckReputation(emailAddress) 
+
+}
+EmailService --> EmailReputationService
+
+class UserRoleService {
+    + GrantRoleToUser(input)
+}
+UserService --> UserRoleService
+class RoleService {
+    + GetRolesById(roleIds) 
+}
+UserService --> RoleService
+
+
+class EncryptionService {
+    + Encrypt(plainText) 
+    + <color:red>Decrypt(cipherText) 
+}
+UserService --> EncryptionService
+
+@enduml

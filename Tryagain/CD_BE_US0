@@ -1,6 +1,21 @@
 @startuml
 
 class EventService {
-    + <color:red>GetEvents(sorting:string) : IQueryable<EventDto>
+    
 }
+
+
+class TagsService {
+}
+
+class EventTagService {
+}
+
+class EventUserService {
+}
+
+EventService --> TagsService
+EventService --> EventTagService
+EventService --> EventUserService
+
 @enduml

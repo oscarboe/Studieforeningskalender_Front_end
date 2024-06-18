@@ -1,5 +1,5 @@
 @startuml "US8 US9 US10 System"
-title System Sequence Diagram for US11 US12 US13 and US14
+title System Sequence Diagram for US14 US15
 
 actor Actor as User
 participant "Front-End" as FrontEnd 

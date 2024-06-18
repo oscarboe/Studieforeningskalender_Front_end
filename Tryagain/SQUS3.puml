@@ -26,6 +26,7 @@ end
 User -> cp: Click next month in Navigate-component
 activate cp
 cp -> es:  events query
+activate es
 es --> cp: events data
 deactivate es
 cp --> User: Monthly Calendar

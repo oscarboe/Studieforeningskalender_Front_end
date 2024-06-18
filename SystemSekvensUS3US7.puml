@@ -1,5 +1,5 @@
 @startuml "US3 and US7 System"
-title System Sequence Diagram for US3 and US7
+title System Sequence Diagram for US3 and US5
 actor Student as User
 participant "Front-End" as FrontEnd 
 participant "Back-End"  as BackEnd
@@ -34,7 +34,7 @@ deactivate BackEnd
 deactivate FrontEnd
 User -> FrontEnd: Clicks on my events
 note left
-  User Story 7.
+  User Story 5.
 end note
 activate FrontEnd
 FrontEnd -> BackEnd: Get Events filtered by User

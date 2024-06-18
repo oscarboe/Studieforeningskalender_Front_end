@@ -33,16 +33,7 @@ class CalendarPage {
 App*-- HomePage    
 App*-- CalendarPage   
 
-class EventPage {
-}
-class AddEventPage {
-}
-class VerifyPage {
-}
-class AccountPage {
-}
-class LoginPage {
-    }
+
 
 legend
     |= Example  |= Description |
@@ -53,3 +44,13 @@ legend
     |<color:blue> Blue text | Updated |
 endlegend
 @enduml
+class EventPage {
+}
+class AddEventPage {
+}
+class VerifyPage {
+}
+class AccountPage {
+}
+class LoginPage {
+    }

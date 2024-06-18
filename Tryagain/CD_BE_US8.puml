@@ -1,0 +1,10 @@
+@startuml
+
+class EventService {
+    + GetEvents(sorting, tags, searchText)
+}
+class EventUserService {
+    + <color:red> AddSelfToEvent(input) 
+    + <color:red> AddUserToEventInput(eventId, username, isAdmin)
+}
+@enduml

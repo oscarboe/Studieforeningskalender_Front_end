@@ -7,7 +7,7 @@ database "Database" as db
 
 ep -> eus: addSelfToEvent(input: addSelfInput)
 activate eus
-eus -> eus: AddUserToEventInput(eventId: Guid, username: string,  isAdmin: bool)
+eus -> eus: AddUserToEventInput(eventId: Guid, username,  isAdmin: bool)
 opt a user was found and user not already attending.
 eus -> db : Add user to event 
 activate db

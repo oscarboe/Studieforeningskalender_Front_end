@@ -19,8 +19,8 @@ EmailService --> ReCaptchaService
 
 class EncryptionService {
     + EncryptionService(configuration:IConfiguration)
-    + Encrypt(plainText:string) : string
-    + Decrypt(cipherText:string) : string
+    + Encrypt(plainText:string) 
+    + Decrypt(cipherText:string) 
 }
 
 class EventService {
@@ -44,7 +44,7 @@ class EventTagService {
 class EventUserService {
     + EventUserService(repository:IEventUserRepository, userRepository:IUserRepository, contextAccessor:IHttpContextAccessor, serializer:IIdSerializer)
     + <<async>> AddUserToEvent(input:AddUserToEventInput) : Task<AddUserToEventPayload>
-    + <<async>> AddSelfToEvent(input:AddSelfToEventInput) : Task<AddUserToEventPayload>
+    + <<async>> AddSelfToEvent(input) 
     + <<async>> RemoveUserFromEvent(input:RemoveUserFromEventInput) : Task<RemoveUserFromEventPayload>
 }
 

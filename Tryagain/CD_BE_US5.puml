@@ -1,0 +1,6 @@
+@startuml
+
+class EventService {
+    + <color:blue>GetEvents(sorting, tags, searchText)
+}
+@enduml

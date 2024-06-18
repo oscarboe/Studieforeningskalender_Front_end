@@ -1,0 +1,41 @@
+@startuml
+
+
+
+class UserService {
+    + VerifyUser(emailAddress, token) 
+    + CreateUser(input) 
+    + <color:red>Login(loginInput) 
+    + <color:red>SignInAsync(user:User, roles, httpContext, rememberMe)
+}
+
+
+
+
+class EmailService {
+    + <color:red>SendRegisterVerificationEmail(email, userId, firstName) 
+}
+EmailService --> EncryptionService
+
+class EmailReputationService {
+    + CheckReputation(emailAddress) 
+
+}
+EmailService --> EmailReputationService
+
+class UserRoleService {
+    + GrantRoleToUser(input) 
+}
+UserService --> UserRoleService
+class RoleService {
+    + <color:red>GetRolesById(roleIds:List<Guid>) : IList<Role>
+}
+UserService --> RoleService
+
+
+class EncryptionService {
+    + Encrypt(plainText) 
+}
+UserService --> EncryptionService
+
+@enduml

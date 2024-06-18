@@ -1,5 +1,5 @@
 @startuml "System Sequence Diagram for Register Flow"
-title Backend Application Sequence Diagram for US10
+title Backend Application Sequence Diagram for US14
 
 participant "Frontend" as fe #LightGreen
 participant "EventService" as es

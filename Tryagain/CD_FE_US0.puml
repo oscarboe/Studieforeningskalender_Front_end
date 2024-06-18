@@ -1,24 +1,22 @@
 @startuml FrontEndClassDiagram
-class HomePage {
-    - 
-    - sortPopular : useState
-    ~ events : Query 
-    --
-    + PopularEvents: Component
-    + EventsSlider: Component
-}
+
 
 class App {
-    - changeSorting : Function
     --
-    + NavBar: Component
-    + Redux: Component
+    + <color:red>Router: Component
+    + <color:red>Alert: Component
     }
+
 class CalendarPage {
-
+    - <color:red>events : Query
+    --
+    + <color:red>Calendar: Component
+    + <color:red>Monthly: Component
+    + <color:red>Weekly: Component
+    + <color:red>Daily: Component
+    + <color:red>Select: Component
+    + <color:red>Navigate: Component
 }
-
-App*-- HomePage    
 App*-- CalendarPage   
 
 legend
