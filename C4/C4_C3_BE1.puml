@@ -6,6 +6,7 @@ Person(asso, "Student Association", "Student Association creating events")
 Container(facebook, "StudieforeningskalenderenFB", "Facebook App, GraphQL", "This Facebook developer app helps Student associations import events from facebook")
 Container(fr, "Single-Page Application", "React, AWS Amplify", "Front-end application for the Student Calendar")
 Container(db, "Database", "PostgreSQL, AWS RDS", "The AWS database where the events and users are stored")
+Container_Ext(chat, "ChatGPT", "", "An AI API used to generate descriptions for events")
 
 System_Boundary(be_events, "API Application for Events", "ASP.NET Core, AWS Elastic Beanstalk", "Back-end API segment handling all event-related functionalities") {
     Container(ChatGPTService, "ChatGPTService", "ASP.NET Core Service", "Service for handling requests to the ChatGPT model")
@@ -23,6 +24,7 @@ Rel(EventTagService, db, "Updates event tags")
 Rel(TagService, db, "Stores tags")
 Rel_U(fr,facebook,"Imports events through")
 Rel(fr,ChatGPTService, "generates event descriptions")
+Rel_L(ChatGPTService, chat, "Uses")
 
 Rel(fr, EventService, "Creates/Gets Events")
 Rel(EventService, TagService, "Get tags")
